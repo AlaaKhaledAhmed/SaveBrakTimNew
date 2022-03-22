@@ -36,7 +36,73 @@ Widget text(
     ),
   );
 }
-
+Widget textDB(
+  context,
+  String key,
+  double fontSize,
+  Color color, {
+  family = "DroidKufi",
+  align = TextAlign.center,
+  double space = 0,
+  FontWeight fontWeight = FontWeight.normal,
+}) {
+  return Text(
+  '$key',
+    textAlign: align,
+    style: TextStyle(
+      color: color,
+      fontFamily: family,
+      fontSize: fontSize.sp,
+      letterSpacing: space.sp,
+      fontWeight: fontWeight,
+    ),
+  );
+}
+divider({
+  double thickness = 2,
+  double indent = 15,
+  double endIndent = 15,
+}) {
+  return Align(
+    alignment: Alignment.topCenter,
+    child: VerticalDivider(
+      color: Colors.grey[400],
+      thickness: thickness,
+      indent: indent,
+      endIndent: endIndent,
+      //width: 12,
+    ),
+  );
+}
+//container decoration-------------------------------------------
+decoration(
+  double bottomLeft,
+  double bottomRight,
+  double topLeft,
+  double topRight, {
+  Color color = white,
+  double blurRadius = 0.0,
+  double spreadRadius = 0.0,
+  BoxBorder border,
+}) {
+  return BoxDecoration(
+    color: color,
+     border:border,
+    borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(topLeft.r),
+      topRight: Radius.circular(topRight.r),
+      bottomLeft: Radius.circular(bottomLeft.r),
+      bottomRight: Radius.circular(bottomRight.r),
+     
+    ),
+    boxShadow: [
+      BoxShadow(
+        blurRadius: blurRadius,
+        spreadRadius: spreadRadius,
+      )
+    ],
+  );
+}
 //===============================Continer===============================
 Widget container(double height, double width, double marginL, double marginR,
     Widget child, Color color,

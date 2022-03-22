@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:save_break_time/Logging-SingUp/Logging.dart';
 import 'package:save_break_time/SelectLangugePage/SelestLangView.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
+import 'home/WorkerHomePage/WorkerNavHome.dart';
 import 'localization/set_localization.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -92,7 +93,7 @@ class _MyAppState extends State<MyApp> {
         },
         debugShowCheckedModeBanner: false,
         //اظهار الشاشه الولي وفقا لحاله المستخدم, هل قام بالتسجيل مسلقا ام اول مره يظهر التطبيق
-        home:Logging()
+        home:WorkerNavHome()
        // _local == null ?
       //SelectLangView()
          // :

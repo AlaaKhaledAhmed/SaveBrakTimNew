@@ -22,6 +22,7 @@ String staticPath="Assist/image/";
 String logoPath="$staticPath"+"logo.png";
 String welcomBacgroundImage="$staticPath"+"save4.jpg";
 String productImage="$staticPath"+"product.jpg";
+String backImage="$staticPath"+"bac.jpg";
 // Icons name-----------------------------------------
 IconData nameIcon=Icons.person;
 IconData passIcon=Icons.password_outlined;

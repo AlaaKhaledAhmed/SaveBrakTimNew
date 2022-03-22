@@ -34,5 +34,13 @@
   "successfully": "operation accomplished successfully",
   "Process completed": "Process completed",
   "user not found": "user not found",
-  "Verify": "Verify that the entered data is correct"
+  "Verify": "Verify that the entered data is correct",
+  "New": "Add new",
+  "SAR": "SAR",
+  "New orders": "NEW ORDERS ",
+  "Acceptance": "Accept",
+  "Refusal": "Reject",
+  "Total": "Total",
+  "Order": "Order",
+  "Quantity": "Quantity"
 }

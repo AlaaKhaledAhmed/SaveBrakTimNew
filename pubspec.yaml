@@ -1,0 +1,73 @@
+name: save_break_time
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  shared_preferences: any
+  firebase_core: 
+  firebase_auth: 
+  cloud_firestore: 
+  firebase_storage: any 
+  email_validator: ^2.0.1
+  lottie:
+  #انميشن للصفحات مرة قوي 
+  #https://pub.dev/packages/animations/install
+  animations: ^2.0.2
+  flutter_localizations: 
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_screenutil: ^5.0.0+2
+  simple_animations: ^1.3.3
+  convex_bottom_bar:
+
+# توجد ثلاثه اوامر لنمفيذ المكتبة
+  #flutter clean
+  #flutter pub get
+  #flutter pub run flutter_native_splash:create
+
+  flutter_native_splash: ^0.2.8
+flutter_native_splash:
+  #backgroung color
+  color: "#fbffff"
+  image: "Assist/image/logo.png"
+  android: true
+  ios: true
+  android_gravity: center
+
+flutter:
+
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - lib/localization/lang/ar.json
+    - lib/localization/lang/en.json
+    - Assist/image/
+    - Assist/font/
+    - Assist/lottie/
+
+# project font:
+  fonts:
+    - family: DroidKufi
+      fonts:
+        - asset: Assist/font/DroidKufi-Regular.ttf
+          weight: 700
+          
+    - family: Quicksand
+      fonts:
+        - asset: Assist/font/Quicksand-Regular.ttf
+          weight: 700
+    
+  

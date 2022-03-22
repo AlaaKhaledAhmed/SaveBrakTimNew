@@ -1,0 +1,2620 @@
+swagger: '2.0'
+info:
+  version: 5.0.0
+  title: Wathq Commercial Registration API
+host: api.wathq.sa
+basePath: /v5/commercialregistration
+tags:
+  - name: Commercial Registration
+    description: ' '
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+  - application/xml
+securityDefinitions:
+  Authorization:
+    type: apiKey
+    name: apiKey
+    in: header
+paths:
+  '/fullinfo/{id}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves all commercial registration data 
+      description: 'Retrieves all commercial registration data such as dates, status, activities, parties and others (refer to model) - الاستعلام عن كافة بيانات السجل التجاري'
+      operationId: fullinfo
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id 
+          in: path
+          required: true
+          description: commercial registration number or entity number - رقم السجل التجاري أو الرقم االوطني الموحد
+          type: string
+          minLength: 10
+          maxLength: 10
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/fullInfo'
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+        '400':
+           description:  > 
+            **business error , Here is listed of code** :
+            
+              code: 400.2.1  - message: Commercial Registration number or entity Number must be 10 digits
+              code: 400.2.2  - message: Commercial Registration Entity Number must be in valid format
+              code: 400.2.3  - message: Input data is required
+              code: 400.2.10 - message: Unable to Process the Request
+              code: 400.2.12 - message: Commercial Registration is Expired
+              code: 400.3.1 - message: Internal Error
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/info/{id}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves basic commercial registration
+      description: 'Retrieves basic commercial registration data such as dates, status, activities and others (refer to model) - الاستعلام عن البيانات الاساسية '
+      operationId: info
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: commercial registration number or entity number - رقم السجل التجاري أو الرقم االوطني الموحد
+          type: string
+          minLength: 10
+          maxLength: 10
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/crInfo'
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+        '400':
+          description:  > 
+            **business error , Here is listed of code** :
+            
+              code: 400.2.1  - message: Commercial Registration number or entity Number must be 10 digits
+              code: 400.2.2  - message: Commercial Registration Entity Number must be in valid format
+              code: 400.2.3  - message: Input data is required
+              code: 400.2.10 - message: Unable to Process the Request
+              code: 400.2.12 - message: Commercial Registration is Expired
+              code: 400.3.1 - message: Internal Error
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+             error:
+              code: 400.2.1
+              message: Commercial Registration Entity Number must be in valid format
+        '401':
+          description: unauthorized
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request    
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+             error:
+              code: 400.1.1
+              message: Invalid ApiKey  
+        '403':
+          description: unauthorized
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request    
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+            error:
+              code: 403.1.1
+              message: you do not have permission for giving resource
+        '404':
+          description: not found
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+            error:
+              code: 404.2.1
+              message: No Results Found
+        '429':
+          description: Quota Violation
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+            error:
+              code: 429.1.1
+              message: Rate limit quota violation. Quota limit  exceeded.
+        '500':
+          description: internal server error
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/address/{id}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves address details for commercial registration
+      description: 'Retrieves address details for commercial registration (refer to model) - الاستعلام عن عنوان السجل التجاري'
+      operationId: address
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: commercial registration number or entity number - رقم السجل التجاري أو الرقم االوطني الموحد
+          type: string
+          minLength: 10
+          maxLength: 10
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/address'
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+        '400':
+           $ref: '#/responses/ErrorResponse400'
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/capital/{id}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves capital details for commercial registration
+      description: 'Retrieves capital details for commercial registration (refer to model) - الاستعلام عن رأس المال للسجل التجاري'
+      operationId: capital
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: commercial registration number or entity number - رقم السجل التجاري أو الرقم االوطني الموحد
+          type: string
+          minLength: 10
+          maxLength: 10
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/capital'
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+        '400':
+           $ref: '#/responses/ErrorResponse400'
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/status/{id}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves status of a commercial registration
+      description: 'Retrieves status of a commercial registration  - الاستعلام عن حالة السجل التجاري'
+      operationId: status
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: commercial registration number or entity number - رقم السجل التجاري أو الرقم االوطني الموحد
+          type: string
+          minLength: 10
+          maxLength: 10
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/status'
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+        '400':
+           description:  > 
+            **business error , Here is listed of code** :
+            
+              code: 400.2.1  - message: Commercial Registration number or entity Number must be 10 digits
+              code: 400.2.2  - message: Commercial Registration Entity Number must be in valid format
+              code: 400.2.3  - message: Input data is required
+              code: 400.2.10 - message: Unable to Process the Request
+              code: 400.2.11 - message: Commercial Registration is Canceled
+              code: 400.3.1 - message: Internal Error
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/tree/{id}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Returns a list of related commercial registrations
+      description:  Returns a list of related commercial registration and whether it's main or branch - الاستعلام عن السجلات التجارية المرتبطة بالسجل'
+      operationId: tree
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: commercial registration number or entity number - رقم السجل التجاري أو الرقم االوطني الموحد
+          type: string
+          minLength: 10
+          maxLength: 10
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/tree'
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+        '400':
+           description:  > 
+            **business error , Here is listed of code** :
+            
+              code: 400.2.1  - message: Commercial Registration number or entity Number must be 10 digits
+              code: 400.2.2  - message: Commercial Registration Entity Number must be in valid format
+              code: 400.2.3  - message: Input data is required
+              code: 400.2.10 - message: Unable to Process the Request
+              code: 400.2.11 - message: Commercial Registration is Canceled
+              code: 400.3.1 - message: Internal Error
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/managers/{id}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves a list of managers and board of directors if any 
+      description: 'Retrieves a list of managers and board of directors if any - الاستعلام عن المدراء وأعضاء مجلس الإدارة إن وجد للسجل التجاري'
+      operationId: manager
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: commercial registration number or entity number - رقم السجل التجاري أو الرقم االوطني الموحد
+          type: string
+          minLength: 10
+          maxLength: 10
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/manager'
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+              
+        '400':
+           $ref: '#/responses/ErrorResponse400'
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/owners/{id}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves the owner of establishment and a list of partners with their shares for companies
+      description: 'Retrieves the owner of establishment and a list of partners with their shares for companies - الاستعلام عن الملاك والشركاء ونسبة حصصهم'
+      operationId: owner
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: commercial registration number or entity number - رقم السجل التجاري أو الرقم االوطني الموحد
+          type: string
+          minLength: 10
+          maxLength: 10
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            $ref: '#/definitions/owner'
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+              
+        '400':
+           $ref: '#/responses/ErrorResponse400'
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/related/{id}/{idtype}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves a list commercial registration with their relation for a given id 
+      description: Retrieves a list commercial registration with their relation for a given id -  استرجاع كافة السجلات التجارية المرتبطة برقم هوية أو سجل تجاري 
+      operationId: related
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: identification number - رقم هوية
+          
+        - name: idtype
+          in: path
+          required: true
+          type: string
+          enum:
+            - nid
+            - iqama
+            - entityno
+            - passportno
+            - crno
+          description: | 
+            identification type - نوع الهوية:
+                  * `nid` - citizen national ID  - هوية سعودية
+                  * `iqama` - Iqama Number - هوية إقامة
+                  * `entityno` - entity number like 7XXXXXXXXX - الرقم الوطني الموحد
+                  * `passportno` - Passport number  - جواز سفر
+                  * `crno` - Commercial Registration number - سجل تجاري
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+              
+          schema:
+            $ref: '#/definitions/related'      
+        '400':
+           $ref: '#/responses/ErrorResponse400_V3'
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/related/{id}/{idtype}/{countrycode}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Retrieves a list commercial registration with their relation for a given id 
+      description: 'Retrieves a list commercial registration with their relation for a given id -  استرجاع كافة السجلات التجارية المرتبطة برقم هوية  '
+      operationId: relatedwithcountrycode
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: identification number - رقم هوية
+        - name: idtype
+          in: path
+          required: true
+          description: |
+            identification type - نوع الهوية:
+                  * `nid` - citizen national ID  - هوية سعودية
+                  * `iqama` - Iqama Number - هوية إقامة
+                  * `entityno` - entity number like 7XXXXXXXXX - الرقم الوطني الموحد
+                  * `passportno` - Passport number  - جواز سفر
+                  * `crno` - Commercial Registration number - سجل تجاري
+          type: string
+          enum:
+            - nid
+            - iqama
+            - entityno
+            - passportno
+            - crno
+        - name: countrycode
+          in: path
+          required: true
+          description: 'iso alpha2 country code find in Link https://www.iban.com/country-codes' 
+          type: string
+          minLength: 2
+          maxLength: 2
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+              
+          schema:
+            $ref: '#/definitions/related'
+        '400':
+           $ref: '#/responses/ErrorResponse400_V3'
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/owns/{id}/{idtype}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Returns a True in case of a given id is an owner or partner, otherwise returns False
+      description: 'Returns a True in case of a given id is an owner or partner, otherwise returns False - الاستعلام إن كانت الهوية تمتلك سجل تجاري ام لا بـ (نعم أو لا)'
+      operationId: owns
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: identification number - رقم هوية
+          
+        - name: idtype
+          in: path
+          required: true
+          type: string
+          enum:
+            - nid
+            - iqama
+            - entityno
+            - passportno
+            - crno
+          description: |
+            identification type - نوع الهوية:
+                  * `nid` - citizen national ID  - هوية سعودية
+                  * `iqama` - Iqama Number - هوية إقامة
+                  * `entityno` - entity number like 7XXXXXXXXX - الرقم الوطني الموحد
+                  * `passportno` - Passport number  - جواز سفر
+                  * `crno` - Commercial Registration number - سجل تجاري
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/owns'
+        '400':
+           $ref: '#/responses/ErrorResponse400_V2'
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/owns/{id}/{idtype}/{countrycode}':
+    get:
+      tags:
+        - Commercial Registration
+      summary: Returns a True in case of a given id is an owner or partner, otherwise returns False
+      description: 'Returns a True in case of a given id is an owner or partner, otherwise returns False - الاستعلام إن كانت الهوية تمتلك سجل تجاري ام لا بـ (نعم أو لا)'
+      operationId: ownswithcountrycode
+      produces:
+        - application/json
+        - application/xml
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          minLength: 10
+          maxLength: 10
+          description: identification number - رقم هوية
+          
+        - name: idtype
+          in: path
+          required: true
+          type: string
+          enum:
+            - nid
+            - iqama
+            - entityno
+            - passportno
+            - crno
+          description: |
+            identification type - نوع الهوية:
+                  * `nid` - citizen national ID  - هوية سعودية
+                  * `iqama` - Iqama Number - هوية إقامة
+                  * `entityno` - entity number like 7XXXXXXXXX - الرقم الوطني الموحد
+                  * `passportno` - Passport number  - جواز سفر
+                  * `crno` - Commercial Registration number - سجل تجاري
+        - name: countrycode
+          in: path
+          required: true
+          description: 'iso alpha2 country code find in Link https://www.iban.com/country-codes'
+          type: string
+          minLength: 2
+          maxLength: 2
+      responses:
+        '200':
+          description: successful operation
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/owns'
+        '400':
+           $ref: '#/responses/ErrorResponse400_V2'
+        '401':
+           $ref: '#/responses/ErrorResponse401'
+        '403':
+           $ref: '#/responses/ErrorResponse403'
+        '404':
+           $ref: '#/responses/ErrorResponse404'
+        '429':
+           $ref: '#/responses/ErrorResponse429'
+        '500':
+             $ref: '#/responses/ErrorResponse500'
+        default:
+          $ref: '#/responses/DefaultErrorResponse'
+      security:
+        - Authorization: []
+  '/lookup/locations':
+      get:
+        tags:
+          - lookups
+        summary: Retrieves all location lookups  
+        description: 'Retrieves all location lookups - الاستعلام عن كافة بيانات المناطق'
+        operationId: lookups
+        produces:
+          - application/json
+          - application/xml
+  
+        responses:
+          '200':
+            description: successful operation
+            schema:
+              $ref: '#/definitions/lookups_location'
+            headers:
+              THIQAH-API-ApiMsgRef:
+                type: string
+                format: uuid
+                description: unique guid for each request
+              THIQAH-API-ClientMsgRef:
+                type: string
+                format: uuid
+                description: The original client reference value sent in the request     
+          '401':
+             $ref: '#/responses/ErrorResponse401'
+          '403':
+             $ref: '#/responses/ErrorResponse403'
+          '404':
+             $ref: '#/responses/ErrorResponse404'
+          '429':
+             $ref: '#/responses/ErrorResponse429'
+          '500':
+               $ref: '#/responses/ErrorResponse500'
+          default:
+            $ref: '#/responses/DefaultErrorResponse'
+        security:
+          - Authorization: []
+  '/lookup/businessTypes':
+      get:
+        tags:
+          - lookups
+        summary: Retrieves all commercial registration  Business Type
+        description: 'Retrieves all commercial registration  business type  - الاستعلام عن كافة أنواع السجلات'
+        operationId: lookups businessType
+        produces:
+          - application/json
+          - application/xml
+  
+        responses:
+          '200':
+            description: successful operation
+            schema:
+              $ref: '#/definitions/lookups_businessType'
+            headers:
+              THIQAH-API-ApiMsgRef:
+                type: string
+                format: uuid
+                description: unique guid for each request
+              THIQAH-API-ClientMsgRef:
+                type: string
+                format: uuid
+                description: The original client reference value sent in the request     
+          '401':
+             $ref: '#/responses/ErrorResponse401'
+          '403':
+             $ref: '#/responses/ErrorResponse403'
+          '404':
+             $ref: '#/responses/ErrorResponse404'
+          '429':
+             $ref: '#/responses/ErrorResponse429'
+          '500':
+               $ref: '#/responses/ErrorResponse500'
+          default:
+            $ref: '#/responses/DefaultErrorResponse'
+        security:
+          - Authorization: []
+  '/lookup/relations':
+      get:
+        tags:
+          - lookups
+        summary: Retrieves all commercial registration relation type
+        description: 'Retrieves all commercial registration  Relation Type  - الاستعلام عن كافة العلاقات بالسجلات'
+        operationId: lookups relationType
+        produces:
+          - application/json
+          - application/xml
+  
+        responses:
+          '200':
+            description: successful operation
+            schema:
+              $ref: '#/definitions/lookups_relationType'
+            headers:
+              THIQAH-API-ApiMsgRef:
+                type: string
+                format: uuid
+                description: unique guid for each request
+              THIQAH-API-ClientMsgRef:
+                type: string
+                format: uuid
+                description: The original client reference value sent in the request     
+          '401':
+             $ref: '#/responses/ErrorResponse401'
+          '403':
+             $ref: '#/responses/ErrorResponse403'
+          '404':
+             $ref: '#/responses/ErrorResponse404'
+          '429':
+             $ref: '#/responses/ErrorResponse429'
+          '500':
+               $ref: '#/responses/ErrorResponse500'
+          default:
+            $ref: '#/responses/DefaultErrorResponse'
+        security:
+          - Authorization: []
+  '/lookup/nationalities':
+      get:
+        tags:
+          - lookups
+        summary: Retrieves all nationality lookups  
+        description: 'Retrieves all nationality lookups - الاستعلام عن كافة بيانات الجنسيات'
+        operationId: lookups nationality
+        produces:
+          - application/json
+          - application/xml
+  
+        responses:
+          '200':
+            description: successful operation
+            schema:
+              $ref: '#/definitions/lookups_nationality'
+            headers:
+              THIQAH-API-ApiMsgRef:
+                type: string
+                format: uuid
+                description: unique guid for each request
+              THIQAH-API-ClientMsgRef:
+                type: string
+                format: uuid
+                description: The original client reference value sent in the request     
+          '401':
+             $ref: '#/responses/ErrorResponse401'
+          '403':
+             $ref: '#/responses/ErrorResponse403'
+          '404':
+             $ref: '#/responses/ErrorResponse404'
+          '429':
+             $ref: '#/responses/ErrorResponse429'
+          '500':
+               $ref: '#/responses/ErrorResponse500'
+          default:
+            $ref: '#/responses/DefaultErrorResponse'
+        security:
+          - Authorization: []
+  '/lookup/activities':
+      get:
+        tags:
+          - lookups
+        summary: Retrieves all activities lookups  
+        description: 'Retrieves all activities lookups - الاستعلام عن كافة بيانات الأنشطة'
+        operationId: lookups activities
+        produces:
+          - application/json
+          - application/xml
+
+        responses:
+          '200':
+            description: successful operation
+            schema:
+              $ref: '#/definitions/lookups_activity'
+            headers:
+              THIQAH-API-ApiMsgRef:
+                type: string
+                format: uuid
+                description: unique guid for each request
+              THIQAH-API-ClientMsgRef:
+                type: string
+                format: uuid
+                description: The original client reference value sent in the request     
+          '401':
+             $ref: '#/responses/ErrorResponse401'
+          '403':
+             $ref: '#/responses/ErrorResponse403'
+          '404':
+             $ref: '#/responses/ErrorResponse404'
+          '429':
+             $ref: '#/responses/ErrorResponse429'
+          '500':
+               $ref: '#/responses/ErrorResponse500'
+          default:
+            $ref: '#/responses/DefaultErrorResponse'
+        security:
+          - Authorization: []
+
+
+ 
+definitions:
+  error:
+    type: object
+    required:
+      - code
+      - message
+      - referenceid
+    properties:
+      code:
+        type: string
+        minLength: 4
+        maxLength: 10
+      message:
+        type: string
+  crInfo:
+    type: object
+    required:
+        - crName
+        - crNumber
+        - issueDate
+        - expiryDate
+        - businessType
+        - status
+        - location
+        - activities
+    properties:
+          crName:
+            type: string
+            maxLength: 150
+            example: المحدودة XXX شركة
+            description: commercial registration name - اسم السجل التجاري
+            
+            
+          crNumber:
+            type: integer
+            format: int64
+            minimum: 1010000000
+            maximum: 9999999999
+            example: 1010XXXX29
+            description: commercial registration number - رقم السجل التجاري
+
+          crEntityNumber:
+            type: integer
+            format: int64
+            description: entity national number which start with 7 - الرقم الوطني الموحد والذي يبدأ بـ 7
+            minimum: 7000000000
+            maximum: 7999999999
+            example: 700XXXX660
+            
+          issueDate:
+            type: string
+            pattern: yyyy/mm/dd
+            description: issue hijri Date  - تاريخ الاصدار بالهجري
+            example: 1391/10/19
+          expiryDate:
+            type: string
+            pattern: yyyy/mm/dd
+            description: expiry hijri Date - تاريخ الانتهاء بالهجري
+            example: 1443/08/10
+          crMainNumber:
+            description: the value will be null if the cr is main - رقم السجل التجاري الأساسي اذا السجل التجاري المستعلم عنه سجل تجاري فرعي
+            type: integer
+            format: int64
+            minimum: 1010000000
+            maximum: 9999999999
+            example: null
+          businessType:
+            type: object
+            description: commercial registration type-  نوع السجل التجاري
+            required:
+              - id
+              - name
+            properties:
+              id:
+                type: string
+                maxLength: 3
+                example: 205
+              name:
+                type: string
+                maxLength: 150
+                example: مســــــــــاهمة
+                
+          fiscalYear:
+            type: object
+            description: fisca Year - السنة المالية
+            required:
+              - month
+              - day
+              - calendarType
+            properties:
+              month:
+                type: integer
+                format: int32
+                example: 02
+              day:
+                type: integer
+                format: int32
+                example: 01
+              calendarType:
+                type: object
+                required:
+                  - id
+                  - name
+                properties:
+                  id:
+                    type: integer
+                    format: int32
+                    example: 1
+                  name:
+                    type: string
+                    enum:
+                      - هجري
+                      - ميلادي
+                    maxLength: 7
+                    example: هجري
+
+          status:
+            type: object
+            description: commercial registration status - حالة السجل التجاري
+            required:
+              - id
+              - name
+            properties:
+              id:
+                type: string
+                enum:
+                  - active
+                  - expired
+                  - suspended
+                  - canceled
+                maxLength: 10
+                example: active
+              name:
+                type: string
+                maxLength: 100
+                example: السجل التجاري قائم
+                
+              nameEn:
+                type: string
+                maxLength: 100
+                example: السجل التجاري قائم
+          cancellation:
+            type: object
+            description: commercial registration cancellation - السجل التجاري في حالة الغاءه
+            properties:
+              date:
+                type: string
+                pattern: yyyy/mm/dd
+                description: cancellation hijri Date - تاريخ الالغاء الهجري
+                example: 1440/05/01
+
+              reason:
+                type: string
+                maxLength: 250
+                description: commercial registration cancellation reason - سبب الغاء السجل التجاري
+                example: تم الغاء السجل بسب...
+          location:
+            type: object
+            description: commercial registration location - مدينة وموقع السجل التجاري
+            required:
+              - id
+              - name
+            properties:
+              id:
+                type: string
+                maxLength: 4
+                example: 1010
+              name:
+                type: string
+                maxLength: 50
+                example: الرياض
+          company:
+            type: object
+            description: company period details -  تفاصيل فترة الشركة
+            properties:
+              period:
+                type: string
+                example: 10
+                description: periodin years - الفترة بالسنوات 
+              startDate:
+                type: string
+                format: date
+                example: 1439/01/12
+                description: hijri start date - تاريخ البدء بالهجري
+                
+              endDate:
+                type: string
+                description: hijri end date - تاريخ الإنتهاء بالهجري
+                format: date
+                example: 1449/01/12,
+          activities:
+            type: object
+            description: commercial registration activities - نشاطات السجل التجاري
+            properties:
+              description:
+                type: string
+                description: free text activity description - نص لنشاطات السجل التجاري
+                maxLength: 350
+                example: البيع بالجملة و التجزئة للحبوب والبذور
+              isic:
+                type: array
+                description: commercial registration activity details - مجالات الأنشطة للسجل التجاري
+                items:
+                  type: object
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      type: string
+                      maxLength: 6
+                      minLength: 6
+                      example: 477211
+                    name:
+                      type: string
+                      maxLength: 75
+                      example: أنشطة المواد الغذائية
+                    nameEn:
+                      type: string
+                      example: 
+  fullInfo:
+    type: object
+    required:
+          - crName
+          - crNumber
+          - issueDate
+          - expiryDate
+          - capital
+          - businessType
+          - status
+          - address
+          - location
+          - activities
+          - parties
+    properties:
+          crName:
+            type: string
+            maxLength: 150
+            example: المحدودة XXX شركة
+            description: commercial registration name - اسم السجل التجاري
+            
+          crNumber:
+            type: integer
+            format: int64
+            minimum: 1010000000
+            maximum: 9999999999
+            example: 1010XXXX29
+            description: commercial registration number - رقم السجل التجاري
+            
+          crEntityNumber:
+            type: integer
+            format: int64
+            description: entity national number which start with 7 - الرقم الوطني الموحد والذي يبدأ بـ 7
+            minimum: 7000000000
+            maximum: 7999999999
+            example: 700XXXX660
+          issueDate:
+            type: string
+            pattern: yyyy/mm/dd
+            description: issue hijri Date  - تاريخ الاصدار بالهجري
+            example: 1391/10/19
+          expiryDate:
+            type: string
+            pattern: yyyy/mm/dd
+            description: expiry hijri Date - تاريخ الانتهاء بالهجري
+            example: 1443/08/10
+          capital:
+                type: object
+                description: commercial registration capital - رأس المال للسجل التجاري
+                
+                required:
+                  - paid_amount
+                properties:
+                  paidAmount:
+                    type: number
+                    format: double
+                    minimum: 0
+                    example: 900000
+                    description: paid amount - المبلغ المدفوع
+                    
+                  subscribedAmount:
+                    type: number
+                    format: double
+                    description: subscribed amount - المبلغ المكتتب به
+
+                    
+                    minimum: 0
+                    example: 90000000
+                  announcedAmount:
+                    type: number
+                    description: announced  amount - المبلغ المعلن عنه
+                    
+                    format: double
+                    minimum: 0
+                    example: 90000000
+                  share:
+                    type: object
+                    description: shares details  - تفاصيل عدد الاسهم
+                    
+                    properties:
+                      sharePrice:
+                        type: number
+                        format: double
+                        description: shares price  - سعر السهم
+                        minimum: 0
+                        example: 9000000
+                      sharesCount:
+                        type: integer
+                        format: int32
+                        description: shares counts  - عدد الأسهم
+                        
+                        minimum: 0
+                        example: 10
+          crMainNumber:
+            description: the value will be null if the cr is main - رقم السجل التجاري الأساسي اذا السجل التجاري المستعلم عنه سجل تجاري فرعي
+            type: integer
+            format: int64
+            minimum: 1010000000
+            maximum: 9999999999
+            example: null
+          parties:
+            type: array
+            description: commercial registration parties details - بيانات الملاك والشركاء وأعضاء مجلس الإدارة والمدراء للسجل التجاري
+            items:
+              type: object
+              required:
+                - name
+                - identity
+                - relation
+              properties:
+                name:
+                  type: string
+                  description: party name - أسم الطرف
+                  maxLength: 150
+                  example: علي محمد XXXXXXX
+                birthDate:
+                  type: string
+                  pattern: yyyy/mm/dd
+                  
+                  description: birth gregorian date  - تاريخ الميلاد بالميلادي
+                  example: XXXX/05/10
+                sharesCount:
+                  type: number
+                  description: party shares count - عدد الأسهم للطرف
+                  
+                  example: 1
+                gross:
+                  type: number
+                  description: party gross amount - إجمالي حصة الطرف
+                  
+                  example: 900000
+                identity:
+                  type: object
+                  description: party identitifcation details  - بيانات هوية الطرف
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      maxLength: 20
+                      example: 1006XXXX47
+                    type:
+                      type: string
+                      maxLength: 20
+                      enum:
+                        - nid
+                        - iqama
+                        - entityno
+                        - passportno
+                        - crno
+                      description: |
+                        id Type:
+                          * `nid` - citizen national ID  - هوية سعودية
+                          * `iqama` - Iqama Number - هوية إقامة
+                          * `entityno` - entity number like 7XXXXXXXXX - الرقم الوطني الموحد
+                          * `passportno` - Passport number  - جواز سفر
+                          * `crno` - Commercial Registration number - سجل تجاري
+                      example: nid
+                relation:
+                  type: object
+                  description: party relation details  - بيانات علاقة الطرف بالسجل التجاري
+                  
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                    name:
+                      type: string
+                      maxLength: 100
+                      example: شــريك
+                nationality:
+                  type: object
+                  description: party nationality details - تفاصيل جنسية الطرف
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      description: 'iso alpha2 country code find in Link https://www.iso.org/home.html'
+                      type: string
+                      minLength: 2
+                      maxLength: 2
+                      example: SA
+                    name:
+                      type: string
+                      maxLength: 50
+                      example: سعودي
+          businessType:
+            type: object
+            description: commercial registration type-  نوع السجل التجاري
+            required:
+              - id
+              - name
+            properties:
+              id:
+                type: string
+                maxLength: 3
+                example: 205
+              name:
+                type: string
+                maxLength: 150
+                example: مســــــــــاهمة
+                
+          fiscalYear:
+            type: object
+            description: fisca Year - السنة المالية
+            required:
+              - month
+              - day
+              - calendarType
+            properties:
+              month:
+                type: integer
+                format: int32
+                example: 02
+              day:
+                type: integer
+                format: int32
+                example: 01
+              calendarType:
+                type: object
+                required:
+                  - id
+                  - name
+                properties:
+                  id:
+                    type: integer
+                    format: int32
+                    example: 1
+                  name:
+                    type: string
+                    enum:
+                      - هجري
+                      - ميلادي
+                    maxLength: 7
+                    example: هجري
+
+          status:
+            type: object
+            description: commercial registration status - حالة السجل التجاري
+            required:
+              - id
+              - name
+            properties:
+              id:
+                type: string
+                enum:
+                  - active
+                  - expired
+                  - suspended
+                  - canceled
+                maxLength: 10
+                example: active
+              name:
+                type: string
+                maxLength: 100
+                example: السجل التجاري قائم
+                
+              nameEn:
+                type: string
+                maxLength: 100
+                example: السجل التجاري قائم
+          cancellation:
+            type: object
+            description: commercial registration cancellation - السجل التجاري في حالة الغاءه
+            properties:
+              date:
+                type: string
+                pattern: yyyy/mm/dd
+                description: cancellation hijri Date - تاريخ الالغاء الهجري
+                example: 1440/05/01
+
+              reason:
+                type: string
+                maxLength: 250
+                description: commercial registration cancellation reason - سبب الغاء السجل التجاري
+                example: تم الغاء السجل بسب...
+          address:
+            type: object
+            required:
+              - general
+            properties:
+              general:
+                type: object
+                required:
+                  - address
+                properties:
+                  website:
+                    type: string
+                    maxLength: 100
+                    example: www.----.com
+                  address:
+                    type: string
+                    maxLength: 200
+                    description: free text address description
+                    example: الرياض حي السليمانية طريق مكه (خريص )
+                  email:
+                    type: string
+                    maxLength: 50
+                    example: info@------.com
+                  fax1:
+                    type: string
+                    maxLength: 10
+                    example: 49XXXX0
+                  fax2:
+                    type: string
+                    maxLength: 10
+                    example: 49XXXX1
+                  telephone1:
+                    type: string
+                    maxLength: 10
+                    example: 49XXXX7
+                  telephone2:
+                    type: string
+                    maxLength: 10
+                    example: 49XXXX6
+                  postalBox1:
+                    type: string
+                    maxLength: 6
+                    example: 0040XX
+                  postalBox2:
+                    type: string
+                    maxLength: 6
+                    example: 0040XX
+              national:
+                type: object
+                description: saudi national address - بيانات العنوان الوطني
+                properties:
+                  buildingNumber:
+                    type: string
+                    maxLength: 4
+                    example: 1234
+                  additionalNumber:
+                    type: string
+                    maxLength: 4
+                    example: 1234
+                  streetName:
+                    type: string
+                    maxLength: 250
+                    example: شارع تركي السديري
+                  city:
+                    type: string
+                    maxLength: 47
+                    example: الرياض
+                  zipCode:
+                    type: string
+                    maxLength: 5
+                    example: 1XXX5
+                  unitNumber:
+                    type: string
+                    example: 2
+                    maxLength: 5
+                  district:
+                    type: object
+                    required:
+                      - id
+                      - name
+                    properties:
+                      id:
+                        type: integer
+                        format: int32
+                        example: 101
+                      name:
+                        type: string
+                        maxLength: 200
+                        example: حي السليمانية
+          isEcommerce:
+            type: boolean
+            example: true
+          urls:
+            type: array
+            items:
+              type: object
+              description: commercial registration websit urls - روابط المواقع الالكتروني للسجل التجاري
+              properties:
+                name:
+                  type: string
+                  example: www.example.com
+                type:
+                  type: string
+                  example: منصة التوثيق
+                typeId:
+                  type: integer
+                  example: 1
+          location:
+            type: object
+            description: commercial registration location - مدينة وموقع السجل التجاري
+            required:
+              - id
+              - name
+            properties:
+              id:
+                type: string
+                maxLength: 4
+                example: 1010
+              name:
+                type: string
+                maxLength: 50
+                example: الرياض
+          company:
+            type: object
+            description: company period details -  تفاصيل فترة الشركة
+            properties:
+              period:
+                type: string
+                example: 10
+                description: periodin years - الفترة بالسنوات 
+              startDate:
+                type: string
+                format: date
+                example: 1439/01/12
+                description: hijri start date - تاريخ البدء بالهجري
+                
+              endDate:
+                type: string
+                description: hijri end date - تاريخ الإنتهاء بالهجري
+                format: date
+                example: 1449/01/12,
+          activities:
+            type: object
+            description: commercial registration activities - نشاطات السجل التجاري
+            properties:
+              description:
+                type: string
+                description: free text activity description - نص لنشاطات السجل التجاري
+                maxLength: 350
+                example: البيع بالجملة و التجزئة للحبوب والبذور
+              isic:
+                type: array
+                description: commercial registration activity details - مجالات الأنشطة للسجل التجاري
+                items:
+                  type: object
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      type: string
+                      maxLength: 6
+                      minLength: 6
+                      example: 477211
+                    name:
+                      type: string
+                      maxLength: 75
+                      example: أنشطة المواد الغذائية
+                    nameEn:
+                      type: string
+                      example: 
+  address:
+    type: object
+    required:
+      - general
+    properties:
+      general:
+                type: object
+                required:
+                  - address
+                properties:
+                  website:
+                    type: string
+                    maxLength: 100
+                    example: www.----.com
+                  address:
+                    type: string
+                    maxLength: 200
+                    description: free text address description
+                    example: الرياض حي السليمانية طريق مكه (خريص )
+                  email:
+                    type: string
+                    maxLength: 50
+                    example: info@------.com
+                  fax1:
+                    type: string
+                    maxLength: 10
+                    example: 49XXXX0
+                  fax2:
+                    type: string
+                    maxLength: 10
+                    example: 49XXXX1
+                  telephone1:
+                    type: string
+                    maxLength: 10
+                    example: 49XXXX7
+                  telephone2:
+                    type: string
+                    maxLength: 10
+                    example: 49XXXX6
+                  postalBox1:
+                    type: string
+                    maxLength: 6
+                    example: 0040XX
+                  postalBox2:
+                    type: string
+                    maxLength: 6
+                    example: 0040XX
+      national:
+                type: object
+                description: saudi national address - بيانات العنوان الوطني
+                properties:
+                  buildingNumber:
+                    type: string
+                    maxLength: 4
+                    example: 1234
+                  additionalNumber:
+                    type: string
+                    maxLength: 4
+                    example: 1234
+                  streetName:
+                    type: string
+                    maxLength: 250
+                    example: شارع تركي السديري
+                  city:
+                    type: string
+                    maxLength: 47
+                    example: الرياض
+                  zipCode:
+                    type: string
+                    maxLength: 5
+                    example: 1XXX5
+                  unitNumber:
+                    type: string
+                    example: 2
+                    maxLength: 5
+                  district:
+                    type: object
+                    required:
+                      - id
+                      - name
+                    properties:
+                      id:
+                        type: integer
+                        format: int32
+                        example: 101
+                      name:
+                        type: string
+                        maxLength: 200
+                        example: حي السليمانية
+                      
+  status:
+          type: object
+          description: commercial registration status - حالة السجل التجاري
+          required:
+            - id
+            - name
+          properties:
+           id:
+            type: string
+            enum:
+               - active
+               - expired
+               - suspended
+               - canceled
+            maxLength: 10
+            example: active
+           name:
+             type: string
+             maxLength: 100
+             example: السجل التجاري قائم
+           nameEn:
+             type: string
+             maxLength: 100
+             example: السجل التجاري قائم
+           cancellation:
+             type: object
+             description: commercial registration cancellation - السجل التجاري في حالة الغاءه
+             properties:
+              date:
+                type: string
+                pattern: yyyy/mm/dd
+                description: cancellation hijri Date - تاريخ الالغاء الهجري
+                example: 1440/05/01
+
+              reason:
+                type: string
+                maxLength: 250
+                description: commercial registration cancellation reason - سبب الغاء السجل التجاري
+                example: تم الغاء السجل بسب..
+
+  capital:
+      type: object
+      description: commercial registration capital - رأس المال للسجل التجاري
+      required:
+        - paid_amount
+      properties:
+        paidAmount:
+                    type: number
+                    format: double
+                    minimum: 0
+                    example: 900000
+                    description: paid amount - المبلغ المدفوع
+                    
+        subscribedAmount:
+                    type: number
+                    format: double
+                    description: subscribed amount - المبلغ المكتتب به
+
+                    
+                    minimum: 0
+                    example: 90000000
+        announcedAmount:
+                    type: number
+                    description: announced  amount - المبلغ المعلن عنه
+                    
+                    format: double
+                    minimum: 0
+                    example: 90000000
+        share:
+          type: object
+          description: shares details  - تفاصيل عدد الاسهم
+          properties:
+            sharePrice:
+                        type: number
+                        format: double
+                        description: shares price  - سعر السهم
+                        minimum: 0
+                        example: 9000000
+            sharesCount:
+                        type: integer
+                        format: int32
+                        description: shares counts  - عدد الأسهم
+                        minimum: 0
+                        example: 10
+
+ 
+  tree:
+      type: array
+      items:
+          type: object
+          required:
+            - crName
+            - crNumber
+            - isMain
+            - businessType
+          properties:
+            crName:
+              type: string
+              maxLength: 150
+              example: المحدودة XXX شركة
+              description: commercial registration name - اسم السجل التجاري
+              
+            crNumber:
+              type: integer
+              format: int64
+              minimum: 1010000000
+              maximum: 9999999999
+              example: 1010XXXX29
+              description: commercial registration number - رقم السجل التجاري
+
+            crEntityNumber:
+              type: integer
+              format: int64
+              description: entity national number which start with 7 - الرقم الوطني الموحد والذي يبدأ بـ 7
+              minimum: 7000000000
+              maximum: 7999999999
+              example: 700XXXX660
+            isMain:
+              type: boolean
+              description: where the commercial registration is main or not - هل السجل التجاري رئيسي ام لا 
+            businessType:
+              type: object
+              description: commercial registration type-  نوع السجل التجاري
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                  maxLength: 3
+                  example: 205
+                name:
+                  type: string
+                  maxLength: 150
+                  example: مســــــــــاهمة
+  manager:
+        type: array
+        items:
+          required:
+            - name
+            - identity
+            - relation
+          properties:
+            name:
+              type: string
+              maxLength: 150
+              description: party name - أسم الطرف               
+              example: علي محمد XXXXXXX
+
+              
+            birthDate:
+                  type: string
+                  pattern: yyyy/mm/dd
+                  
+                  description: birth gregorian date  - تاريخ الميلاد بالميلادي
+                  example: XXXX/05/10
+            identity:
+                  type: object
+                  description: party identitifcation details  - بيانات هوية الطرف
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      maxLength: 20
+                      example: 1006XXXX47
+                    type:
+                      type: string
+                      maxLength: 20
+                      enum:
+                        - nid
+                        - iqama
+                        - entityno
+                        - passportno
+                        - crno
+                      description: |
+                        id Type:
+                          * `nid` - citizen national ID  - هوية سعودية
+                          * `iqama` - Iqama Number - هوية إقامة
+                          * `entityno` - entity number like 7XXXXXXXXX - الرقم الوطني الموحد
+                          * `passportno` - Passport number  - جواز سفر
+                          * `crno` - Commercial Registration number - سجل تجاري
+                      example: nid
+            relation:
+                  type: object
+                  description: party relation details  - بيانات علاقة الطرف بالسجل التجاري
+                  
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      type: integer
+                      example: 12
+                    name:
+                      type: string
+                      maxLength: 100
+                      example: عضومجلس إدارة
+            nationality:
+                  type: object
+                  description: party nationality details - تفاصيل جنسية الطرف
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      description: 'iso alpha2 country code find in Link https://www.iso.org/home.html'
+                      type: string
+                      minLength: 2
+                      maxLength: 2
+                      example: SA
+                    name:
+                      type: string
+                      maxLength: 50
+                      example: سعودي
+  owner:
+            type: array
+            description: commercial registration parties details - بيانات الملاك والشركاء وأعضاء مجلس الإدارة والمدراء للسجل التجاري
+            items:
+              type: object
+              required:
+                - name
+                - identity
+                - relation
+              properties:
+                name:
+                  type: string
+                  description: party name - أسم الطرف
+                  maxLength: 150
+                  example: علي محمد XXXXXXX
+                birthDate:
+                  type: string
+                  pattern: yyyy/mm/dd
+                  
+                  description: birth gregorian date  - تاريخ الميلاد بالميلادي
+                  example: XXXX/05/10
+                sharesCount:
+                  type: number
+                  description: party shares count - عدد الأسهم للطرف
+                  
+                  example: 1
+                gross:
+                  type: number
+                  description: party gross amount - إجمالي حصة الطرف
+                  
+                  example: 900000
+                identity:
+                  type: object
+                  description: party identitifcation details  - بيانات هوية الطرف
+                  required:
+                    - id
+                    - type
+                  properties:
+                    id:
+                      type: string
+                      maxLength: 20
+                      example: 1006XXXX47
+                    type:
+                      type: string
+                      maxLength: 20
+                      enum:
+                        - nid
+                        - iqama
+                        - entityno
+                        - passportno
+                        - crno
+                      description: |
+                        id Type:
+                          * `nid` - citizen national ID  - هوية سعودية
+                          * `iqama` - Iqama Number - هوية إقامة
+                          * `entityno` - entity number like 7XXXXXXXXX - الرقم الوطني الموحد
+                          * `passportno` - Passport number  - جواز سفر
+                          * `crno` - Commercial Registration number - سجل تجاري
+                      example: nid
+                relation:
+                  type: object
+                  description: party relation details  - بيانات علاقة الطرف بالسجل التجاري
+                  
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      type: integer
+                      example: 2
+                    name:
+                      type: string
+                      maxLength: 100
+                      example: شــريك
+                nationality:
+                  type: object
+                  description: party nationality details - تفاصيل جنسية الطرف
+                  required:
+                    - id
+                    - name
+                  properties:
+                    id:
+                      description: 'iso alpha2 country code find in Link https://www.iso.org/home.html'
+                      type: string
+                      minLength: 2
+                      maxLength: 2
+                      example: SA
+                    name:
+                      type: string
+                      maxLength: 50
+                      example: سعودي
+                      
+  owns:
+    type: object
+    required:
+      - ownsCr
+    properties:
+      ownsCr:
+        type: boolean
+  related:
+        type: array
+        items:
+          type: object
+          required:
+            - crName
+            - crNumber
+            - isMain
+            - businessType
+            - relation
+          properties:
+            crName:
+              type: string
+              maxLength: 150
+              example: المحدودة XXX شركة
+              description: commercial registration name - اسم السجل التجاري
+              
+            crEntityNumber:
+              type: integer
+              format: int64
+              description: entity national number which start with 7 - الرقم الوطني الموحد والذي يبدأ بـ 7
+              minimum: 7000000000
+              maximum: 7999999999
+              example: 700XXXX660
+            isMain:
+              type: boolean
+            crNumber:
+              type: integer
+              format: int64
+              minimum: 1010000000
+              maximum: 9999999999
+              example: 1010XXXX29
+              description: commercial registration number - رقم السجل التجاري
+              
+            businessType:
+              type: object
+              description: commercial registration type-  نوع السجل التجاري
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                  maxLength: 3
+                  example: 205
+                name:
+                  type: string
+                  maxLength: 150
+                  example: مســــــــــاهمة
+            relation:
+              type: object
+              description: party relation details  - بيانات علاقة الطرف بالسجل التجاري
+              
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: integer
+                  example: 2
+                name:
+                  type: string
+                  maxLength: 100
+                  example: شــريك
+
+  lookups_location:
+      type: "array"
+      items:
+        type: "object"
+        required:
+        - "id"
+        - "name"
+        - "nameEn"
+        properties:
+          id:
+            type: "number"
+            maxLength: 10
+            description: location id - رقم المنطقة
+            example: 2050
+          name:
+            type: "string"
+            description: location Arabic name  - اسم المنطقة عربي
+            maxLength: 30
+            example: الدمام
+          nameEn:
+            type: "string"
+            description: location English name  - اسم المنطقة انجليزي
+            maxLength: 30
+            example: Dammam
+  lookups_businessType:
+      type: "array"
+      items:
+        type: "object"
+        required:
+        - "id"
+        - "name"
+        - "nameEn"
+        properties:
+          id:
+            type: "number"
+            maxLength: 101
+            description: Business type id - رمز نوع السجل
+            example: 01
+          name:
+            type: "string"
+            description: Business type name  - اسم نوع السجل عربي
+            maxLength: 30
+            example: مؤسسة فردية
+          nameEn:
+            type: "string"
+            description: Business type English name  - اسم نوع السجل انجليزي
+            maxLength: 30
+            example: Individual-owned Establishments
+  lookups_relationType:
+      type: "array"
+      items:
+        type: "object"
+        required:
+        - "id"
+        - "name"
+        - "nameEn"
+        properties:
+          id:
+            type: "number"
+            maxLength: 10
+            description: Business type id - رمز العلاقة
+            example: 01
+          name:
+            type: "string"
+            description: Business type name  - اسم العلاقة عربي
+            maxLength: 30
+            example: مالك المؤسسة
+          nameEn:
+            type: "string"
+            description: Business type English name  - اسم العلاقة انجليزي
+            maxLength: 30
+            example: Owner
+  lookups_nationality:
+      type: "array"
+      items:
+        type: "object"
+        required:
+        - "id"
+        - "country"
+        - "countryEn"
+        - "isoAlpha2"
+        - "isoAlpha3"
+        properties:
+          id:
+            type: "number"
+            maxLength: 10
+            description: Country id - رمز نوع السجل 
+            example: 682
+          country:
+            type: "string"
+            description: Country name  - اسم نوع السجل عربي
+            maxLength: 30
+            example: السعودية
+          countryEn:
+            type: "string"
+            description: Country English name  - اسم نوع السجل انجليزي
+            maxLength: 30
+            example: Saudi Arabia
+          isoAlpha2:
+            description: 'iso alpha2 country code find in Link https://www.iso.org/home.html'
+            type: string
+            minLength: 2
+            maxLength: 2
+            example: SA  
+          isoAlpha3:
+            description: 'iso alpha3 country code find in Link https://www.iso.org/home.html'
+            type: string
+            minLength: 3
+            maxLength: 3
+            example: SAU  
+
+  lookups_activity:
+      type: "array"
+      items:
+        type: "object"
+        description: activity description details level 1 - بيانات الأنشطة المستوى الاول 
+        required:
+        - "id"
+        - "name"
+        - "nameEn"
+        - "level"
+        - "category"
+        - "authority"
+        properties:
+          id:
+            type: "number"
+            maxLength: 10
+            description: isic id - رمز النشاط
+            example: 09
+          name:
+            type: "string"
+            description: isic Arabic name  - اسم النشاط عربي
+            maxLength: 250
+            example: أنشطة خدمات الاقامة والطعام 
+          nameEn:
+            type: "string"
+            description: isic English name  - اسم النشاط انجليزي 
+            maxLength: 250
+            example: Accommodation and food service activities
+          level:
+            type: "number"
+            maxLength: 10
+            description: activity level  - مستوى النشاط
+            example: 1
+          category:
+           type: "array"
+           items:
+            type: "object"
+            description: category  details level 2  - بيانات فئة الانشطة المستوى الثاني
+            required:
+            - "id"
+            - "name"
+            - "nameEn"
+            - "level"
+            - "isic"
+            properties:
+              id:
+                type: "number"
+                maxLength: 10
+                description: activity id - رمز فئة النشاط
+                example: 351003
+              name:
+                type: "string"
+                description: activity Arabic name  - اسم فئة النشاط عربي
+                maxLength: 250
+                example: أنشطة تقديم المشروبات
+              nameEn:
+                type: "string"
+                description: activity English name  - اسم فئة النشاط نجليزي 
+                maxLength: 250
+                example: Beverage serving activities
+              level:
+                type: "number"
+                maxLength: 10
+                description: activity level  - مستوى فئة النشاط
+                example: 2
+              isic:
+                 type: "array"
+                 items:
+                  type: "object"
+                  description: isic4 details actvtites level 3  - بيانات وصف الأنشطة المستوى الثالث
+                  required:
+                  - "id"
+                  - "name"
+                  - "nameEn"
+                  - "level"
+                  - "isic"
+                  properties:
+                    id:
+                      type: "number"
+                      maxLength: 10
+                      description: isic id - رمز وصف النشاط
+                      example: 551013
+                    name:
+                      type: "string"
+                      description: isic Arabic name  - اسم وصف النشاط عربي
+                      maxLength: 250
+                      example: الفنادق التراثية
+                    nameEn:
+                      type: "string"
+                      description: isic English name  - اسم وصف النشاط انجليزي 
+                      maxLength: 250
+                      example: Heritage hotels
+                    level:
+                      type: "number"
+                      maxLength: 10
+                      description: activity isic level  - مستوى فئة النشاط
+                      example: 3                  
+                         
+                    authority:
+                      type: "object"
+                      description: authority details  - بيانات الجهة المصرحة 
+                      required:
+                      - "id"
+                      - "name"
+                      - "nameEn"
+                      - "cancelRequired"
+                      properties:
+                        id:
+                          type: "number"
+                          maxLength: 10
+                          description: authority  id - رمز الجهة
+                          example: 17
+                        name:
+                          type: "string"
+                          description: category activity Arabic name  - اسم  الجهة عربي
+                          maxLength: 250
+                          example: الهيئة العامة للسياحة والتراث الوطني
+                        nameEn:
+                          type: "string"
+                          description: activity category English name  - اسم الجهة انجليزي
+                          maxLength: 250
+                          example: Saudi Commission for Tourism and National Heritage
+                        cancelRequired:
+                          type: "boolean"
+                          description: requireed authority to cancel  
+                          example: false
+                
+
+responses:
+  DefaultErrorResponse:
+    headers:
+      THIQAH-API-ApiMsgRef:
+        type: string
+        format: uuid
+        description: unique guid for each request
+      THIQAH-API-ClientMsgRef:
+        type: string
+        format: uuid
+        description: The original client reference value sent in the request  
+    description: >
+      Supported HTTP Status Codes 400, 401, 403, 404, 409, 429, 500, 502, 503, 504 <br /><br />
+      400 Bad Request - Will be returned for any data processing errors which API consumer should correct.<br />
+      401 Unauthorized - Authentication errors. Credentials provided are not valid or expired.<br />
+      403 Forbidden - Authorization error. Credentials are valid, but insufficient privileges or scope.<br />
+      404 Not Found - Resource/verb combination is not found. <br />
+      409 Conflict - The operation is creating a conflict in the resource status<br />
+      500 Internal Server Error - Internal errors within the API provider and its backends<br />
+      502 Bad Gateway - The backend application provider did not provide a valid undestandable response<br />
+      503 Service Unavailable - API resource is not available for use and/or one of the backend providers is not available.<br />
+      504 Gateway Timeout - The backend application provider did not provide a response within the Standard timeout window.<br />
+    schema:
+      $ref: '#/definitions/error'
+
+  ErrorResponse400:
+          description:  > 
+            **business error , Here is listed of code** :
+            
+              code: 400.2.1  - message: Commercial Registration number or entity Number must be 10 digits
+              code: 400.2.2  - message: Commercial Registration Entity Number must be in valid format
+              code: 400.2.3  - message: Input data is required
+              code: 400.2.10 - message: Unable to Process the Request
+              code: 400.2.11  - message: Commercial Registration is Canceled
+              code: 400.2.12 - message: Commercial Registration is Expired
+              code: 400.3.1 - message: Internal Error
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+           application/json:
+              code: 400.2.1
+              message: Commercial Registration number or Entity Number must be 10 digits
+           application/xml: '<?xml version="1.0" encoding="UTF-8"?> 
+                              <error>  
+                              <code>400.2.1</code> 
+                               <message>Commercial Registration number or Entity Number must be 10 digits</message>  
+                            </error>'             
+  
+  ErrorResponse400_V2:
+          description:  > 
+            **business error , Here is listed of code** :
+            
+              code: 400.2.1  - message: Commercial Registration number or entity Number must be 10 digits
+              code: 400.2.2  - message: Commercial Registration Entity Number must be in valid format
+              code: 400.2.3  - message: Input data is required
+              code: 400.2.4  - message: Wrong Entity Type [ "nid", "iqama", "entityno", "passportno", "crno" ]
+              code: 400.2.5  - message: ID must be 10 digits only
+              code: 400.2.6  - message: National Number must be in valid format
+              code: 400.2.7  - message: Passport number length must be between 3 to 20 characters
+              code: 400.2.8  - message: Wrong country code
+              code: 400.2.9  - message: Enter Entity Type [ "nid", "iqama", "entityno", "passportno", "crno" ]
+              code: 400.2.10  - message: Unable to Process the Request
+              code: 400.2.11  - message: Commercial Registration is Canceled
+              code: 400.3.1  - message: Internal Error
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+           application/json:
+              code: 400.2.1
+              message: Commercial Registration number or Entity Number must be 10 digits
+           application/xml: '<?xml version="1.0" encoding="UTF-8"?> 
+                              <error>  
+                              <code>400.2.1</code> 
+                               <message>Commercial Registration number or Entity Number must be 10 digits</message>  
+                            </error>'             
+  ErrorResponse400_V3:
+          description:  > 
+            **business error , Here is listed of code** :
+            
+              code: 400.2.1  - message: Commercial Registration number or entity Number must be 10 digits
+              code: 400.2.2  - message: Commercial Registration Entity Number must be in valid format
+              code: 400.2.3  - message: Input data is required
+              code: 400.2.4  - message: Wrong Entity Type [ "nid", "iqama", "entityno", "passportno", "crno" ]
+              code: 400.2.5  - message: ID must be 10 digits only
+              code: 400.2.6  - message: National Number must be in valid format
+              code: 400.2.7  - message: Passport number length must be between 3 to 20 characters
+              code: 400.2.8  - message: Wrong country code
+              code: 400.2.9  - message: Enter Entity Type [ "nid", "iqama", "entityno", "passportno", "crno" ]
+              code: 400.2.10  - message: Unable to Process the Request
+              code: 400.2.11  - message: Commercial Registration is Canceled
+              code: 400.2.12 - message: Commercial Registration is Expired
+              code: 400.3.1  - message: Internal Error
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+           application/json:
+              code: 400.2.1
+              message: Commercial Registration number or Entity Number must be 10 digits
+           application/xml: '<?xml version="1.0" encoding="UTF-8"?> 
+                              <error>  
+                              <code>400.2.1</code> 
+                               <message>Commercial Registration number or Entity Number must be 10 digits</message>  
+                            </error>'             
+  ErrorResponse401:
+          description: unauthorized
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request    
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+           application/json:
+              code: 401.1.1
+              message: Invalid ApiKey
+           application/xml: '<?xml version="1.0" encoding="UTF-8"?> 
+                              <error>  
+                              <code>401.1.1</code> 
+                               <message>Invalid ApiKey</message>  
+                            </error>'  
+  ErrorResponse403:
+          description: unauthorized
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request    
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+           application/json:
+              code: 403.1.1
+              message: you do not have permission for giving resource
+           application/xml: '<?xml version="1.0" encoding="UTF-8"?> 
+                              <error>  
+                              <code>403.1.1</code> 
+                               <message>you do not have permission for giving resource</message>  
+                            </error>'       
+  ErrorResponse404:
+          description: not found
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+           application/json:
+              code: 404.2.1
+              message: No Results Found
+           application/xml: '<?xml version="1.0" encoding="UTF-8"?> 
+                              <error>  
+                              <code>404.2.1</code> 
+                               <message>No Results Found</message>  
+                            </error>'             
+  ErrorResponse429:
+          description: Quota Violation
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+          examples:
+           application/json:
+              code: 429.1.1
+              message: Rate limit quota violation. Quota limit  exceeded
+           application/xml: '<?xml version="1.0" encoding="UTF-8"?> 
+                              <error>  
+                              <code>429.1.1</code> 
+                               <message>Rate limit quota violation. Quota limit  exceeded</message>  
+                            </error>'       
+  ErrorResponse500:
+          description: internal server error
+          headers:
+            THIQAH-API-ApiMsgRef:
+              type: string
+              format: uuid
+              description: unique guid for each request
+            THIQAH-API-ClientMsgRef:
+              type: string
+              format: uuid
+              description: The original client reference value sent in the request     
+          schema:
+            $ref: '#/definitions/error'
+                  
+                            
+  
+  
+                

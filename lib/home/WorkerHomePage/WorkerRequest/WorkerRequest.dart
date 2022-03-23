@@ -75,7 +75,9 @@ class _WorkerRequestState extends State<WorkerRequest> {
                     Expanded(
                       flex: 2,
                       child: Container(
-                          decoration: decoration(0, 7, 0, 7, color: deepYallow),
+                          decoration: decoration(4, 20, 4, 20, color: deepYallow,
+
+                           ),
                           child: accsebtRetjectBtn()),
                     ),
                     Expanded(

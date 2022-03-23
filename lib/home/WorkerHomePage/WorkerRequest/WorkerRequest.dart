@@ -75,7 +75,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
                     Expanded(
                       flex: 2,
                       child: Container(
-                          decoration: decoration(4, 20, 4, 20, color: deepYallow,
+                          decoration: decoration(4, 4, 4, 4, color: deepYallow,
 
                            ),
                           child: accsebtRetjectBtn()),
@@ -111,8 +111,6 @@ class _WorkerRequestState extends State<WorkerRequest> {
                                 padding:
                                     EdgeInsets.only(left: 8.0.w, right: 8.0.w),
                                 child: Column(
-                                  //  crossAxisAlignment: CrossAxisAlignment.center,
-                                  //  mainAxisAlignment:MainAxisAlignment.center,
                                   children: [
                                     getStudentOrders(
                                       snapshat,

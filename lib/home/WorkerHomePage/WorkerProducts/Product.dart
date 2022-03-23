@@ -5,6 +5,8 @@ import 'package:save_break_time/Models/virables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
 
+import 'AddProduct.dart';
+
 class WorkerProductMainPage extends StatefulWidget {
   @override
   State<WorkerProductMainPage> createState() => _WorkerProductMainPageState();
@@ -33,8 +35,10 @@ class _WorkerProductMainPageState extends State<WorkerProductMainPage> {
                   height: 15.h,
                 ),
 //----------------------------------------------------------------
-                buttoms(context, "ADD New", 14.0, black, () {},
-                    backgrounColor: white),
+                buttoms(context, "ADD New", 14.0, black, () {
+                  goTopage(context, AddProduct());
+                },
+                    backgrounColor: deepYallow),
                 // SizedBox(
                 //   height: 10.h,
                 // ),

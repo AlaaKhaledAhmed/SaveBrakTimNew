@@ -51,7 +51,7 @@ class _LoggingState extends State<Logging> {
                 ),
                 Form(
                     key: loggingKey,
-                    autovalidateMode: AutovalidateMode.always,
+
                     child: Column(
                       children: [
                         //emali textField-------------

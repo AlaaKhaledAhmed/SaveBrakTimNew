@@ -64,6 +64,7 @@ class _MyAppState extends State<MyApp> {
         title: "Sava break time",
 //اختيار نوع الخط وفقا للغه المختارة-------------------------
         theme: ThemeData(
+           colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.amber,),
           fontFamily: selectLang ? "DroidKufi" : "Quicksand",
         ),
 
@@ -93,11 +94,11 @@ class _MyAppState extends State<MyApp> {
         },
         debugShowCheckedModeBanner: false,
         //اظهار الشاشه الولي وفقا لحاله المستخدم, هل قام بالتسجيل مسلقا ام اول مره يظهر التطبيق
-        home:WorkerNavHome()
-       // _local == null ?
+        home:
+       //_local == null ?
       //SelectLangView()
-         // :
-         //WorkerNavHome(),
+      //   :
+         WorkerNavHome(),
       ),
     );
   }

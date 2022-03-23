@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:save_break_time/Animation/FadeAnimation.dart';
 import 'package:save_break_time/Models/virables.dart';
@@ -8,7 +9,7 @@ import 'package:save_break_time/localization/localization_methods.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //================ convert hex colors to rgb colors================
- Color hexToColor(String hexString, {alphaChannel = 'ff'}) {
+Color hexToColor(String hexString, {alphaChannel = 'ff'}) {
   return Color(int.parse(hexString.replaceFirst('#', '0x$alphaChannel')));
 }
 
@@ -36,6 +37,7 @@ Widget text(
     ),
   );
 }
+
 Widget textDB(
   context,
   String key,
@@ -47,7 +49,7 @@ Widget textDB(
   FontWeight fontWeight = FontWeight.normal,
 }) {
   return Text(
-  '$key',
+    '$key',
     textAlign: align,
     style: TextStyle(
       color: color,
@@ -58,6 +60,7 @@ Widget textDB(
     ),
   );
 }
+
 divider({
   double thickness = 2,
   double indent = 15,
@@ -74,6 +77,7 @@ divider({
     ),
   );
 }
+
 //container decoration-------------------------------------------
 decoration(
   double bottomLeft,
@@ -84,16 +88,18 @@ decoration(
   double blurRadius = 0.0,
   double spreadRadius = 0.0,
   BoxBorder border,
+  BoxShape shap=BoxShape.rectangle
 }) {
   return BoxDecoration(
+    shape: shap,
     color: color,
-     border:border,
+    border: border,
     borderRadius: BorderRadius.only(
       topLeft: Radius.circular(topLeft.r),
       topRight: Radius.circular(topRight.r),
       bottomLeft: Radius.circular(bottomLeft.r),
       bottomRight: Radius.circular(bottomRight.r),
-     
+      
     ),
     boxShadow: [
       BoxShadow(
@@ -103,6 +109,7 @@ decoration(
     ],
   );
 }
+
 //===============================Continer===============================
 Widget container(double height, double width, double marginL, double marginR,
     Widget child, Color color,
@@ -151,12 +158,14 @@ Widget padding(double pL, double pR, double pT, Widget child,
 
 //=================================Buttoms=============================
 Widget buttoms(
-    context, String key,fontSize, Color textColor ,void Function() onPressed,
-    {Color backgrounColor=tansperns,double horizontal = 0.0, double vertical = 0.0,double evaluation=0.0}) {
+    context, String key, fontSize, Color textColor, void Function() onPressed,
+    {Color backgrounColor = tansperns,
+    double horizontal = 0.0,
+    double vertical = 0.0,
+    double evaluation = 0.0}) {
   return SizedBox(
     width: double.infinity.w,
     height: 45.h,
-
     child: TextButton(
       onPressed: onPressed,
       child: text(context, key, fontSize, textColor),
@@ -171,21 +180,28 @@ Widget buttoms(
   );
 }
 
+//=======================================================
+drowAppBar(String title, context) {
+  return AppBar(
+    elevation: 0,
+    centerTitle: true,
+    title: text(context, '$title', 20, white, fontWeight: FontWeight.w700),
+  );
+}
+
 //===============================Go To page===============================
 goTopage(context, pageName) {
   return Navigator.push(context, MaterialPageRoute(builder: (_) => pageName));
 }
 
 //===========================DropMenu Buttom==============================
-Widget selectLangButtom(context,{ IconData icon}) {
+Widget selectLangButtom(context, {IconData icon}) {
   return DropdownButton(
     elevation: 20,
     dropdownColor: grrey,
     underline: SizedBox(),
     iconSize: 35.sp,
-    
     icon: Icon(icon, color: black),
-    
     items: Language.languageList()
         .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
               value: lang,
@@ -208,38 +224,47 @@ Widget selectLangButtom(context,{ IconData icon}) {
 }
 
 //==========================Image====================================
-Widget image(String path,BoxFit fit,{double height=100,double width=100,}) {
-  return Image(image:AssetImage(path),fit:fit,
-  height: height.h,
-  width: width.w
-  );
+Widget image(
+  String path,
+  BoxFit fit, {
+  double height = 100,
+  double width = 100,
+}) {
+  return Image(
+      image: AssetImage(path), fit: fit, height: height.h, width: width.w);
 }
+
 //=============================TextFields=================================
-Widget textField(context, icons, suffixIcon, String key,
-    bool hintPass, TextEditingController mycontroller, String Function(String) validator,{double dayle=1.5}) {
-  return FadeAnimation(dayle,TextFormField(
-      
+Widget textField(context, icons, suffixIcon, String key, bool hintPass,
+    TextEditingController mycontroller, String Function(String) validator,
+    {double dayle = 1.5,inputFormatters,keyboardType}) {
+  return FadeAnimation(
+    dayle,
+    TextFormField(
       obscureText: hintPass,
       validator: validator,
       controller: mycontroller,
+      inputFormatters: inputFormatters,
+      keyboardType: keyboardType,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        isDense: true,
+          isDense: true,
           filled: true,
           fillColor: grrey,
           labelStyle: TextStyle(color: transparensgrey, fontSize: fontSize.sp),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
-          prefixIcon: Icon(icons,color: deepYallow),
+          prefixIcon: Icon(icons, color: deepYallow),
           suffixIcon: suffixIcon,
           labelText: "${getTranslated(context, key)}",
           contentPadding: EdgeInsets.all(10.h)),
     ),
-     
   );
 }
 
 //==============================ContinerWithBackground image================================
-Widget continerBackgroundImage(String imagePath,Widget child,{Color filterColor=Colors.black54}) {
-  return  Container(
+Widget continerBackgroundImage(String imagePath, Widget child,
+    {Color filterColor = Colors.black54}) {
+  return Container(
       width: double.infinity,
       height: double.infinity,
       decoration: BoxDecoration(
@@ -247,10 +272,15 @@ Widget continerBackgroundImage(String imagePath,Widget child,{Color filterColor=
           image: DecorationImage(
               image: AssetImage(imagePath),
               colorFilter: ColorFilter.mode(filterColor, BlendMode.darken),
-              fit: BoxFit.cover)
-              ),
-      child: child
-      );
+              fit: BoxFit.cover)),
+      child: child);
 }
 //==============================================================
+
+String empity(value) {
+  if (value.isEmpty) {
+    return value = value + "\n" + "املء الحقل اعلاه";
+  }
+  return null;
+}
 

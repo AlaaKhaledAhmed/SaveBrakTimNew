@@ -54,7 +54,7 @@ class _SingUpState extends State<SingUp> {
                 ),
                 Form(
                     key: singUpKey,
-                    autovalidateMode: AutovalidateMode.always,
+                   
                     child: Column(
                       children: [
                         //name textfiled-----------

@@ -1,16 +1,17 @@
 import 'dart:io';
-
+import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:save_break_time/Models/Methods.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../Models/AleartDilolg.dart';
 import '../../../Models/virables.dart';
 import '../../../localization/localization_methods.dart';
+import 'package:path/path.dart' as Path;
 
 class AddProduct extends StatefulWidget {
   AddProduct({Key key}) : super(key: key);
@@ -23,17 +24,19 @@ class _AddProductState extends State<AddProduct> {
   final TextEditingController prName = TextEditingController();
   final TextEditingController prPrice = TextEditingController();
   final TextEditingController prQuantity = TextEditingController();
-
+  String imageName;
+  Reference imageRef;
+  String imageURL;
+  File imagePath;
+  String userId;
+  Color color = deepYallow;
+  GlobalKey<FormState> productKey = GlobalKey();
+// ignore: missing_return
   String validEmpty(String value) {
     if (value.isEmpty) {
       return getTranslated(context, "Fill in the field");
     }
   }
-
-  File imagePath;
-  String userId;
-  Color color = deepYallow;
-  GlobalKey<FormState> productKey = GlobalKey();
 
   @override
   void initState() {
@@ -171,8 +174,12 @@ class _AddProductState extends State<AddProduct> {
     var imagepeket = await ImagePicker().getImage(source: ImageSource.gallery);
     if (imagepeket != null) {
       setState(() {
-        imagePath = File(imagepeket.path);
         color = Colors.transparent;
+        imagePath = File(imagepeket.path);
+        var rand = Random().nextInt(10000000);
+        imageName = "$rand" + Path.basename(imagepeket.path);
+        imageRef =
+            FirebaseStorage.instance.ref("productImage").child("$imageName");
       });
     }
   }
@@ -189,12 +196,14 @@ class _AddProductState extends State<AddProduct> {
         color = deepYallow;
       });
       dialog(context, 'Add products', 'wating');
+      await imageRef.putFile(imagePath);
+      imageURL=await imageRef.getDownloadURL();
       await FirebaseFirestore.instance.collection('product').add({
         "userID": userId,
         'prName': prName.text,
         'prPrice': prPrice.text,
         'prQuantity': prQuantity.text,
-        'imagePath': ''
+        'imagePath': imageURL
       }).then((value) {
         Navigator.pop(context);
         dialog(
@@ -202,7 +211,6 @@ class _AddProductState extends State<AddProduct> {
           "Process completed",
           "successfully",
         );
-        
       }).catchError((e) {
         Navigator.pop(context);
         dialog(

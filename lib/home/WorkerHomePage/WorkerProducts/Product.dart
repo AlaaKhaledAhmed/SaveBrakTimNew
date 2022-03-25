@@ -51,17 +51,14 @@ class _WorkerProductMainPageState extends State<WorkerProductMainPage> {
                             .where("userID",
                                 isEqualTo:
                                     FirebaseAuth.instance.currentUser.uid)
+                            .where('workerType', isEqualTo: 'cafie')
                             .snapshots(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshat) {
                           if (snapshat.hasError) {
-                            dialog(
-                              context,
-                              "Connection error",
-                              "connectionError",
-                            );
-                          } else if (snapshat.hasData) {
-                            print(snapshat.data.runtimeType);
+                            return Text("Connection error");
+                          }
+                          if (snapshat.hasData) {
                             return getProducts(context, snapshat);
                           }
 
@@ -78,73 +75,82 @@ class _WorkerProductMainPageState extends State<WorkerProductMainPage> {
 
 //----------------------------------------------------------------
   Widget getProducts(BuildContext context, AsyncSnapshot snapshat) {
-    return GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, //عدد العناصر في كل صف
-            crossAxisSpacing: 15, // المسافات الراسية
-            childAspectRatio: 0.70, //حجم العناصر
-            mainAxisSpacing: 15 //المسافات الافقية
+    return snapshat.data.docs.length > 0
+        ? GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, //عدد العناصر في كل صف
+                crossAxisSpacing: 15, // المسافات الراسية
+                childAspectRatio: 0.70, //حجم العناصر
+                mainAxisSpacing: 15 //المسافات الافقية
 
-            ),
-        itemCount: snapshat.data.docs.length,
-        itemBuilder: (context, i) {
-          return InkWell(
-            onLongPress: () {
-              deleteProduct(snapshat.data.docs[i].id,
-                  snapshat.data.docs[i].data()['imagePath']);
-            },
-            onTap: (){
-              goTopage(context, UpdateProduct(
-                addId:snapshat.data.docs[i].id,
-                addImage: snapshat.data.docs[i].data()['imagePath'] ,
-                addName: snapshat.data.docs[i].data()['prName'],
-                addPrice: snapshat.data.docs[i].data()['prPrice'] ,
-                addQuantity:  snapshat.data.docs[i].data()['prQuantity'],
-               
-              ));
-            },
-            child: SizedBox(
-              height: 180.h,
-              child: Card(
-                  elevation: 10,
-                  color: white,
-                  child: Column(
-                    children: [
-                      Expanded(
-                          flex: 3,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(4.r),
-                                topRight: Radius.circular(4.r)),
-                            child: Image.network(
-                              "${snapshat.data.docs[i].data()['imagePath']}",
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
-                          )),
-                      Expanded(
-                        flex: 1,
-                        child: textDB(
-                            context,
-                            "${snapshat.data.docs[i].data()['prName']}",
-                            15,
-                            black,
-                            fontWeight: FontWeight.w700),
-                      ),
-                      Expanded(
-                          flex: 1,
-                          child: textDB(
-                              context,
-                              "${snapshat.data.docs[i].data()['prPrice']} " +
-                                  getTranslated(context, 'SAR'),
-                              15,
-                              black,
-                              fontWeight: FontWeight.w700)),
-                    ],
-                  )),
+                ),
+            itemCount: snapshat.data.docs.length,
+            itemBuilder: (context, i) {
+              return InkWell(
+                onLongPress: () {
+                  deleteProduct(snapshat.data.docs[i].id,
+                      snapshat.data.docs[i].data()['imagePath']);
+                },
+                onTap: () {
+                  goTopage(
+                      context,
+                      UpdateProduct(
+                        addId: snapshat.data.docs[i].id,
+                        addImage: snapshat.data.docs[i].data()['imagePath'],
+                        addName: snapshat.data.docs[i].data()['prName'],
+                        addPrice: snapshat.data.docs[i].data()['prPrice'],
+                        addQuantity: snapshat.data.docs[i].data()['prQuantity'],
+                      ));
+                },
+                child: SizedBox(
+                  height: 180.h,
+                  child: Card(
+                      elevation: 10,
+                      color: white,
+                      child: Column(
+                        children: [
+                          Expanded(
+                              flex: 3,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(4.r),
+                                    topRight: Radius.circular(4.r)),
+                                child: Image.network(
+                                  "${snapshat.data.docs[i].data()['imagePath']}",
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                ),
+                              )),
+                          Expanded(
+                            flex: 1,
+                            child: textDB(
+                                context,
+                                "${snapshat.data.docs[i].data()['prName']}",
+                                15,
+                                black,
+                                fontWeight: FontWeight.w700),
+                          ),
+                          Expanded(
+                              flex: 1,
+                              child: textDB(
+                                  context,
+                                  "${snapshat.data.docs[i].data()['prPrice']} " +
+                                      getTranslated(context, 'SAR'),
+                                  15,
+                                  black,
+                                  fontWeight: FontWeight.w700)),
+                        ],
+                      )),
+                ),
+              );
+            })
+        : Align(
+            alignment: Alignment.center,
+            child: Lottie.asset(
+              "Assist/lottie/no-data.json",
+              fit: BoxFit.cover,
             ),
           );
-        });
   }
 
 //-------------------------------------------------------------------------------

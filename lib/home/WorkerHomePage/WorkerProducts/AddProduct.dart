@@ -178,7 +178,6 @@ class _AddProductState extends State<AddProduct> {
       setState(() {
         color = Colors.transparent;
         fileImage = File(imagepeket.path);
-       // var rand = Random().nextInt(10000000);
         imageName = Path.basename(imagepeket.path);
         imageRef =
             FirebaseStorage.instance.ref("productImage").child("$imageName");
@@ -206,6 +205,7 @@ class _AddProductState extends State<AddProduct> {
         'prName': prName.text,
         'prPrice': prPrice.text,
         'prQuantity': prQuantity.text,
+        'workerType': 'cafie',
         'imagePath': imageURL
       }).then((value) {
         Navigator.pop(context);

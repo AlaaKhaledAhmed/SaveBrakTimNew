@@ -14,13 +14,20 @@ import '../../../localization/localization_methods.dart';
 import 'package:path/path.dart' as Path;
 
 class AddProduct extends StatefulWidget {
-  AddProduct({Key key}) : super(key: key);
+  final addImage;
+  final addPrice;
+  final addQuantity;
+  final pagTaype;
+  final addName;
+
+  AddProduct({this.addName ,this.addImage,this.pagTaype,this.addPrice,this.addQuantity});
 
   @override
   State<AddProduct> createState() => _AddProductState();
 }
 
 class _AddProductState extends State<AddProduct> {
+  
   final TextEditingController prName = TextEditingController();
   final TextEditingController prPrice = TextEditingController();
   final TextEditingController prQuantity = TextEditingController();
@@ -42,7 +49,7 @@ class _AddProductState extends State<AddProduct> {
   void initState() {
     super.initState();
     userId = FirebaseAuth.instance.currentUser.uid;
-    print(userId);
+    
   }
 
   @override

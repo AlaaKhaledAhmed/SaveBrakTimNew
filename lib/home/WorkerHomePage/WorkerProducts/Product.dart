@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:save_break_time/Models/AleartDilolg.dart';
 import 'package:save_break_time/Models/Methods.dart';
 import 'package:save_break_time/Models/virables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,25 +40,30 @@ class _WorkerProductMainPageState extends State<WorkerProductMainPage> {
                 ),
 //----------------------------------------------------------------
                 buttoms(context, "ADD New", 14.0, black, () {
-                  goTopage(context, AddProduct());
-                },
-                    backgrounColor: deepYallow),
-                // SizedBox(
-                //   height: 10.h,
-                // ),
+                  goTopage(context, AddProduct(pagTaype: 'add',));
+                }, backgrounColor: deepYallow),
+
 //----------------------------------------------------------------
                 Expanded(
-                    child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                        future: productCollection.get(),
-                        builder: (BuildContext context, AsyncSnapshot snapshat) {
+                    child: StreamBuilder(
+                        stream: productCollection
+                            .where("userID",
+                                isEqualTo:
+                                    FirebaseAuth.instance.currentUser.uid)
+                            .snapshots(),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshat) {
                           if (snapshat.hasError) {
-                           
-                          }
-                          if (snapshat.hasData) {
+                            dialog(
+                              context,
+                              "Connection error",
+                              "connectionError",
+                            );
+                          } else if (snapshat.hasData) {
                             print(snapshat.data.runtimeType);
                             return getProducts(context, snapshat);
                           }
-                         
+
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
@@ -76,28 +85,93 @@ class _WorkerProductMainPageState extends State<WorkerProductMainPage> {
             mainAxisSpacing: 15 //المسافات الافقية
 
             ),
-        itemCount: 4, //snapshat.data.docs.length,
+        itemCount: snapshat.data.docs.length,
         itemBuilder: (context, i) {
-          return SizedBox(
-            height: 180.h,
-            child: Card(
-                elevation: 10,
-                color: white,
-                child: Column(
-                  children: [
-                    Expanded(flex: 3, child: ClipRRect(
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(4.r),topRight:Radius.circular(4.r)),
-                      child: Image(image: AssetImage("Assist/image/product.jpg"),fit: BoxFit.cover,))),
-                    Expanded(
-                      flex: 1,
-                      child: textDB(context,"دجاج برياني" , 15, black,
-                          fontWeight: FontWeight.w700),
-                    ),
-                    Expanded(flex: 1, child: textDB(context,"12 "+getTranslated(context, 'SAR') , 15, black,
-                          fontWeight: FontWeight.w700)),
-                  ],
-                )),
+          return InkWell(
+            onLongPress: () {
+              deleteProduct(snapshat.data.docs[i].id,
+                  snapshat.data.docs[i].data()['imagePath']);
+            },
+            onTap: (){
+              goTopage(context, AddProduct(
+                addImage: snapshat.data.docs[i].data()['imagePath'] ,
+                addName: snapshat.data.docs[i].data()['prName'],
+                addPrice: snapshat.data.docs[i].data()['prPrice'] ,
+                addQuantity:  snapshat.data.docs[i].data()['prQuantity'],
+                pagTaype: 'update',
+              ));
+            },
+            child: SizedBox(
+              height: 180.h,
+              child: Card(
+                  elevation: 10,
+                  color: white,
+                  child: Column(
+                    children: [
+                      Expanded(
+                          flex: 3,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(4.r),
+                                topRight: Radius.circular(4.r)),
+                            child: Image.network(
+                              "${snapshat.data.docs[i].data()['imagePath']}",
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                            ),
+                          )),
+                      Expanded(
+                        flex: 1,
+                        child: textDB(
+                            context,
+                            "${snapshat.data.docs[i].data()['prName']}",
+                            15,
+                            black,
+                            fontWeight: FontWeight.w700),
+                      ),
+                      Expanded(
+                          flex: 1,
+                          child: textDB(
+                              context,
+                              "${snapshat.data.docs[i].data()['prPrice']} " +
+                                  getTranslated(context, 'SAR'),
+                              15,
+                              black,
+                              fontWeight: FontWeight.w700)),
+                    ],
+                  )),
+            ),
           );
         });
+  }
+
+//-------------------------------------------------------------------------------
+  void deleteProduct(String i, String imageURL) {
+    dialog(
+      context,
+      'delete product',
+      'Are you sure to complete the process?',
+      showButtom: true,
+      noFunction: () {
+        Navigator.pop(context);
+      },
+      yesFunction: () async {
+        Navigator.pop(context);
+        dialog(context, 'delete product', 'wating');
+        await FirebaseStorage.instance.refFromURL(imageURL).delete();
+        await FirebaseFirestore.instance
+            .collection('product')
+            .doc(i)
+            .delete()
+            .then((value) {
+          Navigator.pop(context);
+          dialog(
+            context,
+            "Process completed",
+            "successfully",
+          );
+        });
+      },
+    );
   }
 }

@@ -39,7 +39,7 @@ dialog(context, String title, String content,
 
           content: content != "wating"
               ? SizedBox(
-                  height: 100.h,
+                  height: 140.h,
                   width: double.infinity,
                   child: Column(
                     children: [

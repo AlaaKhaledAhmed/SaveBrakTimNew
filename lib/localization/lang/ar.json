@@ -49,5 +49,7 @@
   "price": "السعر",
   "Add": "اضافة",
   "delete product": "حذف منتج",
-  "Are you sure to complete the process?": "هل أنت متأكد من إكمال العملية؟"
+  "Are you sure to complete the process?": "هل أنت متأكد من إكمال العملية؟",
+  "Edit products": "تعديل المنتجات",
+  "Edit": "تعديل"
 }

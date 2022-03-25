@@ -10,6 +10,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
 
 import 'AddProduct.dart';
+import 'UpdateProduct.dart';
 
 class WorkerProductMainPage extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class _WorkerProductMainPageState extends State<WorkerProductMainPage> {
                 ),
 //----------------------------------------------------------------
                 buttoms(context, "ADD New", 14.0, black, () {
-                  goTopage(context, AddProduct(pagTaype: 'add',));
+                  goTopage(context, AddProduct());
                 }, backgrounColor: deepYallow),
 
 //----------------------------------------------------------------
@@ -93,12 +94,13 @@ class _WorkerProductMainPageState extends State<WorkerProductMainPage> {
                   snapshat.data.docs[i].data()['imagePath']);
             },
             onTap: (){
-              goTopage(context, AddProduct(
+              goTopage(context, UpdateProduct(
+                addId:snapshat.data.docs[i].id,
                 addImage: snapshat.data.docs[i].data()['imagePath'] ,
                 addName: snapshat.data.docs[i].data()['prName'],
                 addPrice: snapshat.data.docs[i].data()['prPrice'] ,
                 addQuantity:  snapshat.data.docs[i].data()['prQuantity'],
-                pagTaype: 'update',
+               
               ));
             },
             child: SizedBox(

@@ -13,21 +13,29 @@ import '../../../Models/virables.dart';
 import '../../../localization/localization_methods.dart';
 import 'package:path/path.dart' as Path;
 
-class AddProduct extends StatefulWidget {
-  AddProduct();
+class UpdateProduct extends StatefulWidget {
+  final addImage;
+  final addPrice;
+  final addQuantity;
+  final addName;
+  final addId;
+
+  UpdateProduct(
+      {this.addName,
+      this.addImage,
+      this.addPrice,
+      this.addId,
+      this.addQuantity});
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<UpdateProduct> createState() => _UpdateProductState();
 }
 
-class _AddProductState extends State<AddProduct> {
-  final TextEditingController prName = TextEditingController();
-  final TextEditingController prPrice = TextEditingController();
-  final TextEditingController prQuantity = TextEditingController();
-  TextEditingController newName;
-  TextEditingController newprice;
-  TextEditingController newquantity;
-
+class _UpdateProductState extends State<UpdateProduct> {
+   TextEditingController prName ;
+   TextEditingController prPrice ;
+   TextEditingController prQuantity ;
+  
   String imageName;
   Reference imageRef;
   String imageURL;
@@ -50,8 +58,11 @@ class _AddProductState extends State<AddProduct> {
 
   @override
   Widget build(BuildContext context) {
+    prName = TextEditingController(text: widget.addName);
+    prPrice = TextEditingController(text: widget.addPrice);
+    prQuantity = TextEditingController(text: widget.addQuantity);
     return Scaffold(
-      appBar: drowAppBar("Add products", context),
+      appBar: drowAppBar("Edit products", context),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -65,29 +76,25 @@ class _AddProductState extends State<AddProduct> {
                   pickImageGallery();
                 },
                 child: Container(
-                    height: double.infinity,
+                  height: double.infinity,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: color,
+                    border: Border.all(color: color, width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 0.0,
+                        spreadRadius: 0.0,
+                      )
+                    ],
+                  ),
+                  child: Image.network(
+                    "${widget.addImage}",
+                    fit: BoxFit.cover,
                     width: double.infinity,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: color,
-                      border: Border.all(color: color, width: 2),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 0.0,
-                          spreadRadius: 0.0,
-                        )
-                      ],
-                    ),
-                    child: fileImage != null
-                        ? CircleAvatar(
-                            backgroundImage: FileImage(fileImage),
-                            radius: 200.0,
-                          )
-                        : Icon(
-                            Icons.image,
-                            color: white,
-                            size: 50.sp,
-                          )),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 15.h),
@@ -120,6 +127,9 @@ class _AddProductState extends State<AddProduct> {
                                 RegExp(r'[a-zA-Z]|[أ-ي]|[ؤ-ئ-لا-لأ-]|[ء]|[ ]'),
                                 allow: true)
                           ],
+                          onChanged:(valu){
+                           prName.text=valu;
+                          }
                         ),
 
                         SizedBox(height: 10.h),
@@ -136,6 +146,9 @@ class _AddProductState extends State<AddProduct> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
+                          onChanged:(valu){
+                           prPrice.text=valu;
+                          }
                         ),
                         SizedBox(height: 10.h),
 //quantity-----------------------------------------------------------
@@ -151,12 +164,15 @@ class _AddProductState extends State<AddProduct> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
+                          onChanged:(valu){
+                           prQuantity.text=valu;
+                          }
                         ),
 
                         SizedBox(height: 10.h),
 //add buttom----------------------------------------------------------------
-                        buttoms(context, "Add", 14.0, black, () {
-                          addProduct();
+                        buttoms(context, "Edit", 14.0, black, () {
+                          updateProduct();
                         }, backgrounColor: deepYallow),
                       ],
                     ),
@@ -178,7 +194,6 @@ class _AddProductState extends State<AddProduct> {
       setState(() {
         color = Colors.transparent;
         fileImage = File(imagepeket.path);
-       // var rand = Random().nextInt(10000000);
         imageName = Path.basename(imagepeket.path);
         imageRef =
             FirebaseStorage.instance.ref("productImage").child("$imageName");
@@ -186,42 +201,62 @@ class _AddProductState extends State<AddProduct> {
     }
   }
 
-  Future<void> addProduct() async {
-    if ((fileImage == null && productKey.currentState.validate() == false ||
-        fileImage == null)) {
-      setState(() {
-        color = Colors.red;
-      });
-      dialog(context, "Empty data", "Fill in the field");
-    } else if (productKey.currentState.validate()) {
-      setState(() {
-        color = deepYallow;
-      });
-      dialog(context, 'Add products', 'wating');
-      await imageRef.putFile(fileImage);
-      imageURL = await imageRef.getDownloadURL();
+//--------------------------------------------------------------------
+  Future<void> updateProduct() async {
+    if (productKey.currentState.validate()) {
+       dialog(context, 'Edit products', 'wating');
+      if (fileImage == null) {
+        await FirebaseFirestore.instance
+            .collection('product')
+            .doc(widget.addId)
+            .update({
+          'prName': prName.text,
+          'prPrice': prPrice.text,
+          'prQuantity': prQuantity.text,
+        }).then((value) {
+          Navigator.pop(context);
+          dialog(
+            context,
+            "Process completed",
+            "successfully",
+          );
+        }).catchError((e) {
+          Navigator.pop(context);
+          dialog(
+            context,
+            "Connection error",
+            "connectionError",
+          );
+        });
+      } else {
+       
+        await imageRef.putFile(fileImage);
+        imageURL = await imageRef.getDownloadURL();
 
-      await FirebaseFirestore.instance.collection('product').add({
-        "userID": userId,
-        'prName': prName.text,
-        'prPrice': prPrice.text,
-        'prQuantity': prQuantity.text,
-        'imagePath': imageURL
-      }).then((value) {
-        Navigator.pop(context);
-        dialog(
-          context,
-          "Process completed",
-          "successfully",
-        );
-      }).catchError((e) {
-        Navigator.pop(context);
-        dialog(
-          context,
-          "Connection error",
-          "connectionError",
-        );
-      });
+        await FirebaseFirestore.instance
+            .collection('product')
+            .doc(widget.addId)
+            .update({
+          'prName': prName.text,
+          'prPrice': prPrice.text,
+          'prQuantity': prQuantity.text,
+          'imagePath': imageURL
+        }).then((value) {
+          Navigator.pop(context);
+          dialog(
+            context,
+            "Process completed",
+            "successfully",
+          );
+        }).catchError((e) {
+          Navigator.pop(context);
+          dialog(
+            context,
+            "Connection error",
+            "connectionError",
+          );
+        });
+      }
     } else {
       setState(() {
         color = Colors.red;

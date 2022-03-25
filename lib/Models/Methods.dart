@@ -237,11 +237,12 @@ Widget image(
 //=============================TextFields=================================
 Widget textField(context, icons, suffixIcon, String key, bool hintPass,
     TextEditingController mycontroller, String Function(String) validator,
-    {double dayle = 1.5,inputFormatters,keyboardType}) {
+    {double dayle = 1.5,inputFormatters,keyboardType,void Function(String) onChanged}) {
   return FadeAnimation(
     dayle,
     TextFormField(
       obscureText: hintPass,
+      onChanged: onChanged,
       validator: validator,
       controller: mycontroller,
       inputFormatters: inputFormatters,

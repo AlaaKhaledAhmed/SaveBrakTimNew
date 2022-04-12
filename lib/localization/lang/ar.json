@@ -51,5 +51,9 @@
   "delete product": "حذف منتج",
   "Are you sure to complete the process?": "هل أنت متأكد من إكمال العملية؟",
   "Edit products": "تعديل المنتجات",
-  "Edit": "تعديل"
+  "Edit": "تعديل",
+  "cafeteria": "الكافتيريا",
+  "book store": "متجر الكتب",
+  "cafeteria products": "منتجات الكافتيريا",
+  "Book Store Products": "منتجات متجر الكتب"
 }

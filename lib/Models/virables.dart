@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerNotification/WorkerNotification.dart';
+import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerNotification.dart';
 import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerProducts/Product.dart';
 import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerRequest/WorkerRequest.dart';
+import '../home/BookStore/BookWorkerProducts/BookWorkerProduct.dart';
+import '../home/BookStore/BookWorkerRequest/BookWorkerRequest.dart';
+import '../home/StudentHomePage/bookStoreMain.dart';
+import '../home/StudentHomePage/RequestMain.dart';
+import '../home/StudentHomePage/StudentNotification.dart';
+import '../home/StudentHomePage/cafeteriaMain.dart';
 import 'Methods.dart';
 
 //colors-----------------------------------------
@@ -31,6 +37,8 @@ IconData phoneIcon=Icons.phone_android_rounded;
 IconData collegIcon=Icons.location_city_rounded;
 IconData levelIcon=Icons.reduce_capacity_rounded;
 IconData notificationsIcon=Icons.notifications;
+IconData cafeIcon=Icons.food_bank;
+IconData bookIcon=Icons.library_books_rounded;
 IconData homeIcon=Icons.home;
 IconData requstIcon=Icons.list_alt_outlined;
 Icon noIcon=Icon(Icons.add,size: 0);
@@ -61,5 +69,6 @@ String fillFields="";
 
 //Navigator menu--------------------------------------------------------
   PageController pageController;
-  int selectedIndex = 1;
-  List <Widget>workerPage=[WorkerNotification(),WorkerProductMainPage(),WorkerRequest()];
+ 
+  PageController studentPageController;
+ 

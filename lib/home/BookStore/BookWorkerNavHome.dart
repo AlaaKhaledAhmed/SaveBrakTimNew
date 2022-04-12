@@ -4,6 +4,10 @@ import 'package:save_break_time/Models/virables.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
+import '../CafeteriaWorkerPage/WorkerNotification.dart';
+import 'BookWorkerProducts/BookWorkerProduct.dart';
+import 'BookWorkerRequest/BookWorkerRequest.dart';
+
 class BookWorkerNavHome extends StatefulWidget {
   BookWorkerNavHome({Key key}) : super(key: key);
 
@@ -13,10 +17,13 @@ class BookWorkerNavHome extends StatefulWidget {
 
 class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
   int number = 10;
+  int bookSelectedIndex = 1;
+   PageController bookPageController;
+   List <Widget>bookWorkerPage=[WorkerNotification(),BookWorkerProductMainPage(),BookWorkerRequest()];
 
   void initState() {
     super.initState();
-    pageController = PageController(initialPage: selectedIndex);
+    bookPageController = PageController(initialPage: bookSelectedIndex);
   }
 
   @override
@@ -24,8 +31,8 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
     return Scaffold(
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
-          controller: pageController,
-          children: workerPage,
+          controller: bookPageController,
+          children: bookWorkerPage,
         ),
         bottomNavigationBar: ConvexAppBar.badge(
           {0: '$number'},
@@ -58,9 +65,9 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
   //click methos--------------------------
   void onTap(int index) {
     setState(() {
-      selectedIndex = index;
+      bookSelectedIndex = index;
     });
-    pageController.animateToPage(selectedIndex,
+    bookPageController.animateToPage(bookSelectedIndex,
         duration: const Duration(milliseconds: 400), curve: Curves.easeInCirc);
   }
 }

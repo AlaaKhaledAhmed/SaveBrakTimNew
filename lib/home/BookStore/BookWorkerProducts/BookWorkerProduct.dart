@@ -19,7 +19,7 @@ class BookWorkerProductMainPage extends StatefulWidget {
 
 class _BookWorkerProductMainPageState extends State<BookWorkerProductMainPage> {
   @override
-  CollectionReference<Map<String, dynamic>> productCollection =
+  CollectionReference bookProductCollection =
       FirebaseFirestore.instance.collection("product");
 
   Widget build(BuildContext context) {
@@ -47,11 +47,11 @@ class _BookWorkerProductMainPageState extends State<BookWorkerProductMainPage> {
 //----------------------------------------------------------------
                 Expanded(
                     child: StreamBuilder(
-                        stream: productCollection
+                        stream: bookProductCollection
                             .where("userID",
                                 isEqualTo:
                                     FirebaseAuth.instance.currentUser.uid)
-                            .where('workerType', isEqualTo: 'cafie')
+                            .where('workerType', isEqualTo: 'book')
                             .snapshots(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshat) {

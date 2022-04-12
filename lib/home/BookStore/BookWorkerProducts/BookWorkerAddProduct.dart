@@ -203,7 +203,7 @@ class _BookWorkerAddProductState extends State<BookWorkerAddProduct> {
         'prName': prName.text,
         'prPrice': prPrice.text,
         'prQuantity': prQuantity.text,
-        'workerType': 'cafie',
+        'workerType': 'book',
         'imagePath': imageURL
       }).then((value) {
         Navigator.pop(context);

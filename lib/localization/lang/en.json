@@ -51,5 +51,9 @@
   "delete product": "delete product",
   "Are you sure to complete the process?": "Are you sure to complete the process?",
   "Edit products": "Edit products",
-  "Edit": "Edit "
+  "Edit": "Edit ",
+  "cafeteria": "cafeteria",
+  "book store": "book store",
+  "cafeteria products": "cafeteria products",
+  "Book Store Products": "Book Store Products"
 }

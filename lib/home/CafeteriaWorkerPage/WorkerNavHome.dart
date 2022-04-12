@@ -4,6 +4,13 @@ import 'package:save_break_time/Models/virables.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
+import '../BookStore/BookWorkerNotification.dart';
+import '../BookStore/BookWorkerProducts/BookWorkerProduct.dart';
+import '../BookStore/BookWorkerRequest/BookWorkerRequest.dart';
+import 'WorkerNotification.dart';
+import 'WorkerProducts/Product.dart';
+import 'WorkerRequest/WorkerRequest.dart';
+
 class WorkerNavHome extends StatefulWidget {
   WorkerNavHome({Key key}) : super(key: key);
 
@@ -13,7 +20,11 @@ class WorkerNavHome extends StatefulWidget {
 
 class _WorkerNavHomeState extends State<WorkerNavHome> {
   int number = 10;
-
+   int selectedIndex = 1;
+   PageController pageController ;
+  List <Widget>workerPage=[WorkerNotification(),Product(),WorkerRequest()];
+ 
+ 
   void initState() {
     super.initState();
     pageController = PageController(initialPage: selectedIndex);

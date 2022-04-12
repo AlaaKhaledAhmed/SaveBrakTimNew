@@ -12,12 +12,12 @@ import 'package:save_break_time/localization/localization_methods.dart';
 import 'AddProduct.dart';
 import 'UpdateProduct.dart';
 
-class WorkerProductMainPage extends StatefulWidget {
+class Product extends StatefulWidget {
   @override
-  State<WorkerProductMainPage> createState() => _WorkerProductMainPageState();
+  State<Product> createState() => _ProductState();
 }
 
-class _WorkerProductMainPageState extends State<WorkerProductMainPage> {
+class _ProductState extends State<Product> {
   @override
   CollectionReference<Map<String, dynamic>> productCollection =
       FirebaseFirestore.instance.collection("product");

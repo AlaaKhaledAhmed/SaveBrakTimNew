@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:save_break_time/home/WorkerHomePage/WorkerNotification/WorkerNotification.dart';
-import 'package:save_break_time/home/WorkerHomePage/WorkerProducts/Product.dart';
-import 'package:save_break_time/home/WorkerHomePage/WorkerRequest/WorkerRequest.dart';
+import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerNotification/WorkerNotification.dart';
+import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerProducts/Product.dart';
+import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerRequest/WorkerRequest.dart';
 import 'Methods.dart';
 
 //colors-----------------------------------------

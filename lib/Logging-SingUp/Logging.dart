@@ -6,7 +6,7 @@ import 'package:save_break_time/Animation/FadeAnimation.dart';
 import 'package:save_break_time/Models/AleartDilolg.dart';
 import 'package:save_break_time/Models/Methods.dart';
 import 'package:save_break_time/Models/virables.dart';
-import 'package:save_break_time/home/WorkerHomePage/WorkerNavHome.dart';
+import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerNavHome.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
 
 import 'SingUp.dart';

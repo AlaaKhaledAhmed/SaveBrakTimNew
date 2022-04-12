@@ -137,7 +137,7 @@ class _BookWorkerUpdateProductState extends State<BookWorkerUpdateProduct> {
                         textField(
                           context,
                           nameIcon,
-                          noIcon,
+                          priceIcon,
                           "price",
                           hiddText,
                           prPrice,
@@ -155,7 +155,7 @@ class _BookWorkerUpdateProductState extends State<BookWorkerUpdateProduct> {
                         textField(
                           context,
                           nameIcon,
-                          noIcon,
+                          quantityIcon,
                           "Quantity",
                           hiddText,
                           prQuantity,

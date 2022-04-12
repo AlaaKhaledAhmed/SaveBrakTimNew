@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import '../../Models/Methods.dart';
 import '../../Models/virables.dart';
 import '../../localization/localization_methods.dart';
+import 'pageDatials.dart';
 
 class CafeteriaMain extends StatefulWidget {
   CafeteriaMain({Key key}) : super(key: key);
@@ -76,7 +77,15 @@ class _CafeteriaMainState extends State<CafeteriaMain> {
             itemCount: snapshat.data.docs.length,
             itemBuilder: (context, i) {
               return InkWell(
-                onTap: () {},
+                onTap: () {
+                  goTopage(context, ProductsDetials(
+                    image:snapshat.data.docs[i].data()['imagePath'] ,
+                    prId: snapshat.data.docs[i].data()['prId'],
+                    prName: snapshat.data.docs[i].data()['prName'],
+                    price: snapshat.data.docs[i].data()['prPrice'],
+                    quantity:snapshat.data.docs[i].data()['prQuantity'] ,
+                  ));
+                },
                 child: SizedBox(
                   height: 180.h,
                   child: Card(

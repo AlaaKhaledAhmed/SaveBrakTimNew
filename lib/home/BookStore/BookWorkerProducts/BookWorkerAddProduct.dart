@@ -125,7 +125,7 @@ class _BookWorkerAddProductState extends State<BookWorkerAddProduct> {
                         textField(
                           context,
                           nameIcon,
-                          noIcon,
+                          priceIcon,
                           "price",
                           hiddText,
                           prPrice,
@@ -140,7 +140,7 @@ class _BookWorkerAddProductState extends State<BookWorkerAddProduct> {
                         textField(
                           context,
                           nameIcon,
-                          noIcon,
+                          quantityIcon,
                           "Quantity",
                           hiddText,
                           prQuantity,
@@ -201,10 +201,11 @@ class _BookWorkerAddProductState extends State<BookWorkerAddProduct> {
       await FirebaseFirestore.instance.collection('product').add({
         "userID": userId,
         'prName': prName.text,
-        'prPrice': prPrice.text,
-        'prQuantity': prQuantity.text,
+        'prPrice':  int.parse(prPrice.text),
+        'prQuantity': int.parse(prQuantity.text) ,
         'workerType': 'book',
-        'imagePath': imageURL
+        'imagePath': imageURL,
+        'prID': unidID() ,
       }).then((value) {
         Navigator.pop(context);
         dialog(

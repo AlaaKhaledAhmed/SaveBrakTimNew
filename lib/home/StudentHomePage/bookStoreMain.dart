@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:save_break_time/home/StudentHomePage/pageDatials.dart';
 
 import '../../Models/Methods.dart';
 import '../../Models/virables.dart';
@@ -75,7 +76,15 @@ class _BookStoreMainState extends State<BookStoreMain> {
             itemCount: snapshat.data.docs.length,
             itemBuilder: (context, i) {
               return InkWell(
-                onTap: () {},
+               onTap: () {
+                  goTopage(context, ProductsDetials(
+                    image:snapshat.data.docs[i].data()['imagePath'] ,
+                    prId: snapshat.data.docs[i].data()['prId'],
+                    prName: snapshat.data.docs[i].data()['prName'],
+                    price: snapshat.data.docs[i].data()['prPrice'],
+                    quantity:snapshat.data.docs[i].data()['prQuantity'] ,
+                  ));
+                },
                 child: SizedBox(
                   height: 180.h,
                   child: Card(

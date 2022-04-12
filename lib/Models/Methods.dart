@@ -65,11 +65,12 @@ divider({
   double thickness = 2,
   double indent = 15,
   double endIndent = 15,
+  Color color=Colors.grey
 }) {
   return Align(
     alignment: Alignment.topCenter,
     child: VerticalDivider(
-      color: Colors.grey[400],
+      color: color,
       thickness: thickness,
       indent: indent,
       endIndent: endIndent,
@@ -114,6 +115,7 @@ decoration(
 Widget container(double height, double width, double marginL, double marginR,
     Widget child, Color color,
     {double blur = 0.0,
+    bored,
     Offset offset = Offset.zero,
     double spShadow = 0.0,
     double pL = 0.0,
@@ -133,6 +135,7 @@ Widget container(double height, double width, double marginL, double marginR,
     margin: EdgeInsets.only(
         left: marginL.w, right: marginR.w, top: marginT.h, bottom: marginB.h),
     decoration: BoxDecoration(
+      border:bored,
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(bottomLeft),
             topRight: Radius.circular(topRight),
@@ -235,7 +238,7 @@ Widget image(
 }
 
 //=============================TextFields=================================
-Widget textField(context, icons, suffixIcon, String key, bool hintPass,
+Widget textField(context, IconData icons, suffixIcon, String key, bool hintPass,
     TextEditingController mycontroller, String Function(String) validator,
     {double dayle = 1.5,inputFormatters,keyboardType,void Function(String) onChanged}) {
   return FadeAnimation(
@@ -255,7 +258,7 @@ Widget textField(context, icons, suffixIcon, String key, bool hintPass,
           labelStyle: TextStyle(color: transparensgrey, fontSize: fontSize.sp),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
           prefixIcon: Icon(icons, color: deepYallow),
-          suffixIcon: suffixIcon,
+          suffixIcon:suffixIcon,
           labelText: "${getTranslated(context, key)}",
           contentPadding: EdgeInsets.all(10.h)),
     ),
@@ -285,3 +288,6 @@ String empity(value) {
   return null;
 }
 
+int unidID() {
+  return DateTime.now().millisecondsSinceEpoch.remainder(10000);
+}

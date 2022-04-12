@@ -31,6 +31,7 @@ String productImage="$staticPath"+"product.jpg";
 String backImage="$staticPath"+"bac.jpg";
 // Icons name-----------------------------------------
 IconData nameIcon=Icons.person;
+
 IconData passIcon=Icons.password_outlined;
 IconData emailIcon=Icons.email_rounded;
 IconData phoneIcon=Icons.phone_android_rounded;
@@ -42,8 +43,10 @@ IconData bookIcon=Icons.library_books_rounded;
 IconData homeIcon=Icons.home;
 IconData requstIcon=Icons.list_alt_outlined;
 Icon noIcon=Icon(Icons.add,size: 0);
-Icon showPassIcon=Icon(Icons.remove_red_eye);
-Icon hiddPassIcon=Icon(Icons.visibility_off_sharp);
+Icon priceIcon=Icon(Icons.money,size: 0);
+IconData quantityIcon=Icons.production_quantity_limits;
+IconData showPassIcon=Icons.remove_red_eye;
+IconData hiddPassIcon=Icons.visibility_off_sharp;
 
 //hintText------------------------------------------------------
 String nameHint='Enter name';

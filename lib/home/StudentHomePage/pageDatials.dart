@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:counter_button/counter_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
+import '../../Models/AleartDilolg.dart';
 import '../../Models/Methods.dart';
 import '../../Models/virables.dart';
 import 'SudentNavHome.dart';
@@ -11,21 +15,34 @@ class ProductsDetials extends StatefulWidget {
   final String prName;
   final int price;
   final int quantity;
-  final String prId;
+  final int prId;
+  final String type;
 
   const ProductsDetials(
-      {this.image, this.prName, this.price, this.quantity, this.prId});
+      {this.image,
+      this.prName,
+      this.price,
+      this.quantity,
+      this.prId,
+      this.type});
 
   @override
   State<ProductsDetials> createState() => _ProductsDetialsState();
 }
 
 class _ProductsDetialsState extends State<ProductsDetials> {
+  var user;
+  @override
+  void initState() {
+    super.initState();
+    user=FirebaseAuth.instance.currentUser.uid;
+  }
   final TextEditingController prQuantity = TextEditingController();
 
   TimeOfDay selectedstarTime = TimeOfDay.now();
   // ignore: non_constant_identifier_names
   String format_Star_Time = "";
+  int total = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +75,7 @@ class _ProductsDetialsState extends State<ProductsDetials> {
                     SizedBox(width: 10.h),
                     textDB(
                         context,
-                          "${widget.price} ${getTranslated(context, "SAR")}",
+                        "${widget.price} ${getTranslated(context, "SAR")}",
                         16,
                         black,
                         fontWeight: FontWeight.w700)
@@ -73,27 +90,66 @@ class _ProductsDetialsState extends State<ProductsDetials> {
 
             Padding(
               padding: EdgeInsets.all(8.0.h),
-              child: textField(
-                context,
-                Icons.production_quantity_limits,
-                noIcon,
-                "Quantity",
-                hiddText,
-                prQuantity,
-                validEmpty,
-                keyboardType: TextInputType.phone,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              child: SizedBox(
+                width: 160.w,
+                child: CounterButton(
+                  loading: false,
+                  onChange: (int val) {
+                    setState(() {
+                      total = val;
+                    });
+                  },
+                  count: total,
+                  countColor: black,
+                  buttonColor: deepYallow,
+                  progressColor: deepYallow,
+                ),
               ),
             ),
+            textDB(
+                context,
+                "${getTranslated(context, "total")} " +
+                    "${widget.price * total}",
+                16,
+                black,
+                fontWeight: FontWeight.w700),
+
 //-------------------------------------------------
-SizedBox(height: 20.h),
-           CircleAvatar(
-             radius: 30.r,
-             backgroundColor:deepYallow,
-             child: Center(child:InkWell(onTap:() {
-             print("adddddd");  
-             },child: Icon(Icons.add_shopping_cart_rounded,color:black))),
-           )
+            SizedBox(height: 20.h),
+            CircleAvatar(
+              radius: 30.r,
+              backgroundColor: deepYallow,
+              child: Center(
+                  child: InkWell(
+                      onTap: () {
+                        if (format_Star_Time.isNotEmpty) {
+                          if (total <= 0) {
+                            dialog(context, "add to cart",
+                                "The quantity must be at least one");
+                          } else if (total > widget.quantity) {
+                            dialog(context, "add to cart",
+                                "Quantity is not enough");
+                          } else {
+                            dialog(context, "add to cart", "wating");
+                            FirebaseFirestore.instance.collection("card").add({
+                              "prName": widget.prName,
+                              "total price": widget.price * total,
+                              "StudentQuantity": total,
+                              "prId": widget.prId,
+                              "StudentId": user,
+                              "type": widget.type,
+                              "time":format_Star_Time
+                            }).then((value) {
+                              goTopage(context, StudentNavHome());
+                            });
+                          }
+                        } else {
+                          dialog(context, "Invalid data", "Fill in the field");
+                        }
+                      },
+                      child:
+                          Icon(Icons.add_shopping_cart_rounded, color: black))),
+            )
           ],
         ));
   }
@@ -101,38 +157,36 @@ SizedBox(height: 20.h),
   //show receve time------------------------------------------------------------
   Widget showStardTime() {
     return container(
-      50,
-      150,
-      8,
-      8,
-      Row(
-        children: [
-          Icon(Icons.punch_clock_rounded, size: 25.sp, color: deepYallow),
-          SizedBox(
-            width: 4,
-          ),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _selectStarTime(context);
-              });
-            },
-            child: format_Star_Time.isNotEmpty
-                ? textDB(context, "$format_Star_Time", 12, black)
-                : textDB(context, "زمن الاستلام", 12, black),
-          )
-        ],
-      ),
-      white,
-      
-      bottomLeft: 10.r,
-      bottomRight: 10.r,
-      topLeft: 10.r,
-      topRight: 10.r,
-      pL: 10.w,
-      pR: 10.w,
-      bored: Border.all(color: Colors.grey[600]) 
-    );
+        50,
+        150,
+        8,
+        8,
+        Row(
+          children: [
+            Icon(Icons.punch_clock_rounded, size: 25.sp, color: deepYallow),
+            SizedBox(
+              width: 4,
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selectStarTime(context);
+                });
+              },
+              child: format_Star_Time.isNotEmpty
+                  ? textDB(context, "$format_Star_Time", 12, black)
+                  : text(context, "Time of receipt", 12, black),
+            )
+          ],
+        ),
+        white,
+        bottomLeft: 5.r,
+        bottomRight: 5.r,
+        topLeft: 5.r,
+        topRight: 5.r,
+        pL: 10.w,
+        pR: 10.w,
+        bored: Border.all(color: Colors.grey[600]));
   }
 
   // show clock----------------------------------------------------

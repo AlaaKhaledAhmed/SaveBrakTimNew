@@ -59,6 +59,10 @@
   "Product details": "تفاصيل المنتج",
   "Receiving time": "زمن الاستلام",
   "add to cart": "اضافة الي السلة",
-  "sign out" :"تسجيل الخروج",
- "Settings":"الاعدادات"
+  "sign out": "تسجيل الخروج",
+  "Settings": "الاعدادات",
+  "total": "اجمالي السعر",
+  "Time of receipt": "وقت الاستلام",
+  "The quantity must be at least one": "يجب أن تكون الكمية واحدة على الأقل",
+  "Quantity is not enough": "الكمية لا تكفي"
 }

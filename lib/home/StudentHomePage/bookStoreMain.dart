@@ -80,10 +80,11 @@ class _BookStoreMainState extends State<BookStoreMain> {
                onTap: () {
                   goTopage(context, ProductsDetials(
                     image:snapshat.data.docs[i].data()['imagePath'] ,
-                    prId: snapshat.data.docs[i].data()['prId'],
+                    prId: snapshat.data.docs[i].data()['prID'],
                     prName: snapshat.data.docs[i].data()['prName'],
                     price: snapshat.data.docs[i].data()['prPrice'],
                     quantity:snapshat.data.docs[i].data()['prQuantity'] ,
+                    type: snapshat.data.docs[i].data()['workerType']
                   ));
                 },
                 child: SizedBox(

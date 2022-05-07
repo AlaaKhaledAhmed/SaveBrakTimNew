@@ -59,7 +59,10 @@
   "Product details": "Product details",
   "Receiving time": "Receiving time",
   "add to cart": "Add to cart",
- 
- "sign out" :"Sign out",
- "Settings":"Settings"
+  "sign out": "Sign out",
+  "Settings": "Settings",
+  "total": "total price",
+  "Time of receipt": "Time of receipt",
+  "The quantity must be at least one": "Quantity must be at least one",
+  "Quantity is not enough": "Quantity is not enough"
 }

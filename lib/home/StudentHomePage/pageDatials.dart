@@ -9,8 +9,8 @@ import 'SudentNavHome.dart';
 class ProductsDetials extends StatefulWidget {
   final String image;
   final String prName;
-  final String price;
-  final String quantity;
+  final int price;
+  final int quantity;
   final String prId;
 
   const ProductsDetials(
@@ -58,7 +58,7 @@ class _ProductsDetialsState extends State<ProductsDetials> {
                     SizedBox(width: 10.h),
                     textDB(
                         context,
-                        widget.price + " ${getTranslated(context, "SAR")}",
+                          "${widget.price} ${getTranslated(context, "SAR")}",
                         16,
                         black,
                         fontWeight: FontWeight.w700)

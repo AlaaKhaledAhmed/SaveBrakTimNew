@@ -19,7 +19,7 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
   int number = 10;
   int bookSelectedIndex = 1;
    PageController bookPageController;
-   List <Widget>bookWorkerPage=[WorkerNotification(),BookWorkerProductMainPage(),BookWorkerRequest()];
+   List <Widget>bookWorkerPage=[BookWorkerRequest(),BookWorkerProductMainPage(),WorkerNotification  ()];
 
   void initState() {
     super.initState();
@@ -35,7 +35,7 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
           children: bookWorkerPage,
         ),
         bottomNavigationBar: ConvexAppBar.badge(
-          {0: '$number'},
+          {2: '$number'},
           badgeColor: red,
           badgeMargin: EdgeInsets.only(bottom: 10.h, right: 50.w),
           style: TabStyle.reactCircle,
@@ -49,13 +49,16 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
          
           color: black.withOpacity(.7),
           items: [
+             TabItem(
+                icon: requstIcon,
+                title: '${getTranslated(context, 'REQUEST')}'),
+            TabItem(icon: homeIcon, title: '${getTranslated(context, 'HOME')}'),
+            
             TabItem(
                 icon: notificationsIcon,
                 title: '${getTranslated(context, 'NOTIFICATION')}'),
-            TabItem(icon: homeIcon, title: '${getTranslated(context, 'HOME')}'),
-            TabItem(
-                icon: requstIcon,
-                title: '${getTranslated(context, 'REQUEST')}'),
+            
+           
           ],
           initialActiveIndex: 1, //optional, default as 0
           onTap: onTap,

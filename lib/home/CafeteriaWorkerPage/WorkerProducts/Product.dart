@@ -32,7 +32,7 @@ class _ProductState extends State<Product> {
         padding(
             20,
             20,
-            50,
+            30,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -45,7 +45,7 @@ class _ProductState extends State<Product> {
                 buttoms(context, "ADD New", 14.0, black, () {
                   goTopage(context, AddProduct());
                 }, backgrounColor: Colors.amber),
-
+SizedBox(height: 10.h),
 //----------------------------------------------------------------
                 Expanded(
                     child: StreamBuilder(

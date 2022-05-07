@@ -32,10 +32,10 @@ class UpdateProduct extends StatefulWidget {
 }
 
 class _UpdateProductState extends State<UpdateProduct> {
-   TextEditingController prName ;
-   TextEditingController prPrice ;
-   TextEditingController prQuantity ;
-  
+  TextEditingController prName;
+  TextEditingController prPrice;
+  TextEditingController prQuantity;
+
   String imageName;
   Reference imageRef;
   String imageURL;
@@ -59,8 +59,8 @@ class _UpdateProductState extends State<UpdateProduct> {
   @override
   Widget build(BuildContext context) {
     prName = TextEditingController(text: widget.addName);
-    prPrice = TextEditingController(text: widget.addPrice);
-    prQuantity = TextEditingController(text: widget.addQuantity);
+    prPrice = TextEditingController(text: "${widget.addPrice}");
+    prQuantity = TextEditingController(text: "${widget.addQuantity}");
     return Scaffold(
       appBar: drowAppBar("Edit products", context),
       body: Padding(
@@ -79,9 +79,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                   height: double.infinity,
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    shape: BoxShape.circle,
                     color: color,
-                    border: Border.all(color: color, width: 2),
                     boxShadow: [
                       BoxShadow(
                         blurRadius: 0.0,
@@ -89,11 +87,17 @@ class _UpdateProductState extends State<UpdateProduct> {
                       )
                     ],
                   ),
-                  child: Image.network(
-                    "${widget.addImage}",
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                  ),
+                  child: fileImage == null
+                      ? Image.network(
+                          "${widget.addImage}",
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        )
+                      : Image.file(
+                          fileImage,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
                 ),
               ),
             ),
@@ -113,61 +117,38 @@ class _UpdateProductState extends State<UpdateProduct> {
                       children: [
                         SizedBox(height: 15.h),
 //name-----------------------------------------------------------
-                        textField(
-                          context,
-                          nameIcon,
-                          noIcon,
-                          "product name",
-                          hiddText,
-                          prName,
-                          validEmpty,
-                          keyboardType: TextInputType.text,
-                          inputFormatters: [
-                            FilteringTextInputFormatter(
-                                RegExp(r'[a-zA-Z]|[أ-ي]|[ؤ-ئ-لا-لأ-]|[ء]|[ ]'),
-                                allow: true)
-                          ],
-                          onChanged:(valu){
-                           prName.text=valu;
-                          }
-                        ),
+                        textField(context, nameIcon, noIcon, "product name",
+                            hiddText, prName, validEmpty,
+                            keyboardType: TextInputType.text,
+                            inputFormatters: [
+                              FilteringTextInputFormatter(
+                                  RegExp(
+                                      r'[a-zA-Z]|[أ-ي]|[ؤ-ئ-لا-لأ-]|[ء]|[ ]'),
+                                  allow: true)
+                            ], onChanged: (valu) {
+                          prName.text = valu;
+                        }),
 
                         SizedBox(height: 10.h),
 //price-----------------------------------------------------------
-                        textField(
-                          context,
-                          nameIcon,
-                          priceIcon,
-                          "price",
-                          hiddText,
-                          prPrice,
-                          validEmpty,
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged:(valu){
-                           prPrice.text=valu;
-                          }
-                        ),
+                        textField(context, nameIcon, priceIcon, "price",
+                            hiddText, prPrice, validEmpty,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ], onChanged: (valu) {
+                          prPrice.text = valu;
+                        }),
                         SizedBox(height: 10.h),
 //quantity-----------------------------------------------------------
-                        textField(
-                          context,
-                          nameIcon,
-                          quantityIcon,
-                          "Quantity",
-                          hiddText,
-                          prQuantity,
-                          validEmpty,
-                          keyboardType: TextInputType.phone,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          onChanged:(valu){
-                           prQuantity.text=valu;
-                          }
-                        ),
+                        textField(context, nameIcon, quantityIcon, "Quantity",
+                            hiddText, prQuantity, validEmpty,
+                            keyboardType: TextInputType.phone,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ], onChanged: (valu) {
+                          prQuantity.text = valu;
+                        }),
 
                         SizedBox(height: 10.h),
 //add buttom----------------------------------------------------------------
@@ -204,7 +185,7 @@ class _UpdateProductState extends State<UpdateProduct> {
 //--------------------------------------------------------------------
   Future<void> updateProduct() async {
     if (productKey.currentState.validate()) {
-       dialog(context, 'Edit products', 'wating');
+      dialog(context, 'Edit products', 'wating');
       if (fileImage == null) {
         await FirebaseFirestore.instance
             .collection('product')
@@ -229,7 +210,6 @@ class _UpdateProductState extends State<UpdateProduct> {
           );
         });
       } else {
-       
         await imageRef.putFile(fileImage);
         imageURL = await imageRef.getDownloadURL();
 

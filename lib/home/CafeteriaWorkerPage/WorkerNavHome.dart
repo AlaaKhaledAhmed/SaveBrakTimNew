@@ -20,11 +20,10 @@ class WorkerNavHome extends StatefulWidget {
 
 class _WorkerNavHomeState extends State<WorkerNavHome> {
   int number = 10;
-   int selectedIndex = 1;
-   PageController pageController ;
-  List <Widget>workerPage=[WorkerNotification(),Product(),WorkerRequest()];
- 
- 
+  int selectedIndex = 1;
+  PageController pageController;
+  List<Widget> workerPage = [WorkerRequest(),Product(),WorkerNotification()];
+
   void initState() {
     super.initState();
     pageController = PageController(initialPage: selectedIndex);
@@ -39,7 +38,7 @@ class _WorkerNavHomeState extends State<WorkerNavHome> {
           children: workerPage,
         ),
         bottomNavigationBar: ConvexAppBar.badge(
-          {0: '$number'},
+          {2: '$number'},
           badgeColor: red,
           badgeMargin: EdgeInsets.only(bottom: 10.h, right: 50.w),
           style: TabStyle.reactCircle,
@@ -50,16 +49,16 @@ class _WorkerNavHomeState extends State<WorkerNavHome> {
           backgroundColor: gry,
           //icon color
           height: 50.h,
-         
+
           color: black.withOpacity(.7),
           items: [
             TabItem(
-                icon: notificationsIcon,
-                title: '${getTranslated(context, 'NOTIFICATION')}'),
-            TabItem(icon: homeIcon, title: '${getTranslated(context, 'HOME')}'),
-            TabItem(
                 icon: requstIcon,
                 title: '${getTranslated(context, 'REQUEST')}'),
+            TabItem(icon: homeIcon, title: '${getTranslated(context, 'HOME')}'),
+            TabItem(
+                icon: notificationsIcon,
+                title: '${getTranslated(context, 'NOTIFICATION')}'),
           ],
           initialActiveIndex: 1, //optional, default as 0
           onTap: onTap,

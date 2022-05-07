@@ -24,6 +24,8 @@ class _ProductState extends State<Product> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: drawer(context),
+      appBar: drowAppBar("cafeteria products", context),
       backgroundColor: deepYallow,
       body: continerBackgroundImage(
         '$backImage',
@@ -42,7 +44,7 @@ class _ProductState extends State<Product> {
 //----------------------------------------------------------------
                 buttoms(context, "ADD New", 14.0, black, () {
                   goTopage(context, AddProduct());
-                }, backgrounColor: deepYallow),
+                }, backgrounColor: Colors.amber),
 
 //----------------------------------------------------------------
                 Expanded(

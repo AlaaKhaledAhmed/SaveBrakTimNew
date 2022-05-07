@@ -20,6 +20,7 @@ class _BookStoreMainState extends State<BookStoreMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: drawer(context),
         appBar: drowAppBar("Book Store Products", context),
         body: Column(children: [
           SizedBox(

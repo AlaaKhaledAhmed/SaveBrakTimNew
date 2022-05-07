@@ -21,6 +21,7 @@ class _CafeteriaMainState extends State<CafeteriaMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       drawer: drawer(context),
         appBar: drowAppBar("cafeteria products", context),
         body: Column(children: [
           SizedBox(

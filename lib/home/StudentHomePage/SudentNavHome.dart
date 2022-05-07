@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../Models/Methods.dart';
 import '../../Models/virables.dart';
 import '../../localization/localization_methods.dart';
 import 'bookStoreMain.dart';
@@ -27,6 +28,7 @@ class _StudentNavHomeState extends State<StudentNavHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: studentPageController,

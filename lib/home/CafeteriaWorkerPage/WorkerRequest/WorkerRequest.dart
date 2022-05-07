@@ -17,6 +17,8 @@ class _WorkerRequestState extends State<WorkerRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       drawer: drawer(context),
+       appBar: drowAppBar("REQUEST", context),
       backgroundColor: deepYallow,
       body: continerBackgroundImage(
         '$backImage',

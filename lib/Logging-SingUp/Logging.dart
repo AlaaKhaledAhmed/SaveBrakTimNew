@@ -1,6 +1,5 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:save_break_time/Animation/FadeAnimation.dart';
 import 'package:save_break_time/Models/AleartDilolg.dart';
@@ -9,6 +8,8 @@ import 'package:save_break_time/Models/virables.dart';
 import 'package:save_break_time/home/CafeteriaWorkerPage/WorkerNavHome.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
 
+import '../home/BookStore/BookWorkerNavHome.dart';
+import '../home/StudentHomePage/SudentNavHome.dart';
 import 'SingUp.dart';
 
 class Logging extends StatefulWidget {
@@ -51,7 +52,6 @@ class _LoggingState extends State<Logging> {
                 ),
                 Form(
                     key: loggingKey,
-
                     child: Column(
                       children: [
                         //emali textField-------------
@@ -112,9 +112,21 @@ class _LoggingState extends State<Logging> {
             .signInWithEmailAndPassword(email: emile.trim(), password: pass);
 
         if (userCredential != null) {
-          // Navigator.pop(context);
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) => WorkerNavHome()));
+          if (passLoginController.text == "123456789" &&
+              emailLoginController.text == "bookworker@gmail.com") {
+            goTopageReplace(context, BookWorkerNavHome());
+            passLoginController.clear();
+            emailLoginController.clear();
+          } else if (passLoginController.text == "123456789" &&
+              emailLoginController.text == "cafworker@gmail.com") {
+            goTopageReplace(context, WorkerNavHome());
+            passLoginController.clear();
+            emailLoginController.clear();
+          } else {
+            goTopageReplace(context, StudentNavHome());
+            passLoginController.clear();
+            emailLoginController.clear();
+          }
         }
       } on FirebaseException catch (e) {
         Navigator.pop(context);

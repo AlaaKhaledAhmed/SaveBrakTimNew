@@ -1,9 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:save_break_time/Animation/FadeAnimation.dart';
+import 'package:save_break_time/Logging-SingUp/Logging.dart';
 import 'package:save_break_time/Models/virables.dart';
 import 'package:save_break_time/SelectLangugePage/SelectLangModel.dart';
 import 'package:save_break_time/localization/language.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:save_break_time/localization/localization_methods.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -61,12 +63,11 @@ Widget textDB(
   );
 }
 
-divider({
-  double thickness = 2,
-  double indent = 15,
-  double endIndent = 15,
-  Color color=Colors.grey
-}) {
+divider(
+    {double thickness = 2,
+    double indent = 15,
+    double endIndent = 15,
+    Color color = Colors.grey}) {
   return Align(
     alignment: Alignment.topCenter,
     child: VerticalDivider(
@@ -81,16 +82,12 @@ divider({
 
 //container decoration-------------------------------------------
 decoration(
-  double bottomLeft,
-  double bottomRight,
-  double topLeft,
-  double topRight, {
-  Color color = white,
-  double blurRadius = 0.0,
-  double spreadRadius = 0.0,
-  BoxBorder border,
-  BoxShape shap=BoxShape.rectangle
-}) {
+    double bottomLeft, double bottomRight, double topLeft, double topRight,
+    {Color color = white,
+    double blurRadius = 0.0,
+    double spreadRadius = 0.0,
+    BoxBorder border,
+    BoxShape shap = BoxShape.rectangle}) {
   return BoxDecoration(
     shape: shap,
     color: color,
@@ -100,7 +97,6 @@ decoration(
       topRight: Radius.circular(topRight.r),
       bottomLeft: Radius.circular(bottomLeft.r),
       bottomRight: Radius.circular(bottomRight.r),
-      
     ),
     boxShadow: [
       BoxShadow(
@@ -135,7 +131,7 @@ Widget container(double height, double width, double marginL, double marginR,
     margin: EdgeInsets.only(
         left: marginL.w, right: marginR.w, top: marginT.h, bottom: marginB.h),
     decoration: BoxDecoration(
-      border:bored,
+        border: bored,
         borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(bottomLeft),
             topRight: Radius.circular(topRight),
@@ -196,7 +192,9 @@ drowAppBar(String title, context) {
 goTopage(context, pageName) {
   return Navigator.push(context, MaterialPageRoute(builder: (_) => pageName));
 }
-
+goTopageReplace(context, pageName) {
+  return Navigator.push(context, MaterialPageRoute(builder: (_) => pageName));
+}
 //===========================DropMenu Buttom==============================
 Widget selectLangButtom(context, {IconData icon}) {
   return DropdownButton(
@@ -238,9 +236,12 @@ Widget image(
 }
 
 //=============================TextFields=================================
-Widget textField(context, IconData icons, suffixIcon, String key, bool hintPass,
+Widget textField(context,  icons, suffixIcon, String key, bool hintPass,
     TextEditingController mycontroller, String Function(String) validator,
-    {double dayle = 1.5,inputFormatters,keyboardType,void Function(String) onChanged}) {
+    {double dayle = 1.5,
+    inputFormatters,
+    keyboardType,
+    void Function(String) onChanged}) {
   return FadeAnimation(
     dayle,
     TextFormField(
@@ -258,7 +259,7 @@ Widget textField(context, IconData icons, suffixIcon, String key, bool hintPass,
           labelStyle: TextStyle(color: transparensgrey, fontSize: fontSize.sp),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.r)),
           prefixIcon: Icon(icons, color: deepYallow),
-          suffixIcon:suffixIcon,
+          //suffixIcon: Icon(suffixIcon, color: deepYallow),
           labelText: "${getTranslated(context, key)}",
           contentPadding: EdgeInsets.all(10.h)),
     ),
@@ -290,4 +291,34 @@ String empity(value) {
 
 int unidID() {
   return DateTime.now().millisecondsSinceEpoch.remainder(10000);
+}
+
+//--------------------------------------------------------
+drawer(context) {
+  return SizedBox(
+    height: 200.h,
+    child: Drawer(
+      shape:  RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.r), bottomLeft: Radius.circular(20.r)),
+      ),
+      backgroundColor: deepYallow,
+      child: Column(children: [
+        SizedBox(height: 30.h),
+        Center(
+          child: text(context, "Settings", 17, white),
+        ),
+        SizedBox(height: 15.h),
+        ListTile(
+          leading: Icon(Icons.logout_rounded, color: white),
+          title: text(context, "sign out", 17, white),
+          onTap: () async {
+            await FirebaseAuth.instance.signOut();
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (_) => Logging()));
+          },
+        ),
+      ]),
+    ),
+  );
 }

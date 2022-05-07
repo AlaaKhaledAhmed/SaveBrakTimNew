@@ -20,6 +20,7 @@ String logoPath="$staticPath"+"logo.png";
 String welcomBacgroundImage="$staticPath"+"save4.jpg";
 String productImage="$staticPath"+"product.jpg";
 String backImage="$staticPath"+"bac.jpg";
+String backBook="$staticPath"+"book.jpg";
 // Icons name-----------------------------------------
 IconData nameIcon=Icons.person;
 

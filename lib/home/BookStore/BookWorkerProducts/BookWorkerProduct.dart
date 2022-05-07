@@ -24,9 +24,11 @@ class _BookWorkerProductMainPageState extends State<BookWorkerProductMainPage> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+       drawer: drawer(context),
+        appBar: drowAppBar("Book Store Products", context),
       backgroundColor: deepYallow,
       body: continerBackgroundImage(
-        '$backImage',
+        '$backBook',
         padding(
             20,
             20,
@@ -42,7 +44,7 @@ class _BookWorkerProductMainPageState extends State<BookWorkerProductMainPage> {
 //----------------------------------------------------------------
                 buttoms(context, "ADD New", 14.0, black, () {
                   goTopage(context, BookWorkerAddProduct());
-                }, backgrounColor: deepYallow),
+                }, backgrounColor: Colors.amber),
 
 //----------------------------------------------------------------
                 Expanded(

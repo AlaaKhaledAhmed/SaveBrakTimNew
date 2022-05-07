@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:save_break_time/Logging-SingUp/Logging.dart';
 import 'package:save_break_time/SelectLangugePage/SelestLangView.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
+import 'home/BookStore/BookWorkerNavHome.dart';
 import 'home/CafeteriaWorkerPage/WorkerNavHome.dart';
 import 'home/StudentHomePage/SudentNavHome.dart';
 import 'localization/set_localization.dart';
@@ -99,7 +100,7 @@ class _MyAppState extends State<MyApp> {
       // _local == null ?
      // _localStudentNavHome()
        //  :
-       WorkerNavHome(),
+       BookWorkerNavHome(),
       ),
     );
   }

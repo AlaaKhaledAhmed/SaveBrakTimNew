@@ -50,6 +50,7 @@ class _AddProductState extends State<AddProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: drowAppBar("Add products", context),
+     
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(

@@ -7,9 +7,11 @@ import 'package:lottie/lottie.dart';
 dialog(context, String title, String content,
     {bool showButtom = false, yesFunction, noFunction}) {
   return showDialog(
+    barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
+          
           titlePadding: EdgeInsets.zero,
           elevation: 0,
           backgroundColor: content == "wating" ? Colors.transparent : white,

@@ -11,16 +11,6 @@ class WorkerRequest extends StatefulWidget {
 }
 
 class _WorkerRequestState extends State<WorkerRequest> {
-  @override
-  void initState() {
-    super.initState();
-    requestCollection.where("type", arrayContains: ["cafie"]).get().then((value) {
-      value.docs.forEach((element) { 
-        print(element.data());
-      });
-    });
-  }
-
   CollectionReference requestCollection =
       FirebaseFirestore.instance.collection("order");
 
@@ -44,8 +34,9 @@ class _WorkerRequestState extends State<WorkerRequest> {
 //----------------------------------------------------------------
                 Expanded(
                     child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                        stream: requestCollection.where("type",
-                            arrayContainsAny: ["cafie"]).snapshots(),
+                        stream: requestCollection
+                            .where("type", isEqualTo: "cafie")
+                            .snapshots(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshat) {
                           if (snapshat.hasError) {
@@ -91,7 +82,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
                             4,
                             color: deepYallow,
                           ),
-                          child: accsebtRetjectBtn()),
+                          child: accsebtRetjectBtn(snapshat, i)),
                     ),
                     Expanded(
                       flex: 4,
@@ -168,19 +159,18 @@ class _WorkerRequestState extends State<WorkerRequest> {
     return Expanded(
       child: ListView.separated(
           separatorBuilder: (BuildContext context, int index) {
-              
             return Divider(
               color: Colors.grey[400],
             );
           },
-          itemCount: snapshat.data.docs[i].data()['ordersName'].length,
+          itemCount: snapshat.data.docs[i].data()['data'].length,
           itemBuilder: (context, j) {
             return Row(
               children: [
                 Expanded(
                   child: textDB(
                       context,
-                      "${snapshat.data.docs[i].data()['ordersName'][j]}",
+                      "${snapshat.data.docs[i].data()['data'][j]["prName"]}",
                       12,
                       black,
                       fontWeight: FontWeight.w700),
@@ -189,7 +179,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
                 Expanded(
                   child: textDB(
                       context,
-                      "${snapshat.data.docs[i].data()['quantityPerOrder'][j]}",
+                      "${snapshat.data.docs[i].data()['data'][j]["StudentQuantity"]}",
                       12,
                       black,
                       fontWeight: FontWeight.w700),
@@ -202,7 +192,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
   }
 
   //---------------------------------------------------------------------------------------------------------
-  accsebtRetjectBtn() {
+  accsebtRetjectBtn(snapshat, i) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -213,8 +203,10 @@ class _WorkerRequestState extends State<WorkerRequest> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            text(context, "Total", 13, black, fontWeight: FontWeight.w700),
-            textDB(context, " 5", 13, black, fontWeight: FontWeight.w700),
+            text(context, "number of orders", 13, black, fontWeight: FontWeight.w700),
+            textDB(context, " ${snapshat.data.docs[i].data()['data'].length}",
+                13, black,
+                fontWeight: FontWeight.w700),
           ],
         ),
         SizedBox(height: 5.h),

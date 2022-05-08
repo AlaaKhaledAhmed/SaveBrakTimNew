@@ -181,33 +181,28 @@ class _RequestMainState extends State<RequestMain> {
 //confirm order----------------------------------------------------
 
             buttoms(context, "Confirm orders", 14.0, black, () async {
+              dialog(context, 'SING IN', 'wating');
               if (bookItem.length > 0) {
-                dialog(context, 'SING IN', 'wating');
                 FirebaseFirestore.instance.collection("order").add({
-                  "type":"book",
+                  "type": "book",
                   "orderId": orderId,
                   "userName": name,
                   "phone": userPhone,
                   "userId": currentUser,
                   "data": bookItem,
-                }).then((value) async {
-                  Navigator.pop(context);
-                });
+                }).then((value) async {});
               }
               if (cafeItem.length > 0) {
-                dialog(context, 'SING IN', 'wating');
                 FirebaseFirestore.instance.collection("order").add({
-                   "type":"cafie",
+                  "type": "cafie",
                   "orderId": orderId,
                   "userName": name,
                   "phone": userPhone,
                   "userId": currentUser,
                   "data": cafeItem,
-                }).then((value) async {
-                  Navigator.pop(context);
-                });
+                }).then((value) async {});
               }
-
+              Navigator.pop(context);
               await FirebaseFirestore.instance.collection("messege").add({
                 'masseg': 'تم استلام طلبك ، ورقم الطلب هو $orderId',
                 'date':

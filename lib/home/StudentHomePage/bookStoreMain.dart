@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_break_time/home/StudentHomePage/pageDatials.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../Models/AleartDilolg.dart';
 import '../../Models/Methods.dart';
 import '../../Models/virables.dart';
 import '../../localization/localization_methods.dart';
@@ -22,7 +25,19 @@ class _BookStoreMainState extends State<BookStoreMain> {
   Widget build(BuildContext context) {
     return Scaffold(
         drawer: drawer(context),
-        appBar: drowAppBar("Book Store Products", context),
+        appBar: drowAppBarIcon("Book Store Products", context, Icons.whatsapp,
+            () async {
+          String url = 'https://wa.me/+966565472737';
+          try {
+            if (await canLaunch(url.toString())) {
+              launch(url.toString());
+            } else {
+              print("errrrrror");
+            }
+          } catch (e) {
+            print(e.toString());
+          }
+        }),
         body: continerBackgroundImage(
           '$welcomBacgroundImage',
           Column(children: [
@@ -58,7 +73,6 @@ class _BookStoreMainState extends State<BookStoreMain> {
                     );
                   }),
             )),
-           
           ]),
           // filterColor: black.withOpacity(.7),
         ));

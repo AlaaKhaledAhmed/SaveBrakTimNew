@@ -185,6 +185,17 @@ drowAppBar(String title, context) {
     elevation: 0,
     centerTitle: true,
     title: text(context, '$title', 20, white, fontWeight: FontWeight.w700),
+  
+  );
+}
+
+drowAppBarIcon(String title, context,icon,onPressed) {
+  return AppBar(
+    elevation: 0,
+    centerTitle: true,
+    title: text(context, '$title', 20, white, fontWeight: FontWeight.w700),
+    actions: [IconButton(onPressed: onPressed, icon: Icon(icon,size:30.sp))],
+  
   );
 }
 

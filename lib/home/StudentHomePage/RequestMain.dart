@@ -31,11 +31,13 @@ class _RequestMainState extends State<RequestMain> {
   List<num> pr_quantity = [];
   List<num> pr_pricePerOne = [];
   String farmer_id = '';
+  var orderId;
   var totalPrice = 0.0;
 //--------------------------------------------------
   @override
   void initState() {
     super.initState();
+    orderId = unidOrder();
 //---------------------------------------------------------
     currentUser = FirebaseAuth.instance.currentUser.uid;
     cardCollection
@@ -199,7 +201,7 @@ class _RequestMainState extends State<RequestMain> {
             buttoms(context, "Confirm orders", 14.0, black, () {
               dialog(context, 'SING IN', 'wating');
               FirebaseFirestore.instance.collection("order").add({
-                "orderId": unidOrder(),
+                "orderId": orderId,
                 "ordersName": pr_name,
                 "quantityPerOrder": pr_quantity,
                 "pricePerOrder": pr_pricePerOne,
@@ -209,17 +211,26 @@ class _RequestMainState extends State<RequestMain> {
                 "totalPrice": totalPrice,
                 "userId": currentUser,
                 "type": workerType,
-              }).then((value) {
+              }).then((value) async {
                 Navigator.pop(context);
+                await FirebaseFirestore.instance.collection("messege").add({
+                  'masseg':
+                      'Your order has been received, and the order number is $orderId',
+                  'date':
+                      "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                  'time': "${DateTime.now().hour} : ${DateTime.now().minute}",
+                  'userId': currentUser,
+                  'createOn': DateTime.now()
+                });
                 dialog(context, "request", "send");
                 //delete all user item from card
                 cardCollection
                     .where("StudentId", isEqualTo: currentUser)
                     .get()
                     .then((snapshot) {
-                  // for (DocumentSnapshot ds in snapshot.docs) {
-                  //   ds.reference.delete();
-                  // }
+                  for (DocumentSnapshot ds in snapshot.docs) {
+                    ds.reference.delete();
+                  }
                 });
               });
             }, backgrounColor: white),

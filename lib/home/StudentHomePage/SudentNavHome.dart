@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,19 +18,33 @@ class StudentNavHome extends StatefulWidget {
 }
 
 class _StudentNavHomeState extends State<StudentNavHome> {
-  int number = 10;
-  int  studentSelectedIndex=1;
-  PageController studentPageController ;
-  List <Widget>studentPage=[CafeteriaMain(),BookStoreMain(),RequestMain(),StudentNotification()];
+  CollectionReference cardCollection =
+      FirebaseFirestore.instance.collection("messege");
+  String currentUser;
+  int number = 0;
+  int studentSelectedIndex = 1;
+  PageController studentPageController;
+  List<Widget> studentPage = [
+    CafeteriaMain(),
+    BookStoreMain(),
+    RequestMain(),
+    StudentNotification()
+  ];
   void initState() {
     super.initState();
     studentPageController = PageController(initialPage: studentSelectedIndex);
+    currentUser = FirebaseAuth.instance.currentUser.uid;
+
+    cardCollection.where('userId', isEqualTo: currentUser).get().then((value) {
+      setState(() {
+        number = value.docs.length;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        
         body: PageView(
           physics: const NeverScrollableScrollPhysics(),
           controller: studentPageController,
@@ -36,6 +52,7 @@ class _StudentNavHomeState extends State<StudentNavHome> {
         ),
         bottomNavigationBar: ConvexAppBar.badge(
           {3: '$number'},
+
           badgeColor: red,
           badgeMargin: EdgeInsets.only(bottom: 10.h, right: 50.w),
           style: TabStyle.reactCircle,
@@ -56,7 +73,8 @@ class _StudentNavHomeState extends State<StudentNavHome> {
                 icon: bookIcon,
                 title: '${getTranslated(context, 'book store')}'),
             TabItem(
-                icon: requstIcon, title: '${getTranslated(context, 'REQUEST')}'),
+                icon: requstIcon,
+                title: '${getTranslated(context, 'REQUEST')}'),
             TabItem(
                 icon: notificationsIcon,
                 title: '${getTranslated(context, 'NOTIFICATION')}'),
@@ -70,6 +88,11 @@ class _StudentNavHomeState extends State<StudentNavHome> {
   void onTap(int index) {
     setState(() {
       studentSelectedIndex = index;
+      if (studentSelectedIndex == 3)
+        setState(() {
+          number = 0;
+        });
+      {}
     });
     studentPageController.animateToPage(studentSelectedIndex,
         duration: const Duration(milliseconds: 400), curve: Curves.easeInCirc);

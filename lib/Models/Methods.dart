@@ -185,17 +185,15 @@ drowAppBar(String title, context) {
     elevation: 0,
     centerTitle: true,
     title: text(context, '$title', 20, white, fontWeight: FontWeight.w700),
-  
   );
 }
 
-drowAppBarIcon(String title, context,icon,onPressed) {
+drowAppBarIcon(String title, context, icon, onPressed) {
   return AppBar(
     elevation: 0,
     centerTitle: true,
     title: text(context, '$title', 20, white, fontWeight: FontWeight.w700),
-    actions: [IconButton(onPressed: onPressed, icon: Icon(icon,size:30.sp))],
-  
+    actions: [IconButton(onPressed: onPressed, icon: Icon(icon, size: 30.sp))],
   );
 }
 
@@ -203,9 +201,11 @@ drowAppBarIcon(String title, context,icon,onPressed) {
 goTopage(context, pageName) {
   return Navigator.push(context, MaterialPageRoute(builder: (_) => pageName));
 }
+
 goTopageReplace(context, pageName) {
   return Navigator.push(context, MaterialPageRoute(builder: (_) => pageName));
 }
+
 //===========================DropMenu Buttom==============================
 Widget selectLangButtom(context, {IconData icon}) {
   return DropdownButton(
@@ -247,7 +247,7 @@ Widget image(
 }
 
 //=============================TextFields=================================
-Widget textField(context,  icons, suffixIcon, String key, bool hintPass,
+Widget textField(context, icons, suffixIcon, String key, bool hintPass,
     TextEditingController mycontroller, String Function(String) validator,
     {double dayle = 1.5,
     inputFormatters,
@@ -307,12 +307,13 @@ int unidID() {
 int unidOrder() {
   return DateTime.now().millisecondsSinceEpoch.remainder(100000);
 }
+
 //--------------------------------------------------------
 drawer(context) {
   return SizedBox(
     height: 200.h,
     child: Drawer(
-      shape:  RoundedRectangleBorder(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20.r), bottomLeft: Radius.circular(20.r)),
       ),
@@ -334,5 +335,46 @@ drawer(context) {
         ),
       ]),
     ),
+  );
+}
+
+Widget drowMenu(
+    String insiValue, IconData icon, List<String> item, onchanged, validator,
+    {double width = double.infinity}) {
+  return Container(
+    color: grrey,
+    width: width,
+    child: DropdownButtonFormField<String>(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        validator: validator,
+        hint: Text(
+          "$insiValue",
+          style: TextStyle(
+            color: deepYallow,
+            fontSize: 12.sp,
+          ),
+        ),
+        dropdownColor: white,
+        items: item
+            .map((type) => DropdownMenuItem(
+                  //  alignment: Alignment.center,
+                  value: type,
+                  child: Text(
+                    type,
+                    style: TextStyle(
+                      color: deepYallow,
+                      fontSize: 13.sp,
+                    ),
+                  ),
+                ))
+            .toList(),
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(8.0),
+          prefixIcon: Icon(icon, color: deepYallow, size: 25),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+        ),
+        onChanged: onchanged),
   );
 }

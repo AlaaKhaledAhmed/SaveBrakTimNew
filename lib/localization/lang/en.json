@@ -69,5 +69,7 @@
   "Confirm orders": "Confirm orders",
   "send": "Your request has been sent to the workers and the representative will contact you to complete the payment process",
   "request": "send request",
-  "Order number": "Order number"
+  "Order number": "Order number",
+  "accept": "My requests",
+  "Accepted requests": "Accepted requests"
 }

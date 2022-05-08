@@ -7,7 +7,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import '../BookStore/BookWorkerNotification.dart';
 import '../BookStore/BookWorkerProducts/BookWorkerProduct.dart';
 import '../BookStore/BookWorkerRequest/BookWorkerRequest.dart';
-import 'WorkerNotification.dart';
+import 'Accepted requests.dart';
 import 'WorkerProducts/Product.dart';
 import 'WorkerRequest/WorkerRequest.dart';
 
@@ -22,7 +22,7 @@ class _WorkerNavHomeState extends State<WorkerNavHome> {
   int number = 10;
   int selectedIndex = 1;
   PageController pageController;
-  List<Widget> workerPage = [WorkerRequest(),Product(),WorkerNotification()];
+  List<Widget> workerPage = [WorkerRequest(),Product(),AcceptedRequests()];
 
   void initState() {
     super.initState();
@@ -37,10 +37,7 @@ class _WorkerNavHomeState extends State<WorkerNavHome> {
           controller: pageController,
           children: workerPage,
         ),
-        bottomNavigationBar: ConvexAppBar.badge(
-          {2: '$number'},
-          badgeColor: red,
-          badgeMargin: EdgeInsets.only(bottom: 10.h, right: 50.w),
+        bottomNavigationBar: ConvexAppBar(
           style: TabStyle.reactCircle,
           //selest icon color
           activeColor: deepGrey,
@@ -57,8 +54,8 @@ class _WorkerNavHomeState extends State<WorkerNavHome> {
                 title: '${getTranslated(context, 'REQUEST')}'),
             TabItem(icon: homeIcon, title: '${getTranslated(context, 'HOME')}'),
             TabItem(
-                icon: notificationsIcon,
-                title: '${getTranslated(context, 'NOTIFICATION')}'),
+                icon: myorder,
+                title: '${getTranslated(context, 'accept')}'),
           ],
           initialActiveIndex: 1, //optional, default as 0
           onTap: onTap,

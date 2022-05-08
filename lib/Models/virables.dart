@@ -30,6 +30,7 @@ IconData phoneIcon=Icons.phone_android_rounded;
 IconData collegIcon=Icons.location_city_rounded;
 IconData levelIcon=Icons.reduce_capacity_rounded;
 IconData notificationsIcon=Icons.notifications;
+IconData myorder=Icons.check_circle;
 IconData cafeIcon=Icons.food_bank;
 IconData bookIcon=Icons.library_books_rounded;
 IconData homeIcon=Icons.home;

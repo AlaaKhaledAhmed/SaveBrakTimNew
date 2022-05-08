@@ -4,7 +4,7 @@ import 'package:save_break_time/Models/virables.dart';
 import 'package:save_break_time/localization/localization_methods.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
-import '../CafeteriaWorkerPage/WorkerNotification.dart';
+import '../CafeteriaWorkerPage/Accepted requests.dart';
 import 'BookWorkerProducts/BookWorkerProduct.dart';
 import 'BookWorkerRequest/BookWorkerRequest.dart';
 
@@ -19,7 +19,7 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
   int number = 10;
   int bookSelectedIndex = 1;
    PageController bookPageController;
-   List <Widget>bookWorkerPage=[BookWorkerRequest(),BookWorkerProductMainPage(),WorkerNotification  ()];
+   List <Widget>bookWorkerPage=[BookWorkerRequest(),BookWorkerProductMainPage(),AcceptedRequests  ()];
 
   void initState() {
     super.initState();

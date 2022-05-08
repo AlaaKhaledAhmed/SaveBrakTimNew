@@ -64,5 +64,9 @@
   "total": "total price",
   "Time of receipt": "Time of receipt",
   "The quantity must be at least one": "Quantity must be at least one",
-  "Quantity is not enough": "Quantity is not enough"
+  "Quantity is not enough": "Quantity is not enough",
+  "number of orders": "number of orders",
+  "Confirm orders": "Confirm orders",
+  "send": "Your request has been sent to the workers and the representative will contact you to complete the payment process",
+  "request": "send request"
 }

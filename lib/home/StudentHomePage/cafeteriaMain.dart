@@ -23,45 +23,49 @@ class _CafeteriaMainState extends State<CafeteriaMain> {
     return Scaffold(
        drawer: drawer(context),
         appBar: drowAppBar("cafeteria products", context),
-        body: Column(children: [
-          SizedBox(
-            height: 15.h,
+        body:  continerBackgroundImage(
+        '$welcomBacgroundImage',
+       
+       Column(children: [
+            SizedBox(
+              height: 15.h,
+            ),
+            //-----------------------------------------
+            Center(
+              child: text(context, 'Available Products', 20, white,
+                  fontWeight: FontWeight.w200),
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
+        //-------------------------------------------------
+            Expanded(
+                child: Padding(
+              padding: EdgeInsets.all(8.0.h),
+              child: StreamBuilder(
+                  stream: productCollection
+                      .where('workerType', isEqualTo: 'cafie')
+                      .snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot snapshat) {
+                    if (snapshat.hasError) {
+                      return Text("Connection error");
+                    }
+                    if (snapshat.hasData) {
+                      return getProducts(context, snapshat);
+                    }
+        
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }),
+            )),
+        ]
           ),
-          //-----------------------------------------
-          Center(
-            child: text(context, 'Available Products', 20, black,
-                fontWeight: FontWeight.w200),
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-//-------------------------------------------------
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.all(8.0.h),
-            child: StreamBuilder(
-                stream: productCollection
-                    .where('workerType', isEqualTo: 'cafie')
-                    .snapshots(),
-                builder: (BuildContext context, AsyncSnapshot snapshat) {
-                  if (snapshat.hasError) {
-                    return Text("Connection error");
-                  }
-                  if (snapshat.hasData) {
-                    return getProducts(context, snapshat);
-                  }
-
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }),
-          )),
-//-------------------------------------------------
-
-//-------------------------------------------------
-
-//-------------------------------------------------
-        ]));
+        
+        // filterColor: black.withOpacity(.7),
+        )
+        
+        );
   }
 
   //----------------------------------------------------------------

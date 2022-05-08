@@ -7,6 +7,7 @@ import 'package:save_break_time/home/StudentHomePage/pageDatials.dart';
 import '../../Models/Methods.dart';
 import '../../Models/virables.dart';
 import '../../localization/localization_methods.dart';
+
 class BookStoreMain extends StatefulWidget {
   BookStoreMain({Key key}) : super(key: key);
 
@@ -20,47 +21,47 @@ class _BookStoreMainState extends State<BookStoreMain> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: drawer(context),
+        drawer: drawer(context),
         appBar: drowAppBar("Book Store Products", context),
-        body: Column(children: [
-          SizedBox(
-            height: 15.h,
-          ),
-          //-----------------------------------------
-          Center(
-            child: text(context, 'Available Products', 20, black,
-                fontWeight: FontWeight.w200),
-          ),
-          SizedBox(
-            height: 15.h,
-          ),
-//-------------------------------------------------
-          Expanded(
-              child: Padding(
-            padding: EdgeInsets.all(8.0.h),
-            child: StreamBuilder(
-                stream: productCollection
-                    .where('workerType', isEqualTo: 'book')
-                    .snapshots(),
-                builder: (BuildContext context, AsyncSnapshot snapshat) {
-                  if (snapshat.hasError) {
-                    return Text("Connection error");
-                  }
-                  if (snapshat.hasData) {
-                    return getProducts(context, snapshat);
-                  }
+        body: continerBackgroundImage(
+          '$welcomBacgroundImage',
+          Column(children: [
+            SizedBox(
+              height: 15.h,
+            ),
+            //-----------------------------------------
+            Center(
+              child: text(context, 'Available Products', 20, white,
+                  fontWeight: FontWeight.w200),
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
+            //-------------------------------------------------
+            Expanded(
+                child: Padding(
+              padding: EdgeInsets.all(8.0.h),
+              child: StreamBuilder(
+                  stream: productCollection
+                      .where('workerType', isEqualTo: 'book')
+                      .snapshots(),
+                  builder: (BuildContext context, AsyncSnapshot snapshat) {
+                    if (snapshat.hasError) {
+                      return Text("Connection error");
+                    }
+                    if (snapshat.hasData) {
+                      return getProducts(context, snapshat);
+                    }
 
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }),
-          )),
-//-------------------------------------------------
-
-//-------------------------------------------------
-
-//-------------------------------------------------
-        ]));
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }),
+            )),
+           
+          ]),
+          // filterColor: black.withOpacity(.7),
+        ));
   }
 
   //----------------------------------------------------------------
@@ -77,15 +78,16 @@ class _BookStoreMainState extends State<BookStoreMain> {
             itemCount: snapshat.data.docs.length,
             itemBuilder: (context, i) {
               return InkWell(
-               onTap: () {
-                  goTopage(context, ProductsDetials(
-                    image:snapshat.data.docs[i].data()['imagePath'] ,
-                    prId: snapshat.data.docs[i].data()['prID'],
-                    prName: snapshat.data.docs[i].data()['prName'],
-                    price: snapshat.data.docs[i].data()['prPrice'],
-                    quantity:snapshat.data.docs[i].data()['prQuantity'] ,
-                    type: snapshat.data.docs[i].data()['workerType']
-                  ));
+                onTap: () {
+                  goTopage(
+                      context,
+                      ProductsDetials(
+                          image: snapshat.data.docs[i].data()['imagePath'],
+                          prId: snapshat.data.docs[i].data()['prID'],
+                          prName: snapshat.data.docs[i].data()['prName'],
+                          price: snapshat.data.docs[i].data()['prPrice'],
+                          quantity: snapshat.data.docs[i].data()['prQuantity'],
+                          type: snapshat.data.docs[i].data()['workerType']));
                 },
                 child: SizedBox(
                   height: 180.h,

@@ -64,5 +64,9 @@
   "total": "اجمالي السعر",
   "Time of receipt": "وقت الاستلام",
   "The quantity must be at least one": "يجب أن تكون الكمية واحدة على الأقل",
-  "Quantity is not enough": "الكمية لا تكفي"
+  "Quantity is not enough": "الكمية لا تكفي",
+  "number of orders": "عدد الطلبات",
+  "Confirm orders": "تاكيد الطلبات",
+  "send": " لقد تم ارسال طلبك الي العمال وسيتواصل معك المندوب لاكمال عملية الدفع",
+  "request": "ارسال الطلب"
 }

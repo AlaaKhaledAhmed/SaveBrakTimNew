@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lottie/lottie.dart';
 import '../../Models/Methods.dart';
 import '../../Models/virables.dart';
 
@@ -88,20 +89,28 @@ class _StudentNotificationState extends State<StudentNotification> {
                   );
                 }),
           )
-        : Center(child: textDB(context, "لاتوجد اشعارات حاليا", 15, black));
+        : Align(
+            alignment: Alignment.center,
+            child: Lottie.asset(
+              "Assist/lottie/no-data.json",
+              fit: BoxFit.cover,
+            ),
+          );
   }
 
 //get data from database--------------------------------------
   Widget getData(text, String subtitle) {
     return Expanded(
-      child: ListTile(
-          title: textDB(context, text, 12, black),
-          leading: CircleAvatar(
-            radius: 20.r,
-            backgroundColor: deepYallow,
-            child: Center(child: Icon(notificationsIcon)),
-          ),
-          subtitle: textDB(context, subtitle, 12, deepYallow)),
+      child: Center(
+        child: ListTile(
+            title: textDB(context, text, 12, black),
+            leading: CircleAvatar(
+              radius: 20.r,
+              backgroundColor: deepYallow,
+              child: Center(child: Icon(notificationsIcon)),
+            ),
+            subtitle: textDB(context, subtitle, 12, deepYallow)),
+      ),
     );
   }
 }

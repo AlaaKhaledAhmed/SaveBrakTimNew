@@ -180,43 +180,52 @@ class _RequestMainState extends State<RequestMain> {
             ),
 //confirm order----------------------------------------------------
 
-            buttoms(context, "Confirm orders", 14.0, black, () {
-              //dialog(context, 'SING IN', 'wating');
-              print("cafe item $cafeItem");
-              print("book item $bookItem");
-              // FirebaseFirestore.instance.collection("order").add({
-              //   "orderId": orderId,
-              //   "ordersName": pr_name_cafe,
-              //   "quantityPerOrder": pr_quantity_cafe,
-              //   "pricePerOrder": pr_pricePerOne_cafe,
-              //   "userName": name,
-              //   "phone": userPhone,
-              //   "ordersNumber": snapshat.data.docs.length,
-              //   "totalPrice": totalPrice,
-              //   "userId": currentUser,
-              //   "type": workerType_cafe,
-              // }).then((value) async {
-              //   Navigator.pop(context);
-              //   await FirebaseFirestore.instance.collection("messege").add({
-              //     'masseg':
-              //         'Your order has been received, and the order number is $orderId',
-              //     'date':
-              //         "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-              //     'time': "${DateTime.now().hour} : ${DateTime.now().minute}",
-              //     'userId': currentUser,
-              //     'createOn': DateTime.now()
-              //   });
-              //   dialog(context, "request", "send");
-              //   //delete all user item from card
-              //   cardCollection
-              //       .where("StudentId", isEqualTo: currentUser)
-              //       .get()
-              //       .then((snapshot) {
-              //     for (DocumentSnapshot ds in snapshot.docs) {
-              //       ds.reference.delete();
-              //     }
-              //   });
-              // });
+            buttoms(context, "Confirm orders", 14.0, black, () async {
+              if (bookItem.length > 0) {
+                dialog(context, 'SING IN', 'wating');
+                FirebaseFirestore.instance.collection("order").add({
+                  "type":"book",
+                  "orderId": orderId,
+                  "userName": name,
+                  "phone": userPhone,
+                  "userId": currentUser,
+                  "data": bookItem,
+                }).then((value) async {
+                  Navigator.pop(context);
+                });
+              }
+              if (cafeItem.length > 0) {
+                dialog(context, 'SING IN', 'wating');
+                FirebaseFirestore.instance.collection("order").add({
+                   "type":"cafie",
+                  "orderId": orderId,
+                  "userName": name,
+                  "phone": userPhone,
+                  "userId": currentUser,
+                  "data": cafeItem,
+                }).then((value) async {
+                  Navigator.pop(context);
+                });
+              }
+
+              await FirebaseFirestore.instance.collection("messege").add({
+                'masseg': 'تم استلام طلبك ، ورقم الطلب هو $orderId',
+                'date':
+                    "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                'time': "${DateTime.now().hour} : ${DateTime.now().minute}",
+                'userId': currentUser,
+                'createOn': DateTime.now()
+              });
+              dialog(context, "request", "send");
+              //delete all user item from card
+              cardCollection
+                  .where("StudentId", isEqualTo: currentUser)
+                  .get()
+                  .then((snapshot) {
+                for (DocumentSnapshot ds in snapshot.docs) {
+                  ds.reference.delete();
+                }
+              });
             }, backgrounColor: white),
             SizedBox(height: 25.h),
           ])

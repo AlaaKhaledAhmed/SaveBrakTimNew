@@ -11,8 +11,8 @@ class WorkerRequest extends StatefulWidget {
 }
 
 class _WorkerRequestState extends State<WorkerRequest> {
-  CollectionReference<Map<String, dynamic>> requestCollection =
-      FirebaseFirestore.instance.collection("product");
+  CollectionReference requestCollection =
+      FirebaseFirestore.instance.collection("order");
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
         padding(
             20,
             20,
-            50,
+            30,
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -33,20 +33,17 @@ class _WorkerRequestState extends State<WorkerRequest> {
                     fontWeight: FontWeight.w700),
 //----------------------------------------------------------------
                 Expanded(
-                    child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                        future: requestCollection.get(),
+                    child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                        stream: requestCollection.where("type",arrayContainsAny:["cafie"]).snapshots(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshat) {
                           if (snapshat.hasError) {
-                            print("");
+                            print("errrrrrrrrrrrrrrrror");
                           }
                           if (snapshat.hasData) {
                             print(snapshat.data.runtimeType);
                             return getProducts(context, snapshat);
                           }
-                          // }  if (snapshat.hasData==null) {
-                          //   print("NO DAAAAAAAAAAAAAAAAAAAATA FOUND");
-                          // }
                           return const Center(
                             child: CircularProgressIndicator(),
                           );
@@ -64,7 +61,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
       padding: const EdgeInsets.only(bottom: 30),
       child: ListView.builder(
           //shrinkWrap: true,
-          itemCount: 5,//snapshat.data.docs.length,
+          itemCount: snapshat.data.docs.length,
           itemBuilder: (context, i) {
             return SizedBox(
               height: 160.h,

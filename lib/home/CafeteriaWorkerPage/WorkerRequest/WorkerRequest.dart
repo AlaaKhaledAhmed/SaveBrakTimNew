@@ -17,8 +17,8 @@ class _WorkerRequestState extends State<WorkerRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       drawer: drawer(context),
-       appBar: drowAppBar("REQUEST", context),
+      drawer: drawer(context),
+      appBar: drowAppBar("REQUEST", context),
       backgroundColor: deepYallow,
       body: continerBackgroundImage(
         '$backImage',
@@ -34,7 +34,8 @@ class _WorkerRequestState extends State<WorkerRequest> {
 //----------------------------------------------------------------
                 Expanded(
                     child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                        stream: requestCollection.where("type",arrayContainsAny:["cafie"]).snapshots(),
+                        stream: requestCollection.where("type",
+                            arrayContainsAny: ["cafie"]).snapshots(),
                         builder:
                             (BuildContext context, AsyncSnapshot snapshat) {
                           if (snapshat.hasError) {
@@ -74,15 +75,30 @@ class _WorkerRequestState extends State<WorkerRequest> {
                     Expanded(
                       flex: 2,
                       child: Container(
-                          decoration: decoration(4, 4, 4, 4, color: deepYallow,
-
-                           ),
+                          decoration: decoration(
+                            4,
+                            4,
+                            4,
+                            4,
+                            color: deepYallow,
+                          ),
                           child: accsebtRetjectBtn()),
                     ),
                     Expanded(
                       flex: 4,
                       child: Column(
                         children: [
+                          Expanded(
+                              child: Container(
+                                  width: double.infinity,
+                                  height: double.infinity,
+                                  color: deepYallow,
+                                  child: Center(
+                                      child: textDB(
+                                          context,
+                                          "${getTranslated(context, 'Order number')} ${snapshat.data.docs[i].data()['orderId']}",
+                                          fontSize,
+                                          black)))),
 //---------------------------------------------------------------------
                           Expanded(
                               flex: 1,
@@ -93,12 +109,16 @@ class _WorkerRequestState extends State<WorkerRequest> {
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Expanded(child: heder(getTranslated(context, "Order"))),
+                                      Expanded(
+                                          child: heder(
+                                              getTranslated(context, "Order"))),
                                       divider(),
-                                      Expanded(child: heder(getTranslated(context, "Quantity"))),
-                                     
+                                      Expanded(
+                                          child: heder(getTranslated(
+                                              context, "Quantity"))),
                                     ],
                                   ),
                                 ),
@@ -143,20 +163,27 @@ class _WorkerRequestState extends State<WorkerRequest> {
               color: Colors.grey[400],
             );
           },
-           itemCount:5,// snapshat.data.docs[i].data()['ordersName'].length,
+          itemCount: snapshat.data.docs[i].data()['ordersName'].length,
           itemBuilder: (context, j) {
             return Row(
               children: [
                 Expanded(
-                  child: textDB(context, "name", 12, black,
+                  child: textDB(
+                      context,
+                      "${snapshat.data.docs[i].data()['ordersName'][j]}",
+                      12,
+                      black,
                       fontWeight: FontWeight.w700),
                 ),
                 divider(),
                 Expanded(
-                  child: textDB(context, "name", 12, black,
+                  child: textDB(
+                      context,
+                      "${snapshat.data.docs[i].data()['quantityPerOrder'][j]}",
+                      12,
+                      black,
                       fontWeight: FontWeight.w700),
                 ),
-               
               ],
             );
           }),
@@ -176,8 +203,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            text(context, "Total", 13, black,
-                fontWeight: FontWeight.w700),
+            text(context, "Total", 13, black, fontWeight: FontWeight.w700),
             textDB(context, " 5", 13, black, fontWeight: FontWeight.w700),
           ],
         ),

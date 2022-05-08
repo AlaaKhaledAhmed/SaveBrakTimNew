@@ -26,14 +26,13 @@ class _RequestMainState extends State<RequestMain> {
   String currentUser;
   String userPhone;
   String name;
-  List<String> pr_name = [];
-  List<String> workerType = [];
-  List<num> pr_quantity = [];
-  List<num> pr_pricePerOne = [];
-  String farmer_id = '';
+  List<Map<String, dynamic>> cafeItem = [];
+  List<Map<String, dynamic>> bookItem = [];
+
   var orderId;
   var totalPrice = 0.0;
 //--------------------------------------------------
+
   @override
   void initState() {
     super.initState();
@@ -52,17 +51,7 @@ class _RequestMainState extends State<RequestMain> {
     });
     //---------------------------------------------------------
 
-    cardCollection
-        .where('StudentId', isEqualTo: currentUser)
-        .get()
-        .then((value) {
-      for (var element in value.docs) {
-        pr_name.add(element["prName"]);
-        pr_quantity.add(element["StudentQuantity"]);
-        pr_pricePerOne.add(element["total price"]);
-        workerType.add(element["type"]);
-      }
-    });
+    refrash();
 //---------------------------------------------------------
     userCollection.where('userID', isEqualTo: currentUser).get().then((value) {
       for (var element in value.docs) {
@@ -175,21 +164,14 @@ class _RequestMainState extends State<RequestMain> {
                           padding: EdgeInsets.zero,
                           alignment: Alignment.centerLeft,
                           onPressed: () {
-                            FirebaseFirestore.instance
-                                .collection('card')
-                                .doc("${snapshat.data.docs[i].id}")
-                                .delete();
                             setState(() {
                               totalPrice -=
                                   snapshat.data.docs[i].data()['total price'];
-                              pr_name.remove(
-                                  snapshat.data.docs[i].data()['prName']);
-                              workerType
-                                  .remove(snapshat.data.docs[i].data()['type']);
-                              pr_quantity.remove(snapshat.data.docs[i]
-                                  .data()['StudentQuantity']);
-                              pr_pricePerOne.remove(
-                                  snapshat.data.docs[i].data()['total price']);
+                              FirebaseFirestore.instance
+                                  .collection('card')
+                                  .doc("${snapshat.data.docs[i].id}")
+                                  .delete();
+                              refrash();
                             });
                           },
                           icon: Icon(Icons.remove_circle, color: deepYallow)),
@@ -199,40 +181,42 @@ class _RequestMainState extends State<RequestMain> {
 //confirm order----------------------------------------------------
 
             buttoms(context, "Confirm orders", 14.0, black, () {
-              dialog(context, 'SING IN', 'wating');
-              FirebaseFirestore.instance.collection("order").add({
-                "orderId": orderId,
-                "ordersName": pr_name,
-                "quantityPerOrder": pr_quantity,
-                "pricePerOrder": pr_pricePerOne,
-                "userName": name,
-                "phone": userPhone,
-                "ordersNumber": snapshat.data.docs.length,
-                "totalPrice": totalPrice,
-                "userId": currentUser,
-                "type": workerType,
-              }).then((value) async {
-                Navigator.pop(context);
-                await FirebaseFirestore.instance.collection("messege").add({
-                  'masseg':
-                      'Your order has been received, and the order number is $orderId',
-                  'date':
-                      "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                  'time': "${DateTime.now().hour} : ${DateTime.now().minute}",
-                  'userId': currentUser,
-                  'createOn': DateTime.now()
-                });
-                dialog(context, "request", "send");
-                //delete all user item from card
-                cardCollection
-                    .where("StudentId", isEqualTo: currentUser)
-                    .get()
-                    .then((snapshot) {
-                  for (DocumentSnapshot ds in snapshot.docs) {
-                    ds.reference.delete();
-                  }
-                });
-              });
+              //dialog(context, 'SING IN', 'wating');
+              print("cafe item $cafeItem");
+              print("book item $bookItem");
+              // FirebaseFirestore.instance.collection("order").add({
+              //   "orderId": orderId,
+              //   "ordersName": pr_name_cafe,
+              //   "quantityPerOrder": pr_quantity_cafe,
+              //   "pricePerOrder": pr_pricePerOne_cafe,
+              //   "userName": name,
+              //   "phone": userPhone,
+              //   "ordersNumber": snapshat.data.docs.length,
+              //   "totalPrice": totalPrice,
+              //   "userId": currentUser,
+              //   "type": workerType_cafe,
+              // }).then((value) async {
+              //   Navigator.pop(context);
+              //   await FirebaseFirestore.instance.collection("messege").add({
+              //     'masseg':
+              //         'Your order has been received, and the order number is $orderId',
+              //     'date':
+              //         "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+              //     'time': "${DateTime.now().hour} : ${DateTime.now().minute}",
+              //     'userId': currentUser,
+              //     'createOn': DateTime.now()
+              //   });
+              //   dialog(context, "request", "send");
+              //   //delete all user item from card
+              //   cardCollection
+              //       .where("StudentId", isEqualTo: currentUser)
+              //       .get()
+              //       .then((snapshot) {
+              //     for (DocumentSnapshot ds in snapshot.docs) {
+              //       ds.reference.delete();
+              //     }
+              //   });
+              // });
             }, backgrounColor: white),
             SizedBox(height: 25.h),
           ])
@@ -243,5 +227,23 @@ class _RequestMainState extends State<RequestMain> {
               fit: BoxFit.cover,
             ),
           );
+  }
+
+//-----------------------------------------------------------
+  refrash() {
+    cafeItem.clear();
+    bookItem.clear();
+    cardCollection
+        .where('StudentId', isEqualTo: currentUser)
+        .get()
+        .then((value) {
+      for (var element in value.docs) {
+        if (element["type"] == "cafie") {
+          cafeItem.add(element.data());
+        } else {
+          bookItem.add(element.data());
+        }
+      }
+    });
   }
 }

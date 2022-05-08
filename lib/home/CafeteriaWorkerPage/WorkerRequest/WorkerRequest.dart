@@ -11,6 +11,16 @@ class WorkerRequest extends StatefulWidget {
 }
 
 class _WorkerRequestState extends State<WorkerRequest> {
+  @override
+  void initState() {
+    super.initState();
+    requestCollection.where("type", arrayContains: ["cafie"]).get().then((value) {
+      value.docs.forEach((element) { 
+        print(element.data());
+      });
+    });
+  }
+
   CollectionReference requestCollection =
       FirebaseFirestore.instance.collection("order");
 
@@ -42,7 +52,6 @@ class _WorkerRequestState extends State<WorkerRequest> {
                             print("errrrrrrrrrrrrrrrror");
                           }
                           if (snapshat.hasData) {
-                            print(snapshat.data.runtimeType);
                             return getProducts(context, snapshat);
                           }
                           return const Center(
@@ -159,6 +168,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
     return Expanded(
       child: ListView.separated(
           separatorBuilder: (BuildContext context, int index) {
+              
             return Divider(
               color: Colors.grey[400],
             );

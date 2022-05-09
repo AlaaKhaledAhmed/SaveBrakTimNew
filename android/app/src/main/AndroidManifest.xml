@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.save_break_time">
    <application
-        android:label="save_break_time"
+        android:label="MY BREAK"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

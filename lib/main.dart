@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
       //screen size
       designSize: const Size(360, 640),
       builder: () => MaterialApp(
-        title: "Sava break time",
+        
 //اختيار نوع الخط وفقا للغه المختارة-------------------------
         theme: ThemeData(
            colorScheme: ColorScheme.fromSwatch().copyWith(primary: Colors.amber,),

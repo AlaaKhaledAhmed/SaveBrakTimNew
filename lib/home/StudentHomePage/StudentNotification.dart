@@ -74,8 +74,8 @@ class _StudentNotificationState extends State<StudentNotification> {
                       elevation: 5,
                       color: white,
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                          side: BorderSide(color: deepYallow, width: 2)),
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
                       child: Column(
                         children: [
                           getData(
@@ -103,13 +103,11 @@ class _StudentNotificationState extends State<StudentNotification> {
     return Expanded(
       child: Center(
         child: ListTile(
+          
+          isThreeLine: true,
             title: textDB(context, text, 12, black),
-            leading: CircleAvatar(
-              radius: 20.r,
-              backgroundColor: deepYallow,
-              child: Center(child: Icon(notificationsIcon)),
-            ),
-            subtitle: textDB(context, subtitle, 12, deepYallow)),
+            leading: Icon(notificationsIcon,size:35.sp,color:deepYallow),
+            subtitle: textDB(context, subtitle, 12, Color.fromARGB(255, 139, 139, 139))),
       ),
     );
   }

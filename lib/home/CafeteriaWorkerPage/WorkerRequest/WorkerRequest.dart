@@ -236,6 +236,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
                           .add({
                         'orderId': snapshat.data.docs[i].data()['orderId'],
                         'userId': snapshat.data.docs[i].data()['userId'],
+                        'type':"cafie",
                         'state': 'حالة الطلب'
                       }).then((value) {});
                       FirebaseFirestore.instance.collection("messege").add({

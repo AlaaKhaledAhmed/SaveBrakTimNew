@@ -39,7 +39,7 @@ class _AcceptedRequestsState extends State<AcceptedRequests> {
               colorFilter: ColorFilter.mode(Colors.black54, BlendMode.darken)),
         ),
         child: StreamBuilder(
-            stream: acceptRequestCollection.snapshots(),
+            stream: acceptRequestCollection.where('type',isEqualTo:"cafie",).snapshots(),
             builder: (BuildContext context, AsyncSnapshot snapshat) {
               if (snapshat.hasError) {
                 print("errrorrrrrrrrr");
@@ -80,7 +80,7 @@ class _AcceptedRequestsState extends State<AcceptedRequests> {
                             child: Column(
                               children: [
                                 Expanded(
-                                    child: getData("رقم الطلب : ",
+                                    child: getData("${getTranslated(context, "Order number")}",
                                         '${snapshat.data.docs[i].data()['orderId']}')),
 
                                 Expanded(
@@ -127,9 +127,9 @@ class _AcceptedRequestsState extends State<AcceptedRequests> {
                                             return null;
                                           }
                                         }, width: 250.w)
-                                      : textDB(
+                                      : text(
                                           context,
-                                          "تم تسليم الطلب",
+                                          "Order completed",
                                           14,
                                           deepYallow,
                                         ),

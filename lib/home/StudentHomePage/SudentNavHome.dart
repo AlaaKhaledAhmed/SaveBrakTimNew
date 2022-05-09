@@ -33,13 +33,6 @@ class _StudentNavHomeState extends State<StudentNavHome> {
   void initState() {
     super.initState();
     studentPageController = PageController(initialPage: studentSelectedIndex);
-    currentUser = FirebaseAuth.instance.currentUser.uid;
-
-    cardCollection.where('userId', isEqualTo: currentUser).get().then((value) {
-      setState(() {
-        number = value.docs.length;
-      });
-    });
   }
 
   @override
@@ -50,11 +43,7 @@ class _StudentNavHomeState extends State<StudentNavHome> {
           controller: studentPageController,
           children: studentPage,
         ),
-        bottomNavigationBar: ConvexAppBar.badge(
-          {3: '$number'},
-
-          badgeColor: red,
-          badgeMargin: EdgeInsets.only(bottom: 10.h, right: 50.w),
+        bottomNavigationBar: ConvexAppBar(
           style: TabStyle.reactCircle,
           //selest icon color
           activeColor: deepGrey,
@@ -88,11 +77,6 @@ class _StudentNavHomeState extends State<StudentNavHome> {
   void onTap(int index) {
     setState(() {
       studentSelectedIndex = index;
-      if (studentSelectedIndex == 3)
-        setState(() {
-          number = 0;
-        });
-      {}
     });
     studentPageController.animateToPage(studentSelectedIndex,
         duration: const Duration(milliseconds: 400), curve: Curves.easeInCirc);

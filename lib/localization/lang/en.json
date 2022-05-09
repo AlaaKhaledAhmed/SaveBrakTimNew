@@ -71,5 +71,6 @@
   "request": "send request",
   "Order number": "Order number",
   "accept": "My requests",
-  "Accepted requests": "Accepted requests"
+  "Accepted requests": "Accepted requests",
+  "Order completed": "Order completed"
 }

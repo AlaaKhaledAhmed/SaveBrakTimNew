@@ -55,10 +55,10 @@ class _RequestMainState extends State<RequestMain> {
 //---------------------------------------------------------
     userCollection.where('userID', isEqualTo: currentUser).get().then((value) {
       for (var element in value.docs) {
-        setState(() {
+        // setState(() {
           name = element["name"];
           userPhone = element["phone"];
-        });
+        // });
       }
     });
   }

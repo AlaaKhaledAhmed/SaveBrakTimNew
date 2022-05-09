@@ -17,7 +17,6 @@ class AcceptedRequests extends StatefulWidget {
 class _AcceptedRequestsState extends State<AcceptedRequests> {
   String stateValue = '';
   List<String> stutsCode = [
-   
     "طلبك قيد التجهيز",
     "تم الانتهاء من طلبك"
   ];
@@ -77,72 +76,65 @@ class _AcceptedRequestsState extends State<AcceptedRequests> {
                             color: white,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
-                              // side: BorderSide(color: deepGreen, width: 2)
                             ),
-                            child: Padding(
-                              padding: EdgeInsets.all(12.0.h),
-                              child: Column(
-                                //crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Expanded(
-                                      child: getData("رقم الطلب : ",
-                                          '${snapshat.data.docs[i].data()['requestNumber']}')),
-                                  Expanded(
-                                      child: getData("وقت التسليم : ",
-                                          '${snapshat.data.docs[i].data()['formatEndTime']}')),
-                                  Expanded(
-                                    child: snapshat.data.docs[i]
-                                                .data()['state'] !=
-                                            'تم الانتهاء من طلبك'
-                                        ? drowMenu(
-                                            '${snapshat.data.docs[i].data()['state']}',
-                                            Icons.delivery_dining_outlined,
-                                            stutsCode, (value) {
-                                            setState(() {
-                                              stateValue = value;
-                                              dialog(
-                                                  context, 'SING IN', 'wating');
+                            child: Column(
+                              children: [
+                                Expanded(
+                                    child: getData("رقم الطلب : ",
+                                        '${snapshat.data.docs[i].data()['orderId']}')),
 
-                                              acceptRequestCollection
-                                                  .doc(
-                                                      "${snapshat.data.docs[i].id}")
-                                                  .update({
-                                                'state': stateValue,
-                                              }).then((value) {
-                                                Navigator.pop(context);
-                                                FirebaseFirestore.instance
-                                                    .collection("messege")
-                                                    .add({
-                                                  'masseg': '$stateValue',
-                                                  'date':
-                                                      "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                                                  'time':
-                                                      "${DateTime.now().hour} : ${DateTime.now().minute}",
-                                                  'userId': snapshat
-                                                      .data.docs[i]
-                                                      .data()['userId'],
-                                                  'createOn': DateTime.now(),
-                                                });
+                                Expanded(
+                                  child: snapshat.data.docs[i]
+                                              .data()['state'] !=
+                                          'تم الانتهاء من طلبك'
+                                      ? drowMenu(
+                                          '${snapshat.data.docs[i].data()['state']}',
+                                          Icons.delivery_dining_outlined,
+                                          stutsCode, (value) {
+                                          setState(() {
+                                            stateValue = value;
+                                            dialog(
+                                                context, 'SING IN', 'wating');
+
+                                            acceptRequestCollection
+                                                .doc(
+                                                    "${snapshat.data.docs[i].id}")
+                                                .update({
+                                              'state': stateValue,
+                                            }).then((value) {
+                                              Navigator.pop(context);
+                                              FirebaseFirestore.instance
+                                                  .collection("messege")
+                                                  .add({
+                                                'masseg': '$stateValue',
+                                                'date':
+                                                    "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                                                'time':
+                                                    "${DateTime.now().hour} : ${DateTime.now().minute}",
+                                                'userId': snapshat
+                                                    .data.docs[i]
+                                                    .data()['userId'],
+                                                'createOn': DateTime.now(),
                                               });
                                             });
-                                            print(stateValue);
-                                          }, (value) {
-                                            if (value == null) {
-                                              return getTranslated(
-                                                  context, "Fill in the field");
-                                            } else {
-                                              return null;
-                                            }
-                                          }, width: 150.w)
-                                        : textDB(
-                                            context,
-                                            "تم تسليم الطلب",
-                                            14,
-                                            deepYallow,
-                                          ),
-                                  ),
-                                ],
-                              ),
+                                          });
+                                          print(stateValue);
+                                        }, (value) {
+                                          if (value == null) {
+                                            return getTranslated(
+                                                context, "Fill in the field");
+                                          } else {
+                                            return null;
+                                          }
+                                        }, width: 250.w)
+                                      : textDB(
+                                          context,
+                                          "تم تسليم الطلب",
+                                          14,
+                                          deepYallow,
+                                        ),
+                                ),
+                              ],
                             ))),
                   );
                 }),

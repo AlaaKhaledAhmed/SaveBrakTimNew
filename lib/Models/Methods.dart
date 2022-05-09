@@ -337,13 +337,12 @@ drawer(context) {
     ),
   );
 }
-
+//------------------------------------------------------
 Widget drowMenu(
     String insiValue, IconData icon, List<String> item, onchanged, validator,
     {double width = double.infinity}) {
-  return Container(
-    color: grrey,
-    width: width,
+  return SizedBox(
+    width: 250.w,
     child: DropdownButtonFormField<String>(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: validator,

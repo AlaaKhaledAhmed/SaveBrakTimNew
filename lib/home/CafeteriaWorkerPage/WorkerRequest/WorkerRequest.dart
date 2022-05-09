@@ -241,7 +241,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
                       }).then((value) {});
                       FirebaseFirestore.instance.collection("messege").add({
                         'masseg':
-                            ' لقد تم قبول طلبك ورقم الطلب هو ${snapshat.data.docs[i].data()['orderId']}',
+                            ' لقد تم قبول طلبك من قبل عامل الكافتيريا ورقم الطلب هو ${snapshat.data.docs[i].data()['orderId']}',
                         'date':
                             "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                         'time':
@@ -268,7 +268,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
                       await FirebaseFirestore.instance
                           .collection("messege")
                           .add({
-                        'masseg': 'نعتزر منك لم يتم قبول طلبك',
+                        'masseg': 'نعتزر منك عامل الكافتيريا لم يقبل طلبك',
                         'date':
                             "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                         'time':
@@ -286,7 +286,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
                   ),
                 ],
               )
-            : textDB(context, "تم قبول الطلب", 14, black),
+            : text(context, "Request accepted", 14, black),
       ],
     );
   }

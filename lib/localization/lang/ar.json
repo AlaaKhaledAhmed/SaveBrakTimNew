@@ -72,5 +72,6 @@
   "Order number": "رقم الطلب",
   "accept": "طلباتي",
   "Accepted requests": "الطلبات المقبولة",
-  "Order completed": "تم الانتهاء من الطلب"
+  "Order completed": "تم الانتهاء من الطلب",
+  "Request accepted": "تم قبول الطلب"
 }

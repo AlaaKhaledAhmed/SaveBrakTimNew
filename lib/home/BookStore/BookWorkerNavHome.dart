@@ -5,6 +5,7 @@ import 'package:save_break_time/localization/localization_methods.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 
 import '../CafeteriaWorkerPage/Accepted requests.dart';
+import 'BookAcceptRequest.dart';
 import 'BookWorkerProducts/BookWorkerProduct.dart';
 import 'BookWorkerRequest/BookWorkerRequest.dart';
 
@@ -16,10 +17,9 @@ class BookWorkerNavHome extends StatefulWidget {
 }
 
 class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
-  int number = 10;
   int bookSelectedIndex = 1;
    PageController bookPageController;
-   List <Widget>bookWorkerPage=[BookWorkerRequest(),BookWorkerProductMainPage(),AcceptedRequests  ()];
+   List <Widget>bookWorkerPage=[BookWorkerRequest(),BookWorkerProductMainPage(),BookAcceptRequest()];
 
   void initState() {
     super.initState();
@@ -34,11 +34,8 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
           controller: bookPageController,
           children: bookWorkerPage,
         ),
-        bottomNavigationBar: ConvexAppBar.badge(
-          {2: '$number'},
-          badgeColor: red,
-          badgeMargin: EdgeInsets.only(bottom: 10.h, right: 50.w),
-          style: TabStyle.reactCircle,
+        bottomNavigationBar: ConvexAppBar(
+         style: TabStyle.reactCircle,
           //selest icon color
           activeColor: deepGrey,
           elevation: 10,

@@ -17,7 +17,7 @@ class AcceptedRequests extends StatefulWidget {
 class _AcceptedRequestsState extends State<AcceptedRequests> {
   String stateValue = '';
   List<String> stutsCode = [
-    "قد تم قبول طلبك",
+   
     "طلبك قيد التجهيز",
     "تم الانتهاء من طلبك"
   ];
@@ -93,7 +93,7 @@ class _AcceptedRequestsState extends State<AcceptedRequests> {
                                   Expanded(
                                     child: snapshat.data.docs[i]
                                                 .data()['state'] !=
-                                            'تم التسليم'
+                                            'تم الانتهاء من طلبك'
                                         ? drowMenu(
                                             '${snapshat.data.docs[i].data()['state']}',
                                             Icons.delivery_dining_outlined,
@@ -113,7 +113,7 @@ class _AcceptedRequestsState extends State<AcceptedRequests> {
                                                 FirebaseFirestore.instance
                                                     .collection("messege")
                                                     .add({
-                                                  'masseg': ' طلبك $stateValue',
+                                                  'masseg': '$stateValue',
                                                   'date':
                                                       "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
                                                   'time':

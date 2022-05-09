@@ -190,6 +190,7 @@ class _RequestMainState extends State<RequestMain> {
                   "phone": userPhone,
                   "userId": currentUser,
                   "data": bookItem,
+                  "state":false
                 }).then((value) async {});
               }
               if (cafeItem.length > 0) {
@@ -200,17 +201,10 @@ class _RequestMainState extends State<RequestMain> {
                   "phone": userPhone,
                   "userId": currentUser,
                   "data": cafeItem,
+                  "state":false
                 }).then((value) async {});
               }
               Navigator.pop(context);
-              await FirebaseFirestore.instance.collection("messege").add({
-                'masseg': 'تم استلام طلبك ، ورقم الطلب هو $orderId',
-                'date':
-                    "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-                'time': "${DateTime.now().hour} : ${DateTime.now().minute}",
-                'userId': currentUser,
-                'createOn': DateTime.now()
-              });
               dialog(context, "request", "send");
               //delete all user item from card
               cardCollection

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:save_break_time/Models/virables.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../Models/AleartDilolg.dart';
 import '../../../Models/Methods.dart';
 import '../../../localization/localization_methods.dart';
 
@@ -59,96 +60,97 @@ class _WorkerRequestState extends State<WorkerRequest> {
 
 //----------------------------------------------------------------
   Widget getProducts(BuildContext context, AsyncSnapshot snapshat) {
-    return    snapshat.data.docs.length > 0
+    return snapshat.data.docs.length > 0
         ? Padding(
-      padding: const EdgeInsets.only(bottom: 30),
-      child: ListView.builder(
-          //shrinkWrap: true,
-          itemCount: snapshat.data.docs.length,
-          itemBuilder: (context, i) {
-            return SizedBox(
-              height: 160.h,
-              child: Card(
-                elevation: 10,
-                color: white,
-                child: Row(
-                  children: [
-//product accebtReject-------------------------------------
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                          decoration: decoration(
-                            4,
-                            4,
-                            4,
-                            4,
-                            color: deepYallow,
-                          ),
-                          child: accsebtRetjectBtn(snapshat, i)),
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: Column(
+            padding: const EdgeInsets.only(bottom: 30),
+            child: ListView.builder(
+                //shrinkWrap: true,
+                itemCount: snapshat.data.docs.length,
+                itemBuilder: (context, i) {
+                  return SizedBox(
+                    height: 160.h,
+                    child: Card(
+                      elevation: 10,
+                      color: white,
+                      child: Row(
                         children: [
+//product accebtReject-------------------------------------
                           Expanded(
-                              child: Container(
-                                  width: double.infinity,
-                                  height: double.infinity,
+                            flex: 2,
+                            child: Container(
+                                decoration: decoration(
+                                  4,
+                                  4,
+                                  4,
+                                  4,
                                   color: deepYallow,
-                                  child: Center(
-                                      child: textDB(
-                                          context,
-                                          "${getTranslated(context, 'Order number')} ${snapshat.data.docs[i].data()['orderId']}",
-                                          fontSize,
-                                          black)))),
+                                ),
+                                child: accsebtRetjectBtn(snapshat, i)),
+                          ),
+                          Expanded(
+                            flex: 4,
+                            child: Column(
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        color: deepYallow,
+                                        child: Center(
+                                            child: textDB(
+                                                context,
+                                                "${getTranslated(context, 'Order number')} ${snapshat.data.docs[i].data()['orderId']}",
+                                                fontSize,
+                                                black)))),
 //---------------------------------------------------------------------
-                          Expanded(
-                              flex: 1,
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                                child: Center(
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                          child: heder(
-                                              getTranslated(context, "Order"))),
-                                      divider(),
-                                      Expanded(
-                                          child: heder(getTranslated(
-                                              context, "Quantity"))),
-                                    ],
-                                  ),
-                                ),
-                              )),
+                                Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.0.w, right: 8.0.w),
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Expanded(
+                                                child: heder(getTranslated(
+                                                    context, "Order"))),
+                                            divider(),
+                                            Expanded(
+                                                child: heder(getTranslated(
+                                                    context, "Quantity"))),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
 //----------------------------------------------------------------------------
-                          Expanded(
-                              flex: 2,
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.only(left: 8.0.w, right: 8.0.w),
-                                child: Column(
-                                  children: [
-                                    getStudentOrders(
-                                      snapshat,
-                                      i,
-                                    ),
-                                  ],
-                                ),
-                              ))
+                                Expanded(
+                                    flex: 2,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 8.0.w, right: 8.0.w),
+                                      child: Column(
+                                        children: [
+                                          getStudentOrders(
+                                            snapshat,
+                                            i,
+                                          ),
+                                        ],
+                                      ),
+                                    ))
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            );
-          }),
-    ): Align(
+                  );
+                }),
+          )
+        : Align(
             alignment: Alignment.center,
             child: Lottie.asset(
               "Assist/lottie/no-data.json",
@@ -211,27 +213,79 @@ class _WorkerRequestState extends State<WorkerRequest> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            text(context, "number of orders", 13, black, fontWeight: FontWeight.w700),
+            text(context, "number of orders", 13, black,
+                fontWeight: FontWeight.w700),
             textDB(context, " ${snapshat.data.docs[i].data()['data'].length}",
                 13, black,
                 fontWeight: FontWeight.w700),
           ],
         ),
         SizedBox(height: 5.h),
-//قبول الطلب-----------------------------------------------
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-          child: buttoms(context, "Acceptance", 14.0, black, () {},
-              backgrounColor: deepYallow),
-        ),
+
+        snapshat.data.docs[i].data()['state'] == false
+            ? Column(
+                children: [
+                  //قبول الطلب-----------------------------------------------
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                    child:
+                        buttoms(context, "Acceptance", 14.0, black, () async {
+                      dialog(context, 'SING IN', 'wating');
+                      await FirebaseFirestore.instance
+                          .collection("acceptRequest")
+                          .add({
+                        'orderId': snapshat.data.docs[i].data()['orderId'],
+                        'userId': snapshat.data.docs[i].data()['userId'],
+                        'state': 'حالة الطلب'
+                      }).then((value) {});
+                      FirebaseFirestore.instance.collection("messege").add({
+                        'masseg':
+                            ' لقد تم قبول طلبك ورقم الطلب هو ${snapshat.data.docs[i].data()['orderId']}',
+                        'date':
+                            "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                        'time':
+                            "${DateTime.now().hour} : ${DateTime.now().minute}",
+                        'userId': snapshat.data.docs[i].data()['userId'],
+                        'createOn': DateTime.now()
+                      });
+                      requestCollection
+                          .doc('${snapshat.data.docs[i].id}')
+                          .update({
+                        'state': true,
+                      });
+                      Navigator.pop(context);
+                    }, backgrounColor: deepYallow),
+                  ),
 
 //رفض الطلب-----------------------------------------------
 
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0.w),
-          child: buttoms(context, "Refusal", 14.0, black, () {},
-              backgrounColor: deepYallow),
-        ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8.0.w),
+                    child: buttoms(context, "Refusal", 14.0, black, () async {
+                      dialog(context, 'SING IN', 'wating');
+
+                      await FirebaseFirestore.instance
+                          .collection("messege")
+                          .add({
+                        'masseg': 'نعتزر منك لم يتم قبول طلبك',
+                        'date':
+                            "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+                        'time':
+                            "${DateTime.now().hour} : ${DateTime.now().minute}",
+                        'userId': snapshat.data.docs[i].data()['userId'],
+                        'createOn': DateTime.now(),
+                      }).then((value) {
+                        Navigator.pop(context);
+                        requestCollection
+                            .doc('${snapshat.data.docs[i].id}')
+                            .delete();
+                        
+                      });
+                    }, backgrounColor: deepYallow),
+                  ),
+                ],
+              )
+            : textDB(context, "تم قبول الطلب", 14, black),
       ],
     );
   }

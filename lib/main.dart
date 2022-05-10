@@ -97,10 +97,10 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         //اظهار الشاشه الولي وفقا لحاله المستخدم, هل قام بالتسجيل مسلقا ام اول مره يظهر التطبيق
         home:
-       _local == null ?
-        SelectLangView()
-        :
-       Logging(),
+      // _local == null ?
+        //SelectLangView()
+        //:
+      WorkerNavHome(),
       ),
     );
   }

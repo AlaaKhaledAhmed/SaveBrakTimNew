@@ -87,6 +87,7 @@ class _CafeteriaMainState extends State<CafeteriaMain> {
                     image:snapshat.data.docs[i].data()['imagePath'] ,
                     prId: snapshat.data.docs[i].data()['prID'],
                     prName: snapshat.data.docs[i].data()['prName'],
+                    docId:snapshat.data.docs[i].id,
                     price: snapshat.data.docs[i].data()['prPrice'],
                     quantity:snapshat.data.docs[i].data()['prQuantity'] ,
                     type: snapshat.data.docs[i].data()['workerType']

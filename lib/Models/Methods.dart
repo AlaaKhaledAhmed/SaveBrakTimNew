@@ -314,8 +314,9 @@ drawer(context) {
     height: 200.h,
     child: Drawer(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.r), bottomLeft: Radius.circular(20.r)),
+        borderRadius: BorderRadius.all(
+            Radius.circular(20.r)
+           ),
       ),
       backgroundColor: deepYallow,
       child: Column(children: [

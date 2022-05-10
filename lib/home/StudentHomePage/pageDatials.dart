@@ -17,25 +17,28 @@ class ProductsDetials extends StatefulWidget {
   final int quantity;
   final int prId;
   final String type;
-
+   final String docId;
   const ProductsDetials(
       {this.image,
       this.prName,
       this.price,
       this.quantity,
       this.prId,
-      this.type});
+      this.type, this.docId});
 
   @override
   State<ProductsDetials> createState() => _ProductsDetialsState();
 }
 
 class _ProductsDetialsState extends State<ProductsDetials> {
+    CollectionReference cardCollection =
+      FirebaseFirestore.instance.collection("product");
   var user;
   @override
   void initState() {
     super.initState();
     user=FirebaseAuth.instance.currentUser.uid;
+    print( widget.docId);
   }
   final TextEditingController prQuantity = TextEditingController();
 

@@ -199,7 +199,7 @@ class _AddProductState extends State<AddProduct> {
       await imageRef.putFile(fileImage);
       imageURL = await imageRef.getDownloadURL();
 
-      await FirebaseFirestore.instance.collection('product').add({
+       FirebaseFirestore.instance.collection('product').add({
         "userID": userId,
         'prName': prName.text,
         'prPrice':  int.parse(prPrice.text),

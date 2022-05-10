@@ -7,7 +7,7 @@ import 'package:lottie/lottie.dart';
 dialog(context, String title, String content,
     {bool showButtom = false, yesFunction, noFunction}) {
   return showDialog(
-    barrierDismissible: false,
+   // barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(

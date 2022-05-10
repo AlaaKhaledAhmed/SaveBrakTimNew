@@ -101,7 +101,10 @@ class _BookStoreMainState extends State<BookStoreMain> {
                           prName: snapshat.data.docs[i].data()['prName'],
                           price: snapshat.data.docs[i].data()['prPrice'],
                           quantity: snapshat.data.docs[i].data()['prQuantity'],
-                          type: snapshat.data.docs[i].data()['workerType']));
+                          docId:snapshat.data.docs[i].id,
+                          type: snapshat.data.docs[i].data()['workerType']),
+                          
+                          );
                 },
                 child: SizedBox(
                   height: 180.h,

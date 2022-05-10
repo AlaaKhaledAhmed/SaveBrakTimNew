@@ -192,8 +192,8 @@ class _UpdateProductState extends State<UpdateProduct> {
             .doc(widget.addId)
             .update({
           'prName': prName.text,
-          'prPrice': prPrice.text,
-          'prQuantity': prQuantity.text,
+          'prPrice': int.parse(prPrice.text),
+          'prQuantity': int.parse(prQuantity.text),
         }).then((value) {
           Navigator.pop(context);
           dialog(
@@ -218,8 +218,8 @@ class _UpdateProductState extends State<UpdateProduct> {
             .doc(widget.addId)
             .update({
           'prName': prName.text,
-          'prPrice': prPrice.text,
-          'prQuantity': prQuantity.text,
+          'prPrice': int.parse(prPrice.text),
+          'prQuantity': int.parse(prQuantity.text),
           'imagePath': imageURL
         }).then((value) {
           Navigator.pop(context);

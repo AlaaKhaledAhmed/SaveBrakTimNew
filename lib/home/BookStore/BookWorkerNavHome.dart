@@ -35,6 +35,7 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
           children: bookWorkerPage,
         ),
         bottomNavigationBar: ConvexAppBar(
+
          style: TabStyle.reactCircle,
           //selest icon color
           activeColor: deepGrey,
@@ -52,8 +53,8 @@ class _BookWorkerNavHomeState extends State<BookWorkerNavHome> {
             TabItem(icon: homeIcon, title: '${getTranslated(context, 'HOME')}'),
             
             TabItem(
-                icon: notificationsIcon,
-                title: '${getTranslated(context, 'NOTIFICATION')}'),
+                 icon: myorder,
+                 title: '${getTranslated(context, 'accept')}'),
             
            
           ],

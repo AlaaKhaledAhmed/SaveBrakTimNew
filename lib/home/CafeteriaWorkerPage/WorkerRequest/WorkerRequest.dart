@@ -122,6 +122,10 @@ class _WorkerRequestState extends State<WorkerRequest> {
                                             Expanded(
                                                 child: heder(getTranslated(
                                                     context, "Quantity"))),
+                                            divider(),
+                                            Expanded(
+                                                child: heder(getTranslated(
+                                                    context, "Time"))),
                                           ],
                                         ),
                                       ),
@@ -194,6 +198,15 @@ class _WorkerRequestState extends State<WorkerRequest> {
                       black,
                       fontWeight: FontWeight.w700),
                 ),
+                divider(),
+                Expanded(
+                  child: textDB(
+                      context,
+                      "${snapshat.data.docs[i].data()['data'][j]["time"]}",
+                      12,
+                      black,
+                      fontWeight: FontWeight.w700),
+                ),
               ],
             );
           }),
@@ -236,7 +249,7 @@ class _WorkerRequestState extends State<WorkerRequest> {
                           .add({
                         'orderId': snapshat.data.docs[i].data()['orderId'],
                         'userId': snapshat.data.docs[i].data()['userId'],
-                        'type':"cafie",
+                        'type': "cafie",
                         'state': 'حالة الطلب'
                       }).then((value) {});
                       FirebaseFirestore.instance.collection("messege").add({
@@ -280,7 +293,6 @@ class _WorkerRequestState extends State<WorkerRequest> {
                         requestCollection
                             .doc('${snapshat.data.docs[i].id}')
                             .delete();
-                        
                       });
                     }, backgrounColor: deepYallow),
                   ),

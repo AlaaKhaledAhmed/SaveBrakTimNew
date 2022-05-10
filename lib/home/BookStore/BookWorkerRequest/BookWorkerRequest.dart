@@ -122,6 +122,10 @@ class _BookWorkerRequestState extends State<BookWorkerRequest> {
                                             Expanded(
                                                 child: heder(getTranslated(
                                                     context, "Quantity"))),
+                                                    divider(),
+                                            Expanded(
+                                                child: heder(getTranslated(
+                                                    context, "Time"))),
                                           ],
                                         ),
                                       ),
@@ -190,6 +194,15 @@ class _BookWorkerRequestState extends State<BookWorkerRequest> {
                   child: textDB(
                       context,
                       "${snapshat.data.docs[i].data()['data'][j]["StudentQuantity"]}",
+                      12,
+                      black,
+                      fontWeight: FontWeight.w700),
+                ),
+                divider(),
+                Expanded(
+                  child: textDB(
+                      context,
+                      "${snapshat.data.docs[i].data()['data'][j]["time"]}",
                       12,
                       black,
                       fontWeight: FontWeight.w700),

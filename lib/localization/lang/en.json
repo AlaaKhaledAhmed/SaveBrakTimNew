@@ -73,5 +73,6 @@
   "accept": "My requests",
   "Accepted requests": "Accepted requests",
   "Order completed": "Order completed",
-  "Request accepted": "Request accepted"
+  "Request accepted": "Request accepted",
+  "Time":"Time"
 }

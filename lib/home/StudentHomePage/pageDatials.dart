@@ -81,9 +81,13 @@ class _ProductsDetialsState extends State<ProductsDetials> {
                         fontWeight: FontWeight.w700)
                   ],
                 ),
+                
               ),
             ),
 //------------------------------------------------------
+             textDB(context, "الكمية لمتوفرة ${widget.quantity}", 16, black,
+                        fontWeight: FontWeight.w700),
+                    SizedBox(width: 10.h),
             SizedBox(height: 10.h),
             showStardTime(),
 //-------------------------------------------------

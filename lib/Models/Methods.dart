@@ -320,6 +320,18 @@ drawer(context) {
           child: text(context, "Settings", 17, white),
         ),
         SizedBox(height: 15.h),
+        
+        ListTile(
+          title: Row(
+            children: [
+              selectLangButtom(context, (Language lang) {
+                changeLangFromApp(lang, context);
+              }, icon: Icons.language, size: 30.sp),
+              SizedBox(width:10.w),
+              text(context, "choose the language", 17, white),
+            ],
+          ),
+        ),
         ListTile(
           title: Row(
             children: [
@@ -334,17 +346,6 @@ drawer(context) {
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (_) => Logging()));
           },
-        ),
-        ListTile(
-          title: Row(
-            children: [
-              selectLangButtom(context, (Language lang) {
-                changeLangFromApp(lang, context);
-              }, icon: Icons.language, size: 30.sp),
-              SizedBox(width:10.w),
-              text(context, "choose the language", 17, white),
-            ],
-          ),
         ),
       ]),
     ),

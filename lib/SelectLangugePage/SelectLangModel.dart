@@ -10,3 +10,7 @@ void changeLanguage(Language lang, BuildContext context) async {
   goTopage(context, SingUp());
   MyApp.setLocale(context, _temp);
 }
+void changeLangFromApp(Language lang, BuildContext context) async {
+  Locale _temp = await setLocale(context, lang.languageCode);
+  MyApp.setLocale(context, _temp);
+}

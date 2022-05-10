@@ -207,32 +207,29 @@ goTopageReplace(context, pageName) {
 }
 
 //===========================DropMenu Buttom==============================
-Widget selectLangButtom(context, {IconData icon}) {
+Widget selectLangButtom(context, onChanged, {IconData icon, double size}) {
   return DropdownButton(
-    elevation: 20,
-    dropdownColor: grrey,
-    underline: SizedBox(),
-    iconSize: 35.sp,
-    icon: Icon(icon, color: black),
-    items: Language.languageList()
-        .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
-              value: lang,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    lang.flag,
-                    style: TextStyle(fontSize: 20.sp),
-                  ),
-                  Text(lang.name)
-                ],
-              ),
-            ))
-        .toList(),
-    onChanged: (Language lang) {
-      changeLanguage(lang, context);
-    },
-  );
+      elevation: 20,
+      dropdownColor: grrey,
+      underline: SizedBox(),
+      iconSize: 35.sp,
+      icon: Icon(icon, color: white, size: size),
+      items: Language.languageList()
+          .map<DropdownMenuItem<Language>>((lang) => DropdownMenuItem(
+                value: lang,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      lang.flag,
+                      style: TextStyle(fontSize: 20.sp),
+                    ),
+                    Text(lang.name)
+                  ],
+                ),
+              ))
+          .toList(),
+      onChanged: onChanged);
 }
 
 //==========================Image====================================
@@ -314,30 +311,46 @@ drawer(context) {
     height: 200.h,
     child: Drawer(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-            Radius.circular(20.r)
-           ),
+        borderRadius: BorderRadius.all(Radius.circular(20.r)),
       ),
       backgroundColor: deepYallow,
-      child: Column(children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
         SizedBox(height: 30.h),
         Center(
           child: text(context, "Settings", 17, white),
         ),
         SizedBox(height: 15.h),
         ListTile(
-          leading: Icon(Icons.logout_rounded, color: white),
-          title: text(context, "sign out", 17, white),
+          title: Row(
+            children: [
+              SizedBox(width:77.w),
+              Icon(Icons.logout_rounded, color: white),
+              SizedBox(width:10.w),
+              text(context, "sign out", 17, white)
+            ],
+          ),
           onTap: () async {
             await FirebaseAuth.instance.signOut();
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (_) => Logging()));
           },
         ),
+        ListTile(
+          title: Row(
+            children: [
+              selectLangButtom(context, (Language lang) {
+                changeLangFromApp(lang, context);
+              }, icon: Icons.language, size: 30.sp),
+              SizedBox(width:10.w),
+              text(context, "choose the language", 17, white),
+            ],
+          ),
+        ),
       ]),
     ),
   );
 }
+
 //------------------------------------------------------
 Widget drowMenu(
     String insiValue, IconData icon, List<String> item, onchanged, validator,
